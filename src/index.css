@@ -1,0 +1,17 @@
+@import 'reset.css';
+
+@font-face {
+    font-family: "Prompt";
+    src: url(./fonts/Prompt-SemiBold.ttf) format('truetype');
+}
+
+body {
+    background-color: #fff;
+}
+
+.root-wrap {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
