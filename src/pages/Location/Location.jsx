@@ -77,7 +77,7 @@ export default function Location() {
 
         <LocationList>
           <GalleryWrap1>
-            <Link to="/location1" style={linkStyle}>
+            <Link to="/locationdetail" style={linkStyle}>
               <Gallery1>
                 <div>
                   <p
