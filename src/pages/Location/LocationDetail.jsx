@@ -9,6 +9,7 @@ const LocationDetailWrap = styled.div`
 `;
 const LocationDetailContent = styled.div`
   margin-top: 90px;
+  margin-bottom: 100px;
 `;
 const TitleWrap = styled.div`
   text-align: center;
