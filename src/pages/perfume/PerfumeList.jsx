@@ -87,6 +87,11 @@ const Perfume = styled.div`
   }
 `;
 
+const linkStyle = {
+  textDecoration: "none", // 밑줄 제거
+  color: "inherit", // 기본 색상 사용
+};
+
 export default function PerfumeList() {
   return (
     <PerfimeListWrap>
@@ -106,15 +111,18 @@ export default function PerfumeList() {
           <div>플로럴</div>
         </Filter>
         <Perfumes>
-          <Perfume>
-            <FaRegHeart />
-            <div>
-              <img src={perfume} alt="Base Character" />
-            </div>
-            <div>
-              <p>Eau Duelle</p>
-            </div>
-          </Perfume>
+          {/* 차후 useNavigate 로 변경 예상 */}
+          <Link to="/detail" style={linkStyle}>
+            <Perfume>
+              <FaRegHeart />
+              <div>
+                <img src={perfume} alt="Base Character" />
+              </div>
+              <div>
+                <p>Eau Duelle</p>
+              </div>
+            </Perfume>
+          </Link>
           <Perfume>
             <FaRegHeart />
             <div>
