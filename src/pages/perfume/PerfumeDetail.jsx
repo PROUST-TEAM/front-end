@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import baseImage from "../../images/base_charac.png";
 import perfume from "../../images/perfume.png";
+import barcode from "../../images/barcode.png";
+import { FaRegHeart } from "react-icons/fa";
 
 const PerfimeDetailWrap = styled.div`
   display: flex;
@@ -38,7 +40,6 @@ const Info = styled.div`
   border: 2px solid #6bff94;
   border-radius: 100px;
   padding: 10px 30px;
-  margin: 0 15px;
   display: inline-block;
   font-size: 35px;
   color: #6bff94;
@@ -76,7 +77,54 @@ const Circle2 = styled.div`
 const Detail = styled.div`
   margin-top: -200px;
 `;
+const Receipt = styled.div`
+  margin-top: 200px;
+  display: grid;
+  justify-content: center;
+`;
+const ReceiptTop = styled.div`
+  background-color: #fefdfc;
+  width: 526px;
+  border-radius: 17.77px 17.77px 35.54px 35.54px;
+  > svg {
+    color: #282727;
+    width: 31px;
+    height: 28px;
+    margin-top: 30px;
+    margin-left: 430px;
+  }
+`;
+const Explanation = styled.div`
+  margin: 25px 50px 40px 50px;
+  font-family: Pretendard_Medium;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.63);
+  text-align: left;
+  line-height: 1.4;
+`;
+const ReceiptBottom = styled.div`
+  background-color: #fefdfc;
+  width: 526px;
+  border-radius: 35.54px 35.54px 17.77px 17.77px;
+`;
+const lineStyle = {
+  height: "2px",
+  backgroundColor: "#D9D9D9",
+  margin: "25px 30px 20px 30px",
+};
 
+const textStyle = {
+  fontFamily: "Pretendard_SemiBold",
+  fontSize: "18px",
+  color: "#7D7D7D",
+  marginBottom: "5px",
+};
+const titleStyle = {
+  fontFamily: "Pretendard_ExtraBold",
+  fontSize: "50px",
+  color: "#282727",
+  margin: "-10px 0 20px 0",
+};
 export default function PerfumeDetail() {
   return (
     <PerfimeDetailWrap>
@@ -93,6 +141,36 @@ export default function PerfumeDetail() {
           <VerticalLine />
           <Circle2 />
         </Detail>
+        <Receipt>
+          <ReceiptTop>
+            <FaRegHeart />
+            <p style={titleStyle}>Eau Duelle</p>
+            <p style={textStyle}>오 듀엘르</p>
+            <p style={textStyle}>#신비로운 바닐라 #스파이스 #달달함 #우디</p>
+            <div style={lineStyle}></div>
+            <img
+              src={perfume}
+              alt="Base Character"
+              style={{ width: "260px", height: "338px" }}
+            />
+            <Explanation>
+              <span>
+                오 듀엘르는 바닐라 깍지가 고아, 카르타고, 베니스, 바빌론 등의
+                향신료 항로를 따라 가는, 상상 속의 여행을 표현한 향입니다.전
+                설적인 기항지를 거치면서 향에 새로운 맛들이 베어들게 됩니다.
+                시간과 국경을 초월하는 여행을 통해 마다가스카르의 부르봉
+                바닐라는 빛과 그림자를 표현합니다.
+              </span>
+            </Explanation>
+          </ReceiptTop>
+          <ReceiptBottom>
+            <img
+              src={barcode}
+              alt="Base Character"
+              style={{ margin: "20px 0 20px 0" }}
+            />
+          </ReceiptBottom>
+        </Receipt>
       </PerfumeDetailContent>
     </PerfimeDetailWrap>
   );
