@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 const CommentItem = styled.div`
@@ -15,12 +15,11 @@ const CommentItem = styled.div`
 
 const CommentList = styled.div`
   margin: 120px -45px 30px 0;
-  max-height: 650px;
+  max-height: 400px;
   overflow-y: scroll;
   background: none;
   &::-webkit-scrollbar {
     background: none;
-
     width: 8px;
   }
   &::-webkit-scrollbar-thumb {
@@ -74,8 +73,12 @@ export default function Comment() {
 
   const PostComment = () => {
     if (newComment.trim() !== "") {
+      //setComments([newComment, ...comments]);
       setComments([...comments, newComment]);
+      console.log(comments);
       setNewComment("");
+    } else {
+      alert("댓글 내용을 작성해주세요.");
     }
   };
 
@@ -86,8 +89,8 @@ export default function Comment() {
   return (
     <>
       <CommentList>
-        {comments.map((comment, index) => (
-          <CommentItem key={index}>{comment}</CommentItem>
+        {comments.map((comment) => (
+          <CommentItem>{comment}</CommentItem>
         ))}
       </CommentList>
       <CommentTextarea
