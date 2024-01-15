@@ -34,6 +34,49 @@ const BaseImage = styled.div`
   }
 `;
 
+const Info = styled.div`
+  border: 2px solid #6bff94;
+  border-radius: 100px;
+  padding: 10px 30px;
+  margin: 0 15px;
+  display: inline-block;
+  font-size: 35px;
+  color: #6bff94;
+  font-family: Pretendard_ExtraBold;
+`;
+const VerticalLine = styled.div`
+  position: absolute;
+  top: 742px;
+  left: 50%;
+  transform: translate(-45%, -50%);
+  height: 171px;
+  border-left: 2px solid #6bff94;
+`;
+
+const Circle = styled.div`
+  position: absolute;
+  top: 653px;
+  left: 50%;
+  transform: translate(-45%, -50%);
+  background-color: #6bff94;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+`;
+const Circle2 = styled.div`
+  position: absolute;
+  top: 830px;
+  left: 50%;
+  transform: translate(-45%, -50%);
+  background-color: #6bff94;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+`;
+const Detail = styled.div`
+  margin-top: -200px;
+`;
+
 export default function PerfumeDetail() {
   return (
     <PerfimeDetailWrap>
@@ -44,6 +87,12 @@ export default function PerfumeDetail() {
         <BaseImage>
           <img src={baseImage} alt="Base Character" />
         </BaseImage>
+        <Detail>
+          <Info>INFO</Info>
+          <Circle />
+          <VerticalLine />
+          <Circle2 />
+        </Detail>
       </PerfumeDetailContent>
     </PerfimeDetailWrap>
   );

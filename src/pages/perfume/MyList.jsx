@@ -92,7 +92,7 @@ const linkStyle = {
   color: "inherit", // 기본 색상 사용
 };
 
-export default function PerfumeList() {
+export default function MyList() {
   return (
     <PerfimeListWrap>
       <PerfumeListContent>
