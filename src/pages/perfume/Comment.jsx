@@ -1,6 +1,68 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+const CommentItem = styled.div`
+  margin: 0 0 25px 0;
+  padding: 15px 30px 15px 30px;
+  word-wrap: break-word;
+  background-color: #fefdfc;
+  border-radius: 30px;
+  text-align: left;
+  margin-right: 40px;
+  font-size: 20px;
+  color: #282727;
+`;
+
+const CommentList = styled.div`
+  margin: 120px -45px 30px 0;
+  max-height: 650px;
+  overflow-y: scroll;
+  background: none;
+  &::-webkit-scrollbar {
+    background: none;
+
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #6bff94;
+    border-radius: 100px;
+  }
+`;
+
+const CommentTextarea = styled.textarea`
+  padding: 20px;
+  border-radius: 10px;
+  color: #282727;
+  font-family: Pretendard_Medium;
+  font-size: 20px;
+  width: 1110px;
+  height: 142px;
+  resize: none;
+`;
+
+const CommentButtons = styled.div`
+  margin-top: 10px;
+  text-align: end;
+`;
+
+const CancelButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-family: Pretendard_Medium;
+  color: #6bff94;
+`;
+
+const PostButton = styled.button`
+  background-color: #ffffff;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 20px;
+  font-family: Pretendard_Medium;
+  color: #7d7d7d;
+  margin: 25px 0px 0px 30px;
+`;
+
 export default function Comment() {
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
@@ -8,7 +70,6 @@ export default function Comment() {
   const onChangeComment = (event) => {
     const newComment = event.target.value;
     setNewComment(newComment);
-    console.log(newComment);
   };
 
   const PostComment = () => {
@@ -21,57 +82,23 @@ export default function Comment() {
   const CancelComment = () => {
     setNewComment("");
   };
-  const Btn = styled.div`
-    margin-top: 10px;
 
-    text-align: end;
-  `;
-  const CancelBtn = styled.button`
-    background: none;
-    border: none;
-    font-size: 20px;
-    font-family: Pretendard_Medium;
-    color: #6bff94;
-  `;
-  const PostBtn = styled.button`
-    background-color: #ffffff;
-    border-radius: 30px;
-    padding: 10px 20px 10px 20px;
-    font-size: 20px;
-    font-family: Pretendard_Medium;
-    color: #7d7d7d;
-    margin-left: 30px;
-  `;
-  const CommentList = styled.div`
-    margin: 10px 0;
-    maxheight: 200px;
-    overflowy: auto;
-    background-color: #ffffff;
-  `;
   return (
     <>
       <CommentList>
         {comments.map((comment, index) => (
-          <div key={index}>{comment}</div>
+          <CommentItem key={index}>{comment}</CommentItem>
         ))}
       </CommentList>
-
-      <textarea
+      <CommentTextarea
         value={newComment}
         onChange={onChangeComment}
         placeholder="댓글을 입력하세요."
-        style={{
-          padding: "20px 20px 10px 20px",
-          borderRadius: "10px",
-          color: "#282727",
-          fontFamily: "Pretendard_Medium",
-          fontSize: "20px",
-        }}
       />
-      <Btn>
-        <CancelBtn onClick={CancelComment}>취소</CancelBtn>
-        <PostBtn onClick={PostComment}>게시하기</PostBtn>
-      </Btn>
+      <CommentButtons>
+        <CancelButton onClick={CancelComment}>취소</CancelButton>
+        <PostButton onClick={PostComment}>게시하기</PostButton>
+      </CommentButtons>
     </>
   );
 }
