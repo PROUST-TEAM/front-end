@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import baseImage from "../../images/base_charac.png";
 import perfume from "../../images/perfume.png";
 import barcode from "../../images/barcode.png";
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
+
 import Comment from "./Comment";
 
 const PerfimeDetailWrap = styled.div`
@@ -87,12 +88,17 @@ const ReceiptTop = styled.div`
   background-color: #fefdfc;
   width: 526px;
   border-radius: 17.77px 17.77px 35.54px 35.54px;
+`;
+
+const Heart = styled.div`
+  display: inline;
   > svg {
     color: #282727;
     width: 31px;
     height: 28px;
-    margin-top: 30px;
-    margin-left: 430px;
+    margin-top: 25px;
+    padding: 0px;
+    margin-right: -430px;
   }
 `;
 const Explanation = styled.div`
@@ -158,9 +164,12 @@ const titleStyle = {
   fontFamily: "Pretendard_ExtraBold",
   fontSize: "50px",
   color: "#282727",
-  margin: "-10px 0 20px 0",
+  margin: "0px 0 20px 0",
+  display: "inline-block",
 };
 export default function PerfumeDetail() {
+  const [isHeartFilled, setHeartFilled] = useState(false);
+
   return (
     <PerfimeDetailWrap>
       <PerfumeDetailContent>
@@ -177,7 +186,11 @@ export default function PerfumeDetail() {
           <Circle2 />
           <Receipt>
             <ReceiptTop>
-              <FaRegHeart />
+              <Heart onClick={() => setHeartFilled(!isHeartFilled)}>
+                {/* 나중에 서버 연결하면, 상태 받아와서 검사 후 연결하는 코드로 전환 */}
+                {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
+              </Heart>
+              <br />
               <p style={titleStyle}>Eau Duelle</p>
               <p style={textStyle}>오 듀엘르</p>
               <p style={textStyle}>#신비로운 바닐라 #스파이스 #달달함 #우디</p>

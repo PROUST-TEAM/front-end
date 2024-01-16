@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import baseImage from "../../images/base_charac.png";
 import perfume from "../../images/perfume.png";
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 const PerfimeListWrap = styled.div`
   display: flex;
@@ -40,26 +40,37 @@ const Filter = styled.div`
   display: flex;
   margin-top: -200px;
   justify-content: center;
-  > div {
-    border: 2px solid #fefdfc;
-    border-radius: 100px;
-    padding: 15px 40px;
-    margin: 0 15px;
-
-    display: inline-block;
-    > span {
-    }
-    font-size: 27px;
-    color: #fefdfc;
-    font-family: Pretendard_Bold;
-  }
 `;
+
+const FilterItem = styled.div`
+  border: 2px solid #fefdfc;
+  border-radius: 100px;
+  padding: 15px 40px;
+  margin: 0 15px;
+  display: inline-block;
+  font-size: 27px;
+  color: #fefdfc;
+  font-family: Pretendard_Bold;
+  cursor: pointer;
+
+  &:hover {
+    color: #6bff94;
+    border: 2px solid #6bff94;
+  }
+
+  ${(props) =>
+    props.active &&
+    css`
+      color: #6bff94;
+      border: 2px solid #6bff94;
+    `}
+`;
+
 const Perfumes = styled.div`
   display: flex;
   justify-content: start;
   margin-top: 75px;
-  margin-left: 140px;
-  max-width: 1100px;
+  max-width: 960px;
   flex-wrap: wrap;
 `;
 
@@ -75,24 +86,41 @@ const Perfume = styled.div`
     font-family: Pretendard_ExtraBold;
     margin-top: 10px;
   }
+
+  > div > img {
+    margin-top: -10px;
+  }
+`;
+const Heart = styled.div`
+  display: inline;
   > svg {
     color: #282727;
     width: 31px;
     height: 28px;
     margin-top: 30px;
-    margin-left: 200px;
-  }
-  > div > img {
-    margin-top: -10px;
+    margin-right: -200px;
   }
 `;
-
 const linkStyle = {
   textDecoration: "none", // 밑줄 제거
   color: "inherit", // 기본 색상 사용
 };
 
 export default function MyList() {
+  const [isHeartFilled, setHeartFilled] = useState(false);
+  const [activeFilters, setActiveFilters] = useState([]);
+
+  const handleFilterClick = (filter) => {
+    if (activeFilters.includes(filter)) {
+      // 이미 선택된 필터를 다시 클릭한 경우
+      setActiveFilters(activeFilters.filter((f) => f !== filter));
+      console.log(activeFilters.filter((f) => f !== filter));
+    } else {
+      // 새로운 필터를 클릭한 경우
+      setActiveFilters([...activeFilters, filter]);
+      console.log([...activeFilters, filter]);
+    }
+  };
   return (
     <PerfimeListWrap>
       <PerfumeListContent>
@@ -104,17 +132,29 @@ export default function MyList() {
         </BaseImage>
 
         <Filter>
-          <div>우드</div>
-          <div>시트러스</div>
-          <div>메탈릭</div>
-          <div>머스크</div>
-          <div>플로럴</div>
+          {["우드", "시트러스", "메탈릭", "머스크", "플로럴"].map((filter) => (
+            <FilterItem
+              key={filter}
+              onClick={() => handleFilterClick(filter)}
+              active={activeFilters.includes(filter)}
+            >
+              {filter}
+            </FilterItem>
+          ))}
         </Filter>
         <Perfumes>
           {/* 차후 useNavigate 로 변경 예상 */}
           <Link to="/detail" style={linkStyle}>
             <Perfume>
-              <FaRegHeart />
+              <Heart
+                onClick={(event) => {
+                  setHeartFilled(!isHeartFilled); // 하트 채워지게
+                  event.preventDefault(); // Link to 방지
+                }}
+              >
+                {/* 지금은 state가 연결되어있어서 하나 누르면 싹다 눌립니다. 나중에 서버에서 상태 받아와서 바꾸는 코드로 변경하겠습니다 */}
+                {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
+              </Heart>
               <div>
                 <img src={perfume} alt="Base Character" />
               </div>
@@ -124,7 +164,9 @@ export default function MyList() {
             </Perfume>
           </Link>
           <Perfume>
-            <FaRegHeart />
+            <Heart onClick={() => setHeartFilled(!isHeartFilled)}>
+              {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
+            </Heart>
             <div>
               <img src={perfume} alt="Base Character" />
             </div>
@@ -133,7 +175,9 @@ export default function MyList() {
             </div>
           </Perfume>
           <Perfume>
-            <FaRegHeart />
+            <Heart onClick={() => setHeartFilled(!isHeartFilled)}>
+              {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
+            </Heart>
             <div>
               <img src={perfume} alt="Base Character" />
             </div>
@@ -142,16 +186,9 @@ export default function MyList() {
             </div>
           </Perfume>
           <Perfume>
-            <FaRegHeart />
-            <div>
-              <img src={perfume} alt="Base Character" />
-            </div>
-            <div>
-              <p>Eau Duelle</p>
-            </div>
-          </Perfume>
-          <Perfume>
-            <FaRegHeart />
+            <Heart onClick={() => setHeartFilled(!isHeartFilled)}>
+              {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
+            </Heart>
             <div>
               <img src={perfume} alt="Base Character" />
             </div>
