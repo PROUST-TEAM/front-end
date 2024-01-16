@@ -12,8 +12,7 @@ const PerfimeListWrap = styled.div`
   text-align: center;
 `;
 const PerfumeListContent = styled.div`
-  margin-top: 80px;
-  margin-bottom: 100px;
+  margin: 80px 40px 100px 40px;
 `;
 const ListSpan = styled.div`
   font-size: 200px;
@@ -66,7 +65,7 @@ const Perfumes = styled.div`
   display: flex;
   justify-content: start;
   margin-top: 75px;
-  max-width: 960px;
+  width: 960px;
   flex-wrap: wrap;
 `;
 
@@ -156,7 +155,8 @@ export default function MyList() {
                   event.preventDefault(); // Link to 방지
                 }}
               >
-                {/* 지금은 state가 연결되어있어서 하나 누르면 싹다 눌립니다. 나중에 서버에서 상태 받아와서 바꾸는 코드로 변경하겠습니다 */}
+                {/* 지금은 state가 연결되어있어서 하나 누르면 싹다 눌립니다.
+                나중에 서버에서 상태 받아와서 바꾸는 코드로 변경하겠습니다 */}
                 {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
               </Heart>
               <div>
@@ -168,7 +168,14 @@ export default function MyList() {
             </Perfume>
           </Link>
           <Perfume>
-            <Heart onClick={() => setHeartFilled(!isHeartFilled)}>
+            <Heart
+              onClick={(event) => {
+                setHeartFilled(!isHeartFilled); // 하트 채워지게
+                event.preventDefault(); // Link to 방지
+              }}
+            >
+              {/* 지금은 state가 연결되어있어서 하나 누르면 싹다 눌립니다.
+                나중에 서버에서 상태 받아와서 바꾸는 코드로 변경하겠습니다 */}
               {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
             </Heart>
             <div>
@@ -179,18 +186,14 @@ export default function MyList() {
             </div>
           </Perfume>
           <Perfume>
-            <Heart onClick={() => setHeartFilled(!isHeartFilled)}>
-              {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-            </Heart>
-            <div>
-              <img src={perfume} alt="Base Character" />
-            </div>
-            <div>
-              <p>Eau Duelle</p>
-            </div>
-          </Perfume>
-          <Perfume>
-            <Heart onClick={() => setHeartFilled(!isHeartFilled)}>
+            <Heart
+              onClick={(event) => {
+                setHeartFilled(!isHeartFilled); // 하트 채워지게
+                event.preventDefault(); // Link to 방지
+              }}
+            >
+              {/* 지금은 state가 연결되어있어서 하나 누르면 싹다 눌립니다.
+                나중에 서버에서 상태 받아와서 바꾸는 코드로 변경하겠습니다 */}
               {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
             </Heart>
             <div>
