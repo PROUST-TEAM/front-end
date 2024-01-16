@@ -53,11 +53,7 @@ const FilterItem = styled.div`
   font-family: Pretendard_Bold;
   cursor: pointer;
 
-  &:hover {
-    color: #6bff94;
-    border: 2px solid #6bff94;
-  }
-
+  // active의 prop 이 ture 일때 클릭된 스타일 적용
   ${(props) =>
     props.active &&
     css`
@@ -110,13 +106,15 @@ export default function MyList() {
   const [isHeartFilled, setHeartFilled] = useState(false);
   const [activeFilters, setActiveFilters] = useState([]);
 
-  const handleFilterClick = (filter) => {
+  const onFilterClick = (filter) => {
     if (activeFilters.includes(filter)) {
       // 이미 선택된 필터를 다시 클릭한 경우
+      // 해당 필터 배열에서 삭제
       setActiveFilters(activeFilters.filter((f) => f !== filter));
       console.log(activeFilters.filter((f) => f !== filter));
     } else {
       // 새로운 필터를 클릭한 경우
+      // 해당 필터 배열에 추가
       setActiveFilters([...activeFilters, filter]);
       console.log([...activeFilters, filter]);
     }
@@ -132,12 +130,18 @@ export default function MyList() {
         </BaseImage>
 
         <Filter>
+          {/* 배열 순회하며 FilterItem 생성 */}
           {["우드", "시트러스", "메탈릭", "머스크", "플로럴"].map((filter) => (
             <FilterItem
-              key={filter}
-              onClick={() => handleFilterClick(filter)}
+              key={filter} // filter 값 자체를 고유 식별자로 사용
+              // 해당 필터 배열에 존재 -> 필터 삭제
+              // 해당 필터 배열에 존재 X -> 필터 추가
+              onClick={() => onFilterClick(filter)}
+              // 필터 배열에 존재 -> treu
+              // 필터 배열에 존재 X -> false
               active={activeFilters.includes(filter)}
             >
+              {/* 화면에 보여주는 부분 */}
               {filter}
             </FilterItem>
           ))}
