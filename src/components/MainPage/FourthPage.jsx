@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from "styled-components";
 import nlogImg from "../../images/nlog_user_img.png";
+import { Link } from 'react-router-dom';
 
 const FourthContainer = styled.div`
   display: flex;
@@ -44,19 +45,41 @@ const KeyButton = styled.div`
   white-space: nowrap;
   > button{
     background-color: black;
-    color: #6BFF94;
+    color: white;
 
     font-family: 'Pretendard_ExtraBold', sans-serif;
     font-size: 25px;
 
-    border: 2px solid #6BFF94;
+    border: 2px solid white;
     border-radius: 100px;
     padding: 15px 40px;
     margin-top: 40px;
   }
 `;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
 
+  button {
+    white-space: nowrap;
+    background-color: black;
+    color: white;
+    font-family: 'Pretendard_ExtraBold', sans-serif;
+    font-size: 25px;
+    border: 2px solid white;
+    border-radius: 100px;
+    padding: 15px 40px;
+    margin-top: 20px; /* 버튼과 이미지 사이 간격 조절 */
+  }
+
+  > button:hover {
+    background-color: black;
+    color: #6BFF94;
+
+    border: 2px solid #6BFF94;
+  }
+`;
 
 export default function FourthPage() {
   return (
@@ -70,9 +93,9 @@ export default function FourthPage() {
                 로그인 - 이미지 및 API 받아서 처리*/}
             <img src= {nlogImg} alt='Second Character'/>
         </BestContainer>
-        <KeyButton>
-            <button>나만의 향 찾으러 가기</button>
-        </KeyButton>
+        <StyledLink to="/login">
+            <button>회원가입하러 가기</button>
+        </StyledLink>
     </FourthContainer>
   )
 }

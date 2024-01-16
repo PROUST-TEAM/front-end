@@ -49,6 +49,13 @@ const KeyButton = styled.div`
     margin-right: 15px;
     margin-left: 15px;
   }
+
+  > button:hover {
+    background-color: black;
+    color: #6BFF94;
+
+    border: 2px solid #6BFF94;
+  }
 `;
 
 export default function SecondPage() {

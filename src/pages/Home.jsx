@@ -4,6 +4,7 @@ import Main from "../components/MainPage/MainPage";
 import Second from "../components/MainPage/SecondPage";
 import Third from "../components/MainPage/ThirdPage";
 import Fourth from "../components/MainPage/FourthPage";
+import Fifth from "../components/MainPage/FifthPage";
 
 const HomeContainer= styled.div`
   display: flex;
@@ -18,6 +19,7 @@ export default function Home() {
     <Second/>
     <Third/>
     <Fourth/>
+    <Fifth/>
   </HomeContainer>
   )
 }

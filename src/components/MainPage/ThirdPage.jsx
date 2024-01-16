@@ -2,6 +2,7 @@ import React from 'react'
 import styled from "styled-components";
 import secondImage from "../../images/sec_charac.png";
 import backImage from "../../images/test_back_img.png";
+import { Link } from 'react-router-dom'; 
 
 const PerfumeTestContainer = styled.div`
   display: flex;
@@ -37,34 +38,41 @@ const Text = styled.div`
 
 const SecondImage = styled.div`
   position: relative;
-  margin-left: 50px;
-  top: 40px;
+  top: 50px;
   z-index: 3;
 
   > img {
-    width: 821px; /* 이미지 너비 조절 */
-    height: 462px; /* 이미지 높이 조절 */
+    width: 350px;
+    height: 341x; /* 이미지 높이 조절 */
+    margin-top: 50px;
+    margin-bottom: 60px;
   }
 `;
 
-const KeyButton = styled.div`
-  padding: 15px;
-  white-space: nowrap;
-  > button{
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+  z-index: 4;
+
+  > button {
+    white-space: nowrap;
     background-color: black;
     color: white;
-
-    font-family: 'Pretendard_Bold', sans-serif;
-    font-size: 27px;
-
+    font-family: 'Pretendard_ExtraBold', sans-serif;
+    font-size: 25px;
     border: 2px solid white;
     border-radius: 100px;
     padding: 15px 40px;
+  }
+  
+  > button:hover {
+    background-color: black;
+    color: #6BFF94;
 
-    margin-right: 15px;
-    margin-left: 15px;
+    border: 2px solid #6BFF94;
   }
 `;
+
 
 
 export default function ThirdPage() {
@@ -83,9 +91,9 @@ export default function ThirdPage() {
       <SecondImage>
         <img src= {secondImage} alt='Second Character'/>
       </SecondImage>
-      <KeyButton>
-        <button style={{ marginTop: "10px",fontSize: "25px" }}>나만의 향 찾으러 가기</button>
-      </KeyButton>
+      <StyledLink to="/mbtiTest">
+        <button>나만의 향 찾으러 가기</button>
+      </StyledLink>
     </PerfumeTestContainer>
   )
 }
