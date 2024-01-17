@@ -5,7 +5,7 @@ import perfume from "../../images/perfume.png";
 import barcode from "../../images/barcode.png";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
-import Comment from "./Comment";
+import Comment from "../../components/Comment";
 
 const PerfimeDetailWrap = styled.div`
   display: flex;
