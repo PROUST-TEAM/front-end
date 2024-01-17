@@ -3,17 +3,12 @@ import styled from "styled-components";
 
 const KeyWordContainer= styled.div`
   display: flex;
-  height: 830px;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  align-items: center;
   color: white;
-
   font-family: 'Pretendard_Bold', sans-serif;
   font-size: 35px;
-
-  position: absolute;
-  top: 100%;
+  margin-top: 550px; /* 추가: 두 페이지 사이에 간격을 주기 위함 */
 `;
 
 const KeyWordTitle = styled.p`
@@ -36,7 +31,7 @@ const KeyButton = styled.div`
   padding: 15px;
   white-space: nowrap;
   > button{
-    background-color: black;
+    background-color: transparent;
     color: white;
 
     font-family: 'Pretendard_Bold', sans-serif;
@@ -60,18 +55,20 @@ const KeyButton = styled.div`
 
 export default function SecondPage() {
   return (
-    <KeyWordContainer>
-      <KeyWordTitle>KEYWORD</KeyWordTitle>
-      <KeyWordDes>향수 키워드를 통해 향수 정보를 알아봐!</KeyWordDes>
-      <KeyButton>
-        <button>향수와 젠더</button>
-        <button>향의 노트</button>
-        <button>향수와 젠더</button>
-      </KeyButton>
-      <KeyButton>
-        <button>향의 노트</button>
-        <button>향수와 젠더</button>
-      </KeyButton>
-    </KeyWordContainer>
+    <>
+      <KeyWordContainer>
+        <KeyWordTitle>KEYWORD</KeyWordTitle>
+        <KeyWordDes>향수 키워드를 통해 향수 정보를 알아봐!</KeyWordDes>
+        <KeyButton>
+          <button>향수와 젠더</button>
+          <button>향의 노트</button>
+          <button>향수와 젠더</button>
+        </KeyButton>
+        <KeyButton>
+          <button>향의 노트</button>
+          <button>향수와 젠더</button>
+        </KeyButton>
+      </KeyWordContainer>
+    </>
   )
 }

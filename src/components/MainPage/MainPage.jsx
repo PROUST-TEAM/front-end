@@ -3,14 +3,14 @@ import styled from "styled-components";
 import topImage from "../../images/top_charac.png";
 import searchImage from "../../images/search_img.png";
 
-const MainContainer= styled.div`
+const MainContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
-  position: absolute;
-  padding-top: 30px
+  position: relative;
+  padding-top: 30px;
+  margin-bottom: 50px; /* 추가: 두 페이지 사이에 간격을 주기 위함 */
 `;
 
 const Image = styled.div`
@@ -18,7 +18,7 @@ const Image = styled.div`
     width: 803px;
     height: 452px;
   }
-  z-index: 1; //이미지가 Title 위로 가도록
+  z-index: 0; //이미지가 Title 위로 가도록
 `;
 
 const Title= styled.div`
@@ -26,7 +26,7 @@ const Title= styled.div`
   font-size: 150px; 
   color: white;
 
-  font-family: 'Prompt', sans-serif;
+  font-family: 'Prompt_ExtraBold', sans-serif;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -121,28 +121,30 @@ export const SearchButton = styled.div`
 
 export default function MainPage() {
   return (
-    <MainContainer>
-      <Title>
-        PROUST
-      </Title>
-      <Image>
-        <img src={topImage} alt="Top Character" />
-      </Image>
-      <SubTitle>
-      <ColoredText>몰랐던 향수 정보</ColoredText> 찾는데 낭비하는 시간,
-        <p>프루스트가 아껴줄게!</p>
-      </SubTitle>
-      <VerticalLine/>
-      <Circle/>
-      <SearchContainer>
-        <Input 
-          type="text"
-          placeholder= "향수? 나에게 다 물어봐"
-          />
-        <SearchButton>
-          <img src={searchImage} alt="SearchImg" />
-        </SearchButton> 
-        </SearchContainer>
-    </MainContainer>
+    <>
+      <MainContainer>
+        <Title>
+          PROUST
+        </Title>
+        <Image>
+          <img src={topImage} alt="Top Character" />
+        </Image>
+        <SubTitle>
+        <ColoredText>몰랐던 향수 정보</ColoredText> 찾는데 낭비하는 시간,
+          <p>프루스트가 아껴줄게!</p>
+        </SubTitle>
+        <VerticalLine/>
+        <Circle/>
+        <SearchContainer>
+          <Input 
+            type="text"
+            placeholder= "향수? 나에게 다 물어봐"
+            />
+          <SearchButton>
+            <img src={searchImage} alt="SearchImg" />
+          </SearchButton> 
+          </SearchContainer>
+      </MainContainer>
+    </>
   )
 }

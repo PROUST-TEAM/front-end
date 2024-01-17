@@ -9,6 +9,8 @@ import Fifth from "../components/MainPage/FifthPage";
 const HomeContainer= styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   flex-direction: column;
 `;
 

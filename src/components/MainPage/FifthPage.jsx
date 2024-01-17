@@ -10,12 +10,14 @@ import { Link } from 'react-router-dom';
 const FifthContainer = styled.div`
   display: flex;
   width: auto;
-  height: 830px;
+  height: auto;
   align-items: center;
   justify-content: center;
   color: white;
-  position: absolute;
-  top: 400%;
+
+  position: relative;
+  margin-top: 300px;
+  margin-bottom: 200px;
 `;
 
 const Card = styled(animated.div)`

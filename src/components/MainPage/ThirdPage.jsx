@@ -11,15 +11,18 @@ const PerfumeTestContainer = styled.div`
   justify-content: center;
   flex-direction: column;
 
-  position: absolute;
-  top: 190%;
+  position: relative;
+  margin-top: 300px;
 `;
 
 const BackImage = styled.div`
   position: absolute;
+  align-items: center;
+  justify-content: center;
+
   > img {
+    width: 1900px;
     height: 663px;
-    width: auto; 
   }
 
   z-index: 1;
