@@ -1,8 +1,13 @@
 @import 'reset.css';
 
 @font-face {
-    font-family: "Prompt";
+    font-family: "Prompt_SemiBold";
     src: url(./fonts/Prompt-SemiBold.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: "Prompt_ExtraBold";
+    src: url(./fonts/Prompt-ExtraBold.ttf) format('truetype');
 }
 
 @font-face {
