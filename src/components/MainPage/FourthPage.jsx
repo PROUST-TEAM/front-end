@@ -1,4 +1,5 @@
-import React from 'react'
+//import React, { useState } from 'react';
+import React from 'react';
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
 import perfume from "../../images/perfume.png";
@@ -66,15 +67,6 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const ReceiptCover = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 651px;
-  background-color: #020202;
-  opacity: 0.8;
-  filter: blur(10px);
-  z-index: 2;
-`;
 
 const ReceiptContainer = styled.div`
   display: flex;
@@ -83,6 +75,8 @@ const ReceiptContainer = styled.div`
   margin-top: 50px;
   padding: 15px;
   z-index: 1;
+
+  filter: blur(13px);
 `;
 
 const ReceiptTop = styled.div`
@@ -146,12 +140,18 @@ const ReceiptBottom = styled.div`
 `;
 
 export default function FourthPage() {
+
+  // const [isUserLogin, setUserLogin] = useState(false);
+
+  // const blurOffLoginUser = () => {
+  //   setUserLogin(true);
+  // };
+
   return (
     <FourthContainer>
         <Title>
             <ColoredText>회원가입</ColoredText>하고 향수 추천받아봐
         </Title>
-        <ReceiptCover/>
         <BestContainer>
             {/* 비로그인/로그인 구분
                 비로그인 - 이미지로 처리

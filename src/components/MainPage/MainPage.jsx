@@ -28,7 +28,7 @@ const Title= styled.div`
 
   font-family: 'Prompt_ExtraBold', sans-serif;
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -135%);
   white-space: nowrap;
