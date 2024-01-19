@@ -45,10 +45,10 @@ const SecondImage = styled.div`
   z-index: 3;
 
   > img {
-    width: 350px;
-    height: 341x; /* 이미지 높이 조절 */
-    margin-top: 50px;
-    margin-bottom: 60px;
+    width: 802px;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    margin-left: 20px;
   }
 `;
 
