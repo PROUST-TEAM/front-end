@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import topImage from "../images/top_charac.png";
 import loginImage from "../images/login_img.png";
 import searchBtnImage from "../images/search_btn.png";
 import closeBtnImage from "../images/close_btn.png";
-import { useLocation } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
 
 const HeaderContainer = styled.header`
     background-color: black;
@@ -38,6 +38,11 @@ const HeaderLeft = styled.div`
   }
 
   .header-nav-item.active {
+    font-family: 'Pretendard_ExtraBold', sans-serif;
+    color: white; /* Home이 활성화된 경우의 텍스트 색상 */
+  }
+
+  .header-nav-item:hover {
     font-family: 'Pretendard_ExtraBold', sans-serif;
     color: white; /* Home이 활성화된 경우의 텍스트 색상 */
   }
@@ -181,6 +186,8 @@ const BlurredBackground = styled.div`
 export default function Header() {
 
   const location = useLocation();
+  const navigate = useNavigate();
+
   const isHome = location.pathname === '/home';
   const isList = location.pathname === '/myList';
   const isColumn = location.pathname === '/column';
@@ -188,6 +195,11 @@ export default function Header() {
   const isTest = location.pathname === '/mbtiTest';
 
   const [isSearchPanelVisible, setSearchPanelVisible] = useState(false);
+
+  useEffect(() => {
+    // Close the SearchPanel when the location changes
+    closeSearchPanel();
+  }, [location.pathname]);
 
   const openSearchPanel = () => {
     setSearchPanelVisible(true);
@@ -197,33 +209,46 @@ export default function Header() {
     setSearchPanelVisible(false);
   };
 
+  // ... (rest of the code)
+
+  const handleNavLinkClick = (path) => {
+    // SearchPanel을 닫고 지정된 경로로 이동합니다.
+    closeSearchPanel();
+    navigate(path);
+  };
+
   return (
     <>
     <HeaderContainer>
         <HeaderLeft>
             <ul>
                 <li>
-                  <Link className={`header-nav-item ${isHome ? 'active' : ''}`} to='/home'>
+                  <Link className={`header-nav-item ${isHome ? 'active' : ''}`} to='/home'
+                  onClick={() => handleNavLinkClick('/home')}>
                         HOME
                     </Link>
                 </li>
                 <li>
-                  <Link className={`header-nav-item ${isList ? 'active' : ''}`} to='/myList'>
+                  <Link className={`header-nav-item ${isList ? 'active' : ''}`} to='/myList'
+                  onClick={() => handleNavLinkClick('/myList')}>
                       MY LIST
                   </Link>
                 </li>
                 <li>
-                <Link className={`header-nav-item ${isColumn ? 'active' : ''}`} to='/column'>
+                <Link className={`header-nav-item ${isColumn ? 'active' : ''}`} to='/column'
+                onClick={() => handleNavLinkClick('/column')}>
                         COLUMN
                     </Link>
                 </li>
                 <li>
-                  <Link className={`header-nav-item ${isLocation ? 'active' : ''}`} to='/location'>
+                  <Link className={`header-nav-item ${isLocation ? 'active' : ''}`} to='/location'
+                  onClick={() => handleNavLinkClick('/location')}>
                     LOCATION
                   </Link>
                 </li>
                 <li>
-                  <Link className={`header-nav-item ${isTest ? 'active' : ''}`} to='/mbtiTest'>
+                  <Link className={`header-nav-item ${isTest ? 'active' : ''}`} to='/mbtiTest'
+                  onClick={() => handleNavLinkClick('/mbtiTest')}>
                     MBTI TEST
                   </Link>
                 </li>

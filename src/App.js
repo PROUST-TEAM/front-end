@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Header from "./components/Header";
 import Column from "./pages/Column";
 import Home from "./pages/Home";
@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import MbtiTest from "./pages/MbtiTest";
 import MyList from "./pages/perfume/MyList";
 import MyPerfumeDetail from "./pages/perfume/PerfumeDetail";
+import Search from "./pages/Search/Search";
+import NonSearch from "./pages/Search/NonSearch";
 
 function App() {
   return (
@@ -16,7 +18,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/home" element={<Home />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="/myList" element={<MyList />} />
           <Route path="/detail" element={<MyPerfumeDetail />} />
           <Route path="/column" element={<Column />} />
@@ -24,6 +26,8 @@ function App() {
           <Route path="/locationDetail" element={<LocationDetail />} />
           <Route path="/mbtiTest" element={<MbtiTest />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/nonSearch" element={<NonSearch />} />
         </Routes>
       </BrowserRouter>
     </div>
