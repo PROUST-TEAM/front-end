@@ -4,7 +4,7 @@ import topImage from "../../images/top_charac.png";
 import searchImage from "../../images/search_img.png";
 import { Link } from 'react-router-dom';
 
-const MainContainer = styled.div`
+const SearchWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,14 +12,6 @@ const MainContainer = styled.div`
   position: relative;
   padding-top: 30px;
   margin-bottom: 50px;
-`;
-
-const Image = styled.div`
-  > img {
-    width: 803px;
-    height: 452px;
-  }
-  z-index: 0; //이미지가 Title 위로 가도록
 `;
 
 const Title= styled.div`
@@ -35,30 +27,17 @@ const Title= styled.div`
   white-space: nowrap;
 `;
 
-const SubTitle = styled.div`
-  text-align: center; // 텍스트 가운데 정렬
-  font-size: 35px; 
-  color: white;
-  white-space: pre-line; // 줄바꿈 활성화
-
-  font-family: 'Pretendard_Bold', sans-serif;
-  font-size: 35px;
-
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 295%);
-  white-space: nowrap;
-`;
-
-const ColoredText = styled.span`
-  color: #6BFF94 ; 
-  white-space: nowrap;
+const Image = styled.div`
+  > img {
+    width: 803px;
+    height: 452px;
+  }
+  z-index: 0; //이미지가 Title 위로 가도록
 `;
 
 const VerticalLine = styled.div`
   position: absolute;
-  top: 100%;
+  top: 95%;
   left: 50%;
   transform: translateY(40%);
   height: 150px;
@@ -67,7 +46,18 @@ const VerticalLine = styled.div`
 
 const Circle = styled.div`
   position: absolute;
-  top: 145%;
+  top: 105%;
+  left: 50%;
+  transform: translate(-45%, -10%);
+  background-color: #6BFF94;
+  border-radius: 50%;
+  width: 15px; 
+  height: 15px;
+`;
+
+const Circle2 = styled.div`
+  position: absolute;
+  top: 140%;
   left: 50%;
   transform: translate(-45%, -50%);
   background-color: #6BFF94;
@@ -93,7 +83,7 @@ export const SearchContainer = styled.div`
   height: 40px;
 
   position: absolute;
-  top: 156%;
+  top: 100%;
   left: 50%;
   transform: translate(-50%, -50%);
 
@@ -122,7 +112,29 @@ export const SearchButton = styled(Link)`
   text-decoration: none;  // 링크에 기본 스타일 제거
 `;
 
-export default function MainPage() {
+const SearchContainer2 = styled.div`
+  display: flex;
+  align-items: center;
+
+  font-family: 'Pretendard_Bold', sans-serif;
+  font-size: 35px;
+
+  position: absolute;
+  top: 150%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  >p{
+    width: 100%;
+    color: #6BFF94;
+    text-align: center;
+    margin-right: 17px;
+    white-space: nowrap;
+  }
+`;
+
+
+export default function NonSearch() {
   const [searchText, setSearchText] = useState('');
 
   const handleInputChange = (e) => {
@@ -142,22 +154,14 @@ export default function MainPage() {
       window.location.href = '/nonSearch';
     }
   };
-
   return (
-    <>
-      <MainContainer>
+    <SearchWrap>
         <Title>
           PROUST
         </Title>
         <Image>
           <img src={topImage} alt="Top Character" />
         </Image>
-        <SubTitle>
-        <ColoredText>몰랐던 향수 정보</ColoredText> 찾는데 낭비하는 시간,
-          <p>프루스트가 아껴줄게!</p>
-        </SubTitle>
-        <VerticalLine/>
-        <Circle/>
         <SearchContainer>
         <Input
             type="text"
@@ -168,8 +172,13 @@ export default function MainPage() {
           <SearchButton to="#" onClick={handleSearchButtonClick}>
             <img src={searchImage} alt="SearchImg" />
           </SearchButton>
-          </SearchContainer>
-      </MainContainer>
-    </>
+        </SearchContainer>
+        <Circle/>
+        <VerticalLine/>
+        <Circle2/>
+        <SearchContainer2>
+            <p>" 흠......잘 모르겠는데, 다시 검색해줄래? "</p>
+        </SearchContainer2>
+    </SearchWrap> 
   )
 }
