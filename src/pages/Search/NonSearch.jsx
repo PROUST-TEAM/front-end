@@ -129,6 +129,7 @@ const SearchContainer2 = styled.div`
     color: #6BFF94;
     text-align: center;
     margin-right: 17px;
+    white-space: nowrap;
   }
 `;
 

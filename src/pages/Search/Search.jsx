@@ -166,7 +166,6 @@ const ListWrap = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 10px;
-  flex-wrap: wrap;
   text-align: center;
 `;
 
