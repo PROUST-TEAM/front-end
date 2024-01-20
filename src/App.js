@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import MbtiTest from "./pages/MbtiTest";
 import MyList from "./pages/perfume/MyList";
 import MyPerfumeDetail from "./pages/perfume/PerfumeDetail";
+import Search from "./pages/Search/Search";
+import NonSearch from "./pages/Search/NonSearch";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           <Route path="/locationDetail" element={<LocationDetail />} />
           <Route path="/mbtiTest" element={<MbtiTest />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/nonSearch" element={<NonSearch />} />
         </Routes>
       </BrowserRouter>
     </div>
