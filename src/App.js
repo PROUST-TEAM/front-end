@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Header from "./components/Header";
 import Column from "./pages/Column";
 import Home from "./pages/Home";
@@ -18,7 +18,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/home" element={<Home />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="/myList" element={<MyList />} />
           <Route path="/detail" element={<MyPerfumeDetail />} />
           <Route path="/column" element={<Column />} />
