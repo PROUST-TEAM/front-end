@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
-import topImage from "../images/top_charac.png";
+import secondImage from "../images/sec_charac.png";
 //import columnBack from "../images/column_back_img.png";
 
 const ColumContainer = styled.div`
@@ -34,17 +34,17 @@ const ColumnSpan = styled.span`
 
 const TopImage = styled.div`
   position: relative;
-  top: -220px;
+  top: -230px;
   > img {
-    width: 600px;
-    height: 336px;
+    width: 850px;
+    margin-left: 35px;
   }
 `;
 
 const ColumnList = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: -150px;
+  margin-top: -190px;
 `;
 
 const ColumnTitle = styled.div`
@@ -98,7 +98,7 @@ export default function Column() {
           <br />
           <ColumnSpan>COLUMN</ColumnSpan>
           <TopImage>
-            <img src={topImage} alt="Top Character" />
+            <img src={secondImage} alt="Top Character" />
           </TopImage>
         </Title>
         <ColumnList>
