@@ -157,9 +157,11 @@ export default function MbtiTest() {
           </Status>
           <StyledHr />
         </Bar>
-        <Button style={{ marginLeft: "150px" }}>
-          <GoArrowRight /> 다음
-        </Button>
+        <Link to="/mbtiResult">
+          <Button style={{ marginLeft: "150px" }}>
+            <GoArrowRight /> 다음
+          </Button>
+        </Link>
       </MbtiTestBottomWrap>
     </MbtiTestWrap>
   );
