@@ -51,16 +51,17 @@ const VerticalLine = styled.div`
   position: absolute;
   top: 762px;
   left: 50%;
-  transform: translate(-45%, -50%);
+  transform: translate(-50%, -50%);
   height: 171px;
-  border-left: 2px solid #6bff94;
+  background: linear-gradient(#6bff94, #ecf5ef);
+  width: 2px;
 `;
 
 const Circle = styled.div`
   position: absolute;
   top: 678px;
   left: 50%;
-  transform: translate(-45%, -50%);
+  transform: translate(-50%, -50%);
   background-color: #6bff94;
   border-radius: 50%;
   width: 12px;
@@ -70,8 +71,8 @@ const Circle2 = styled.div`
   position: absolute;
   top: 850px;
   left: 50%;
-  transform: translate(-45%, -50%);
-  background-color: #6bff94;
+  transform: translate(-50%, -50%);
+  background-color: #ecf5ef;
   border-radius: 50%;
   width: 12px;
   height: 12px;
@@ -81,16 +82,17 @@ const VerticalLine2 = styled.div`
   position: absolute;
   top: 2046px;
   left: 50%;
-  transform: translate(-45%, -50%);
+  transform: translate(-50%, -50%);
   height: 94px;
-  border-left: 2px solid #6bff94;
+  background: linear-gradient(#6bff94, #f1f5f1);
+  width: 2px;
 `;
 
 const Circle3 = styled.div`
   position: absolute;
   top: 2000px;
   left: 50%;
-  transform: translate(-45%, -50%);
+  transform: translate(-50%, -50%);
   background-color: #6bff94;
   border-radius: 50%;
   width: 12px;
@@ -100,8 +102,8 @@ const Circle4 = styled.div`
   position: absolute;
   top: 2090px;
   left: 50%;
-  transform: translate(-45%, -50%);
-  background-color: #6bff94;
+  transform: translate(-50%, -50%);
+  background-color: #f1f5f1;
   border-radius: 50%;
   width: 12px;
   height: 12px;
