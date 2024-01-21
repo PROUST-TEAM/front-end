@@ -6,6 +6,7 @@ import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import statusImg from "../../images/Shape.png";
 import numberImg from "../../images/Number0.png";
 
+const MbtiTestWrap = styled.div``;
 const MbtiTestTopWrap = styled.div`
   display: flex;
   align-items: center;
@@ -13,9 +14,6 @@ const MbtiTestTopWrap = styled.div`
   text-align: center;
 `;
 const MbtiTestTopContent = styled.div``;
-const MbtiTestWrap = styled.div`
-  height: 80vh;
-`;
 
 const Question = styled.div`
   display: inline-block;
