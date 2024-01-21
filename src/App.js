@@ -1,13 +1,13 @@
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Column from "./pages/Column";
 import Home from "./pages/Home";
-import Location from "./pages/location/Location";
-import LocationDetail from "./pages/location/LocationDetail";
+import Location from "./pages/locations/Location";
+import LocationDetail from "./pages/locations/LocationDetail";
 import Login from "./pages/Login";
 import MbtiTest from "./pages/mbti/MbtiTest";
-import MyList from "./pages/perfume/MyList";
-import MyPerfumeDetail from "./pages/perfume/PerfumeDetail";
+import MyList from "./pages/perfumes/MyList";
+import MyPerfumeDetail from "./pages/perfumes/PerfumeDetail";
 import Search from "./pages/Search/Search";
 import NonSearch from "./pages/Search/NonSearch";
 

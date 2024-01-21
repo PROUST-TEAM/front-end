@@ -16,7 +16,7 @@ const LocationContent = styled.div`
 const PerfumeSpan = styled.span`
   font-size: 120px;
   color: #7d7d7d;
-  font-family: Prompt;
+  font-family: Prompt_ExtraBold;
 `;
 
 const Title = styled.div`
@@ -26,7 +26,7 @@ const Title = styled.div`
 const LocationSpan = styled.span`
   font-size: 200px;
   color: #fefdfc;
-  font-family: Prompt;
+  font-family: Prompt_ExtraBold;
   font-weight: 700;
 `;
 
