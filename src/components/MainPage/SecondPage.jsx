@@ -60,12 +60,12 @@ export default function SecondPage() {
         <KeyWordTitle>KEYWORD</KeyWordTitle>
         <KeyWordDes>향수 키워드를 통해 향수 정보를 알아봐!</KeyWordDes>
         <KeyButton>
-          <button>향수와 젠더</button>
+          <button>초보 가이드</button>
           <button>향의 노트</button>
-          <button>향수와 젠더</button>
+          <button>향의 지속력</button>
         </KeyButton>
         <KeyButton>
-          <button>향의 노트</button>
+          <button>향을 뿌리는 방법</button>
           <button>향수와 젠더</button>
         </KeyButton>
       </KeyWordContainer>
