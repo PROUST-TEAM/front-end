@@ -8,8 +8,7 @@ import { Link } from 'react-router-dom';
 
 const FifthContainer = styled.div`
   display: flex;
-  width: auto;
-  height: auto;
+
   align-items: center;
   justify-content: center;
   color: white;
@@ -93,5 +92,6 @@ export default function FifthPage() {
         </StyledLink>
       </Card>
     </FifthContainer>
+    // slick slider 3d 구글 검색
   );
 }
