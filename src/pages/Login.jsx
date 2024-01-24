@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import topImage from '../images/top_charac.png';
+import topImage from '../images/top_charac.png'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -12,13 +13,15 @@ const StyledContainer = styled.div`
 const StyledParagraph = styled.p`
   color: black;
   margin-top: 50px;
-  margin-right: -50px;
+  margin-right: -40px;
+  margin-left: 55px;
   font-size: 25px;
   font-family: Pretendard_ExtraBold;
 `;
 
 const StyledImage = styled.img`
   margin-top: 50px;
+  margin-left: -15px;
 `;
 
 const StyledContent = styled.div`
@@ -29,7 +32,7 @@ const StyledContent = styled.div`
 `;
 
 const StyledWord = styled.div`
-margin-right: 430px;
+margin-right: 350px;
 font-size: 17px;
 font-family: Pretendard_ExtraBold;
 margin-top: 15px;
@@ -47,7 +50,7 @@ const StyledInput = styled.input`
   height: 25px;
   padding: 7px;
   margin-top: 5px;
-  margin-right: 100px;
+  margin-right: 30px;
   border: none;
   background-color: #f0f0f0;
   color: #333;
@@ -57,7 +60,7 @@ const StyledInput = styled.input`
 
 const StyledClearButton = styled.div`
   position: absolute;
-  right: 120px;
+  right: 40px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -69,7 +72,7 @@ const StyledSwitchContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-left: -340px;
+  margin-left: -270px;
   margin-top: 20px;
 `;
 
@@ -112,7 +115,7 @@ const StyledButton = styled.button`
   padding: 7px;
   margin-top: 30px;
   margin-bottom: 0px;
-  margin-right: 97px;
+  margin-right: 30px;
   background-color: black;
   color: white;
   border: none;
@@ -124,11 +127,11 @@ const StyledButton = styled.button`
 const StyledButtonContainer = styled.div`
   display: flex;
   margin-top: 5px;
-  margin-left: -90px;
-  margin-bottom: 100px;
+  margin-left: -20px;
+  margin-bottom: 10px;
 `;
 
-const StyledTextButton = styled.button`
+const StyledTextButton = styled(Link)`
   padding: 10px 20px;
   background-color: white;
   border: none;
@@ -136,11 +139,26 @@ const StyledTextButton = styled.button`
   font-size: 10px;
   color: black;
   font-family: Pretendard_ExtraBold;
+  text-decoration: none;
 
   &:not(:last-child) {
     margin-right: -20px;
     margin-top: 0px;
   }
+`;
+
+const StyledFooter = styled.div`
+  margin-top: 30px;
+  margin-bottom: 10px;
+  margin-left: -30px;
+  display: flex;  
+`;
+
+const StyledText = styled.span`
+  font-size: 12px;
+  color: black;
+  font-family: Pretendard_ExtraBold;
+  margin: 0 5px; 
 `;
 
 export default function Login() {
@@ -204,12 +222,17 @@ export default function Login() {
         </StyledSwitchContainer>
         <StyledButton>로그인</StyledButton>
         <StyledButtonContainer>
-          <StyledTextButton>아이디 찾기</StyledTextButton>
+          <StyledTextButton to="/find-id">아이디 찾기</StyledTextButton>
           <StyledTextButton>|</StyledTextButton>
-          <StyledTextButton>비밀번호 찾기</StyledTextButton>
+          <StyledTextButton to="/find-pw">비밀번호 찾기</StyledTextButton>
           <StyledTextButton>|</StyledTextButton>
-          <StyledTextButton>회원가입 하기</StyledTextButton>
+          <StyledTextButton to="/join">회원가입 하기</StyledTextButton>
           </StyledButtonContainer>
+        <StyledFooter>
+          <StyledText>──────────────</StyledText>
+          <StyledText>또는</StyledText>
+          <StyledText>──────────────</StyledText>
+        </StyledFooter>
       </StyledContent>
     </>
   );

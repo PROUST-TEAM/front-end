@@ -10,6 +10,9 @@ import MyList from "./pages/perfume/MyList";
 import MyPerfumeDetail from "./pages/perfume/PerfumeDetail";
 import Search from "./pages/Search/Search";
 import NonSearch from "./pages/Search/NonSearch";
+import FindId from "./pages/FindId";
+import FindPassword from './pages/FindPassword';
+import Join from './pages/Join';
 
 function App() {
   return (
@@ -28,6 +31,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/search" element={<Search />} />
           <Route path="/nonSearch" element={<NonSearch />} />
+          <Route path="/find-id" element={<FindId />} />
+          <Route path="/find-pw" element={<FindPassword />} />
+          <Route path="/join" element={<Join />} />
         </Routes>
       </BrowserRouter>
     </div>
