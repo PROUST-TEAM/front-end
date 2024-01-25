@@ -193,6 +193,7 @@ export default function Header() {
   const isColumn = location.pathname === '/column';
   const isLocation = location.pathname === '/location';
   const isTest = location.pathname === '/mbtiTest';
+  const isCharacter = location.pathname === '/character';
 
   const [isSearchPanelVisible, setSearchPanelVisible] = useState(false);
 
@@ -250,6 +251,12 @@ export default function Header() {
                   <Link className={`header-nav-item ${isTest ? 'active' : ''}`} to='/mbtiTest'
                   onClick={() => handleNavLinkClick('/mbtiTest')}>
                     MBTI TEST
+                  </Link>
+                </li>
+                <li>
+                  <Link className={`header-nav-item ${isCharacter ? 'active' : ''}`} to='/character'
+                  onClick={() => handleNavLinkClick('/character')}>
+                    CHARACTER
                   </Link>
                 </li>
             </ul>

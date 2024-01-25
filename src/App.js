@@ -10,6 +10,7 @@ import MyList from "./pages/perfume/MyList";
 import MyPerfumeDetail from "./pages/perfume/PerfumeDetail";
 import Search from "./pages/search/Search";
 import NonSearch from "./pages/search/NonSearch";
+import Character from "./pages/Character";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/search" element={<Search />} />
           <Route path="/nonSearch" element={<NonSearch />} />
+          <Route path="/character" element={<Character />} />
         </Routes>
       </BrowserRouter>
     </div>
