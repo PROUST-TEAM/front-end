@@ -8,10 +8,10 @@ import Login from "./pages/Login";
 import MbtiMain from "./pages/mbti/MbtiMain";
 import MbtiResult from "./pages/mbti/MbtiResult";
 import MbtiTest from "./pages/mbti/MbtiTest";
-import MyList from "./pages/perfumes/MyList";
-import MyPerfumeDetail from "./pages/perfumes/PerfumeDetail";
-import Search from "./pages/Search/Search";
-import NonSearch from "./pages/Search/NonSearch";
+import MyList from "./pages/perfume/MyList";
+import MyPerfumeDetail from "./pages/perfume/PerfumeDetail";
+import Search from "./pages/search/Search";
+import NonSearch from "./pages/search/NonSearch";
 
 function App() {
   return (
