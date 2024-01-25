@@ -10,11 +10,11 @@ const MbtiResultContent = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: 80vh;
+  margin-top: 50px;
 `;
 const ResultLeft = styled.div`
   // flex: 70%;
-
+  // margin-left: 50px;
   > div {
     display: flex;
     align-items: center;
@@ -29,13 +29,11 @@ const ResultLeft = styled.div`
     }
   }
 `;
-const ResultRight = styled.div`
-  // flex: 30%;
-  //  margin
-`;
+const ResultRight = styled.div``;
+const Center = styled.div``;
 const Explanation = styled.div`
   margin: 25px 50px 40px 50px;
-  font-family: Pretendard_Medium;
+  font-family: Pretendard_SemiBold;
   font-size: 16px;
   color: rgba(255, 255, 255, 0.7);
   text-align: left;
@@ -66,11 +64,29 @@ const titleStyle = {
   display: "inline-block",
 };
 const textStyle = {
-  fontFamily: "Pretendard_ExtraBold",
+  fontFamily: "Pretendard_Medium",
   fontSize: "12px",
   color: "rgba(255, 255, 255, 0.7)",
   marginBottom: "5px",
 };
+
+const Circle2 = styled.div`
+  background-color: #6bff94;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 436px;
+  left: 50%;
+  transform: translate(1000%, -50%);
+`;
+
+const StyledHr = styled.hr`
+  border: 0;
+  height: 2px;
+  width: 120px;
+  background: #6bff94;
+`;
 
 export default function MbtiResult() {
   return (
@@ -84,7 +100,7 @@ export default function MbtiResult() {
               너와 어울리는 향수를 알려줄게
             </p>
           </div>
-          <div>
+          <div style={{}}>
             <img
               src={entp}
               alt="entp"
@@ -98,6 +114,10 @@ export default function MbtiResult() {
             </StartButton>
           </Link>
         </ResultLeft>
+        <Center>
+          <StyledHr />
+          <Circle2 />
+        </Center>
         <ResultRight>
           <div>
             <p style={titleStyle}>Eau Duelle</p>
@@ -106,7 +126,7 @@ export default function MbtiResult() {
             <img
               src={perfume}
               alt="Base Character"
-              style={{ width: "260px", height: "338px" }}
+              style={{ width: "260px", height: "338px", marginTop: "30px" }}
             />
             <Explanation>
               <span>

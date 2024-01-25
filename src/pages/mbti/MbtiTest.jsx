@@ -59,11 +59,13 @@ const MbtiTestBottomWrap = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
+  margin-bottom: 100px;
 `;
 const Button = styled.div`
   background-color: white;
   border-radius: 100px;
   padding: 10px 20px 10px 20px;
+  white-space: nowrap;
 `;
 const Bar = styled.div`
   display: flex;
@@ -109,58 +111,60 @@ const NumberImg = styled.img`
 export default function MbtiTest() {
   return (
     <MbtiTestWrap>
-      <MbtiTestTopWrap>
-        <MbtiTestTopContent>
-          <div>
-            <img
-              src={middleImg}
-              alt="Middle Character"
-              style={{ width: "430px", height: "250px" }}
-            />
-          </div>
-          <Question>
-            <p>
-              어떤향수를 사야할지 망설이는 찰나 매장 직원이 내게 다가온다 이때
-              나는?
-            </p>
-          </Question>
-          <Options>
-            <Option>
+      <div style={{}}>
+        <MbtiTestTopWrap>
+          <MbtiTestTopContent>
+            <div>
+              <img
+                src={middleImg}
+                alt="Middle Character"
+                style={{ width: "430px", height: "250px" }}
+              />
+            </div>
+            <Question>
               <p>
-                <span>A</span>
-                향수 찾기는 어렵지만 직원이 말거는건 부담스러워 자리를 피한다.
+                어떤향수를 사야할지 망설이는 찰나 매장 직원이 내게 다가온다 이때
+                나는?
               </p>
-            </Option>
-            <Option>
-              <p>
-                <span>B</span>
-                마침 향수 고르기 어려웠는데 기뻐하며 직원에게 말을건다.
-              </p>
-            </Option>
-          </Options>
-        </MbtiTestTopContent>
-      </MbtiTestTopWrap>
-      <MbtiTestBottomWrap>
-        <Button style={{ marginRight: "150px" }}>
-          <GoArrowLeft /> 이전
-        </Button>
-        <Bar>
-          <Status>
-            <ImagesContainer>
-              <StatusImg src={statusImg} alt="Status" />
-              <NumberImg src={numberImg} alt="Status" />
-            </ImagesContainer>
-
-            <Circle2 />
-          </Status>
-          <StyledHr />
-        </Bar>
-        <Link to="/mbtiResult">
-          <Button style={{ marginLeft: "150px" }}>
-            <GoArrowRight /> 다음
+            </Question>
+            <Options>
+              <Option>
+                <p>
+                  <span>A</span>
+                  향수 찾기는 어렵지만 직원이 말거는건 부담스러워 자리를 피한다.
+                </p>
+              </Option>
+              <Option>
+                <p>
+                  <span>B</span>
+                  마침 향수 고르기 어려웠는데 기뻐하며 직원에게 말을건다.
+                </p>
+              </Option>
+            </Options>
+          </MbtiTestTopContent>
+        </MbtiTestTopWrap>
+        <MbtiTestBottomWrap>
+          <Button style={{ marginRight: "150px" }}>
+            <GoArrowLeft /> 이전
           </Button>
-        </Link>
-      </MbtiTestBottomWrap>
+          <Bar>
+            <Status>
+              <ImagesContainer>
+                <StatusImg src={statusImg} alt="Status" />
+                <NumberImg src={numberImg} alt="Status" />
+              </ImagesContainer>
+
+              <Circle2 />
+            </Status>
+            <StyledHr />
+          </Bar>
+          <Link to="/mbtiResult" style={{ textDecoration: "none" }}>
+            <Button style={{ marginLeft: "150px" }}>
+              <GoArrowRight /> 다음
+            </Button>
+          </Link>
+        </MbtiTestBottomWrap>
+      </div>
     </MbtiTestWrap>
   );
 }

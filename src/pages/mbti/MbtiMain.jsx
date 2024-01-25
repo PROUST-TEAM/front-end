@@ -8,9 +8,10 @@ const MbtiTestWrap = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: 80vh;
 `;
-const MbtiTestContent = styled.div``;
+const MbtiTestContent = styled.div`
+  //margin-bottom: 50px;
+`;
 const Title = styled.div`
   color: #6bff94;
   font-family: Prompt_Black;
