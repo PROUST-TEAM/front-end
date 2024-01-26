@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import topImage from '../images/top_charac.png'
+import clearImage from '../images/clear_Icon.png'
+import openImage from '../images/Login-Icons.png'
+import closeImage from '../images/EyeClosed.png'
+import pointImage from '../images/icon.png'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -61,11 +65,12 @@ const StyledInput = styled.input`
 const StyledClearButton = styled.div`
   position: absolute;
   right: 40px;
-  top: 50%;
+  top: 57%;
   transform: translateY(-50%);
   cursor: pointer;
   opacity: ${({ visible }) => (visible ? '1' : '0')};
   transition: opacity 0.3s ease-in-out;
+  pointer-events: ${({ visible }) => (visible ? 'auto' : 'none')};
 `;
 
 const StyledSwitchContainer = styled.div`
@@ -161,9 +166,27 @@ const StyledText = styled.span`
   margin: 0 5px; 
 `;
 
+const StyledpwButton = styled.div`
+  position: absolute;
+  right: 42px;
+  top: 57%;
+  transform: translateY(-50%);
+  cursor: pointer;
+`
+
+const StyledPwIcon = styled.img`
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  margin-right: 544px;
+  margin-top: 65px;
+`;
+
 export default function Login() {
   const [isClicked, setIsClicked] = useState(false);
   const [userid, setUserid] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
+  const [userpw, setPassword] = useState('');
 
   const handleSwitchClick = () => {
     setIsClicked(!isClicked);
@@ -176,6 +199,18 @@ export default function Login() {
   const handleClearButtonClick = () => {
     setUserid('');
   };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handlePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+
+  const handlePasswordButtonClick = () => {
+    setPassword('');
+  }; 
 
   return (
     <>
@@ -194,24 +229,29 @@ export default function Login() {
         </StyledWord>
         <StyledInputContainer>
           <StyledInput
-            type="text"
-            placeholder="아이디를 입력하세요"
+            type="text" 
+            placeholder="아이디를 입력하세요" 
             value={userid}
-            onChange={handleInputChange}
-          />
-          <StyledClearButton visible={userid !== ''} onClick={handleClearButtonClick}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style={{ transform: 'translateY(3.5px)' }}
-          >
-          <circle cx="12" cy="12" r="10" fill="#f0f0f0" />
-          <line x1="15" y1="9" x2="9" y2="15" />
-          <line x1="9" y1="9" x2="15" y2="15" />
-          </svg>
+            onChange={handleInputChange}/>
+          <StyledClearButton visible={userid !== ''} 
+            onClick = {handleClearButtonClick}> <img src={clearImage} 
+          alt="Clear" style={{ width: '24px', height: '24px' }} />
           </StyledClearButton>
         </StyledInputContainer>
         <StyledWord>
           <p>비밀번호</p>
         </StyledWord>
-        <StyledInput type="text" placeholder="비밀번호를 입력하세요"/>
+        <StyledInput 
+          type={isPasswordVisible ? "text" : "password"} placeholder="비밀번호를 입력하세요"  
+          defaultValue={userpw}
+          onChange={handlePasswordChange}/>
+        <StyledpwButton visible={userpw !== ''} onClick={handlePasswordButtonClick}>
+          <StyledPwIcon
+            src={isPasswordVisible ? openImage : closeImage}
+            alt={isPasswordVisible ? "Show Password" : "Hide Password"}
+            onClick={handlePasswordVisibility}
+          />  
+        </StyledpwButton>
         <StyledSwitchContainer>
           <StyledSwitchLabel>
             <StyledSwitch onClick={handleSwitchClick}>

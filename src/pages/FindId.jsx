@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Image from '../images/sec_charac.png';
+import clearImage from '../images/clear_Icon.png'
+import arrowImage from '../images/arrow-left.png'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -72,7 +74,7 @@ const StyledInput = styled.input`
 const StyledClearButton = styled.div`
   position: absolute;
   right: 15px;
-  top: 50%;
+  top: 56%;
   transform: translateY(-50%);
   cursor: pointer;
   opacity: ${({ visible }) => (visible ? '1' : '0')};
@@ -152,12 +154,9 @@ const FindId = () => {
             value={userid}
             onChange={handleInputChange}
           />
-          <StyledClearButton visible={userid !== ''} onClick={handleClearButtonClick}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style={{ transform: 'translateY(3.5px)' }}>
-              <circle cx="12" cy="12" r="10" fill="#f0f0f0" />
-              <line x1="15" y1="9" x2="9" y2="15" />
-              <line x1="9" y1="9" x2="15" y2="15" />
-            </svg>
+          <StyledClearButton visible={userid !== ''} 
+            onClick = {handleClearButtonClick}> <img src={clearImage} 
+          alt="Clear" style={{ width: '24px', height: '24px' }} />
           </StyledClearButton>
         </StyledInputContainer>
         <StyledWord>
