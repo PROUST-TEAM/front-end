@@ -53,7 +53,7 @@ const StyledLink = styled(Link)`
   }
 
   > button:hover {
-    background-color: black;
+    background-color: transparent;
     color: #6BFF94;
 
     border: 2px solid #6BFF94;
