@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 const CarouselContainer = styled.div`
   max-width: 970px;
   margin: 0 auto;
-  margin-top: 200px;
+  margin-top: 400px;
   margin-bottom: 200px;
 `;
 
@@ -54,14 +54,14 @@ const Card = styled.div`
 
   button {
     white-space: nowrap;
-    background-color: black;
+    background-color: transparent;
     color: white;
     font-family: 'Pretendard_ExtraBold', sans-serif;
-    font-size: 16px;
+    font-size: 20px;
     border: 2px solid white;
     border-radius: 100px;
-    padding: 10px 20px;
-    margin-top: 15px; 
+    padding: 15px 40px;
+    margin-top: 50px; /* 버튼과 이미지 사이 간격 조절 */
     margin: 0 auto;
 
     &:hover {
@@ -75,10 +75,31 @@ const Card = styled.div`
   }
 
   /* 추가된 스타일 */
-  z-index: ${props => (props.isCenter ? 2 : 0)};
+  z-index: ${props => (props.isCenter ? 1 : 0)};
   transform: ${props => (props.isCenter ? 'scale(1.3)' : 'scale(1)')};
   opacity: ${props => (props.isCenter ? 1 : 0.4)};
 `;
+
+const CustomArrow = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+
+  &:hover {
+    color: #6BFF94;
+  }
+`;
+
+const CustomPrevArrow = ({ onClick }) => (
+  <CustomArrow style={{left: "-150px", fontSize: "40px", fontFamily: "Pretendard_Light"}} onClick={onClick}>{"<"}</CustomArrow>
+);
+
+const CustomNextArrow = ({ onClick }) => (
+  <CustomArrow style={{right: "-150px", fontSize: "40px", fontFamily: "Pretendard_Light"}} onClick={onClick}>{">"}</CustomArrow>
+);
 
 export default function FifthPage(){
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -93,6 +114,8 @@ export default function FifthPage(){
     variableWidth: true,
     beforeChange: (current, next) => setCurrentSlide(next),
     centerPadding: '300px',
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
     //initialSlide: 1, // 초기 슬라이드를 중앙 카드로 설정
   };
 
@@ -118,7 +141,7 @@ export default function FifthPage(){
         <Card isCenter={currentSlide === 2}>
           <p>MBTI보러 가자</p>
           <img src={secondSlide} alt="Second Character" />
-          <StyledLink to="/column">
+          <StyledLink to="/mbtiTest">
             <button>MBTI 테스트하러 가기</button>
           </StyledLink>
         </Card>
