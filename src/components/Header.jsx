@@ -81,6 +81,7 @@ const StyledLink = styled(Link)`
   justify-content: center;
   color: inherit;
   white-space: nowrap;
+  margin-left: 20px;
 
   > p {
     text-decoration: none;
@@ -91,6 +92,7 @@ const StyledLink = styled(Link)`
 
   > img {
     margin-left: 5px;
+    margin-bottom: 4px;
     width: 20px;
     height: 20px;
   }
@@ -189,7 +191,9 @@ export default function Header() {
   const isList = location.pathname === "/myList";
   const isColumn = location.pathname === "/column";
   const isLocation = location.pathname === "/location";
-  const isTest = location.pathname === "/mbtiMain";
+  const isTest = location.pathname === "/mbtiTest";
+  const isLogin = location.pathname === "/login";
+  const isMyPage = location.pathname === "/myPage";
 
   const [isSearchPanelVisible, setSearchPanelVisible] = useState(false);
 
@@ -212,6 +216,26 @@ export default function Header() {
     // SearchPanel을 닫고 지정된 경로로 이동합니다.
     closeSearchPanel();
     navigate(path);
+  };
+
+  const [searchText, setSearchText] = useState("");
+
+  const handleInputChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const handleSearchButtonClick = () => {
+    // 검색어가 비어있지 않은 경우에만 링크로 이동
+    if (searchText.trim() !== "") {
+      // 검색 결과 페이지로 이동
+      // 예시로 "/search" 경로를 사용했습니다.
+      // 실제 사용하고자 하는 경로로 변경해주세요.
+      window.location.href = `/search`;
+    } else {
+      // 검색어가 비어있는 경우 다른 페이지로 이동하거나, 필요에 따라 아무 작업도 수행하지 않을 수 있습니다.
+      // 여기서는 예시로 "/other" 경로로 이동하도록 설정했습니다.
+      window.location.href = "/nonSearch";
+    }
   };
 
   return (
@@ -270,8 +294,20 @@ export default function Header() {
           <SearchButton onClick={openSearchPanel}>
             <img src={searchBtnImage} alt="SearchImagee" />
           </SearchButton>
-          <StyledLink to="/login">
-            <p>LOGIN</p>
+          <StyledLink
+            className={`header-nav-item ${isLogin ? "active" : ""}`}
+            to="/login"
+            onClick={() => handleNavLinkClick("/login")}
+          >
+            LOGIN
+            <img src={loginImage} alt="LoginImage" />
+          </StyledLink>
+          <StyledLink
+            className={`header-nav-item ${isMyPage ? "active" : ""}`}
+            to="/myPage"
+            onClick={() => handleNavLinkClick("/myPage")}
+          >
+            MY PAGE
             <img src={loginImage} alt="LoginImage" />
           </StyledLink>
         </HeaderRight>
@@ -283,8 +319,13 @@ export default function Header() {
         <BlurredBackground />
         <img src={topImage} alt="Top Character" />
         <SearchContainer>
-          <Input type="text" placeholder="향수? 나에게 다 물어봐" />
-          <SearchButton>
+          <Input
+            type="text"
+            placeholder="향수? 나에게 다 물어봐"
+            value={searchText}
+            onChange={handleInputChange}
+          />
+          <SearchButton to="#" onClick={handleSearchButtonClick}>
             <img src={searchBtnImage} alt="SearchImg" />
           </SearchButton>
         </SearchContainer>
