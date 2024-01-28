@@ -3,6 +3,7 @@ import styled from "styled-components";
 import entp from "../../images/mbti/entp.png";
 import perfume from "../../images/perfume.png";
 import { Link } from "react-router-dom";
+import datas from "./json/results.json";
 
 const MbtiResultWrap = styled.div``;
 const MbtiResultContent = styled.div`

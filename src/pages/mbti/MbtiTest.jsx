@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import statusImg from "../../images/Shape.png";
 import numberImg from "../../images/Number0.png";
+import datas from "./json/questions.json";
 
 const MbtiTestWrap = styled.div``;
 const MbtiTestTopWrap = styled.div`
