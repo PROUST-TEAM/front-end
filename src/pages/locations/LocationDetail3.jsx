@@ -30,7 +30,7 @@ const Title = styled.div`
 const TopImage = styled.div`
   position: relative;
   top: -120px;
-  left: -230px;
+  left: -120px;
   > img {
     width: 200px;
     height: 161;
@@ -74,7 +74,7 @@ export default function LocationDetail3() {
       <LocationDetailContent>
         <TitleWrap>
           <Title>
-            <span>PERFUME GALLERY</span>
+            <span>DIRECTO</span>
           </Title>
           <TopImage>
             <img src={topImage} alt="Top Character" />
@@ -109,7 +109,7 @@ export default function LocationDetail3() {
           </Description>
           <Map>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d197.74165052977816!2d126.9947095802457!3d37.5346462960255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca24afc074cfd%3A0x5a9988ce6492c8fe!2z7ISc7Jq47Yq567OE7IucIOyaqeyCsOq1rCDsnbTtg5zsm5Drj5kgMTIzLTMy!5e0!3m2!1sko!2skr!4v1705215072058!5m2!1sko!2skr"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3163.557771114337!2d127.05145807533866!3d37.541920625540094!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca491198ac2d3%3A0x394c2d6a8835db5f!2z65SU66CJ7Yag!5e0!3m2!1sko!2skr!4v1706547219030!5m2!1sko!2skr"
               width="1144"
               height="604"
               style={{ border: "0" }}

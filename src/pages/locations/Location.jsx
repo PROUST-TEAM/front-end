@@ -202,9 +202,9 @@ export default function Location() {
                     강남구
                   </p>
                   <p style={{ fontSize: "25px", color: "#6BFF94" }}>
-                    SSENSEFRAGRANCE
+                    SSENSE FRAGRANCE
                     <span style={{ fontSize: "25px", color: "#EDEDED" }}>
-                      (퍼퓸 갤러리)
+                      (쎈스 프레그런스)
                     </span>
                   </p>
                   <p
