@@ -73,7 +73,6 @@ export default function Comment() {
 
   const PostComment = () => {
     if (newComment.trim() !== "") {
-      //setComments([newComment, ...comments]);
       setComments([...comments, newComment]);
       console.log(comments);
       setNewComment("");
