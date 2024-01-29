@@ -3,7 +3,10 @@ import Header from "./components/Header";
 import Column from "./pages/Column";
 import Home from "./pages/Home";
 import Location from "./pages/locations/Location";
-import LocationDetail from "./pages/locations/LocationDetail";
+import LocationDetail1 from "./pages/locations/LocationDetail1";
+import LocationDetail2 from "./pages/locations/LocationDetail2";
+import LocationDetail3 from "./pages/locations/LocationDetail3";
+import LocationDetail4 from "./pages/locations/LocationDetail4";
 import Login from "./pages/Login";
 import MbtiMain from "./pages/mbti/MbtiMain";
 import MbtiResult from "./pages/mbti/MbtiResult";
@@ -26,7 +29,10 @@ function App() {
           <Route path="/detail" element={<MyPerfumeDetail />} />
           <Route path="/column" element={<Column />} />
           <Route path="/location" element={<Location />} />
-          <Route path="/locationDetail" element={<LocationDetail />} />
+          <Route path="/locationDetail1" element={<LocationDetail1 />} />
+          <Route path="/locationDetail2" element={<LocationDetail2 />} />
+          <Route path="/locationDetail3" element={<LocationDetail3 />} />
+          <Route path="/locationDetail4" element={<LocationDetail4 />} />
           <Route path="/mbtiMain" element={<MbtiMain />} />
           <Route path="/mbtiTest" element={<MbtiTest />} />
           <Route path="/mbtiResult" element={<MbtiResult />} />

@@ -77,7 +77,7 @@ export default function Location() {
 
         <LocationList>
           <GalleryWrap1>
-            <Link to="/locationdetail" style={linkStyle}>
+            <Link to="/locationdetail1" style={linkStyle}>
               <Gallery1>
                 <div>
                   <p
@@ -113,7 +113,7 @@ export default function Location() {
                 <img src={gallery} alt="Top Character" />
               </Gallery1>
             </Link>
-            <Link to="/location1" style={linkStyle}>
+            <Link to="/locationdetail2" style={linkStyle}>
               <Gallery1>
                 <div>
                   <p
@@ -153,72 +153,78 @@ export default function Location() {
           </GalleryWrap1>
 
           <GalleryWrap2>
-            <Gallery2>
-              <div>
-                <p
-                  style={{
-                    fontSize: "25px",
-                    color: "#EDEDED",
-                    marginBottom: "5px",
-                  }}
-                >
-                  이태원
-                </p>
-                <p style={{ fontSize: "25px", color: "#6BFF94" }}>
-                  Perfume Gallery
-                  <span style={{ fontSize: "25px", color: "#EDEDED" }}>
-                    (퍼퓸 갤러리)
-                  </span>
-                </p>
-                <p
-                  style={{
-                    fontSize: "13px",
-                    color: "#F3F3F3",
-                    fontFamily: "Pretendard_Medium",
-                    marginBottom: "22px",
-                    marginTop: "10px",
-                  }}
-                >
-                  리퀴드 이메지네르, 아틀리에 데조, 아무아쥬, 몽탈, 만세라,
-                  카잘, <br />
-                  마쥬리, 랑세, 클라이브 크리스찬 외 해외 향수 브랜드 다수 입점
-                </p>
-              </div>
-              <img src={gallery} alt="Top Character" />
-            </Gallery2>
-            <Gallery2>
-              <div>
-                <p
-                  style={{
-                    fontSize: "25px",
-                    color: "#EDEDED",
-                    marginBottom: "5px",
-                  }}
-                >
-                  이태원
-                </p>
-                <p style={{ fontSize: "25px", color: "#6BFF94" }}>
-                  Perfume Gallery
-                  <span style={{ fontSize: "25px", color: "#EDEDED" }}>
-                    (퍼퓸 갤러리)
-                  </span>
-                </p>
-                <p
-                  style={{
-                    fontSize: "13px",
-                    color: "#F3F3F3",
-                    fontFamily: "Pretendard_Medium",
-                    marginBottom: "22px",
-                    marginTop: "10px",
-                  }}
-                >
-                  리퀴드 이메지네르, 아틀리에 데조, 아무아쥬, 몽탈, 만세라,
-                  카잘, <br />
-                  마쥬리, 랑세, 클라이브 크리스찬 외 해외 향수 브랜드 다수 입점
-                </p>
-              </div>
-              <img src={gallery2} alt="Top Character" />
-            </Gallery2>
+            <Link to="/locationdetail3" style={linkStyle}>
+              <Gallery2>
+                <div>
+                  <p
+                    style={{
+                      fontSize: "25px",
+                      color: "#EDEDED",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    이태원
+                  </p>
+                  <p style={{ fontSize: "25px", color: "#6BFF94" }}>
+                    Perfume Gallery
+                    <span style={{ fontSize: "25px", color: "#EDEDED" }}>
+                      (퍼퓸 갤러리)
+                    </span>
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      color: "#F3F3F3",
+                      fontFamily: "Pretendard_Medium",
+                      marginBottom: "22px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    리퀴드 이메지네르, 아틀리에 데조, 아무아쥬, 몽탈, 만세라,
+                    카잘, <br />
+                    마쥬리, 랑세, 클라이브 크리스찬 외 해외 향수 브랜드 다수
+                    입점
+                  </p>
+                </div>
+                <img src={gallery} alt="Top Character" />
+              </Gallery2>
+            </Link>
+            <Link to="/locationdetail4" style={linkStyle}>
+              <Gallery2>
+                <div>
+                  <p
+                    style={{
+                      fontSize: "25px",
+                      color: "#EDEDED",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    이태원
+                  </p>
+                  <p style={{ fontSize: "25px", color: "#6BFF94" }}>
+                    Perfume Gallery
+                    <span style={{ fontSize: "25px", color: "#EDEDED" }}>
+                      (퍼퓸 갤러리)
+                    </span>
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      color: "#F3F3F3",
+                      fontFamily: "Pretendard_Medium",
+                      marginBottom: "22px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    리퀴드 이메지네르, 아틀리에 데조, 아무아쥬, 몽탈, 만세라,
+                    카잘, <br />
+                    마쥬리, 랑세, 클라이브 크리스찬 외 해외 향수 브랜드 다수
+                    입점
+                  </p>
+                </div>
+                <img src={gallery2} alt="Top Character" />
+              </Gallery2>
+            </Link>
           </GalleryWrap2>
         </LocationList>
       </LocationContent>
