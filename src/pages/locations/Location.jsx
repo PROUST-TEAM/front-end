@@ -2,8 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import topImage from "../../images/top_charac.png";
-import gallery from "../../images/perfume_gallery.png";
-import gallery2 from "../../images/perfume_gallery2.png";
+import location1 from "../../images/location/perfumegraphy.png";
+import location2 from "../../images/location/masion.jpg";
+import location3 from "../../images/location/directo.png";
+import location4 from "../../images/location/ssenfragrance.jpg";
 
 const LocationWrap = styled.div`
   display: flex;
@@ -47,9 +49,17 @@ const LocationList = styled.div`
 `;
 const GalleryWrap1 = styled.div`
   margin-top: -270px;
+  img {
+    width: 468px;
+    height: 313px;
+  }
 `;
 const GalleryWrap2 = styled.div`
   margin-top: -50px;
+  img {
+    width: 468px;
+    height: 313px;
+  }
 `;
 const Gallery1 = styled.div`
   margin-bottom: 100px;
@@ -110,7 +120,7 @@ export default function Location() {
                     입점
                   </p>
                 </div>
-                <img src={gallery} alt="Top Character" />
+                <img src={location1} alt="location" />
               </Gallery1>
             </Link>
             <Link to="/locationdetail2" style={linkStyle}>
@@ -147,7 +157,7 @@ export default function Location() {
                   </p>
                 </div>
 
-                <img src={gallery2} alt="Top Character" />
+                <img src={location2} alt="location" />
               </Gallery1>
             </Link>
           </GalleryWrap1>
@@ -186,7 +196,7 @@ export default function Location() {
                     입점
                   </p>
                 </div>
-                <img src={gallery} alt="Top Character" />
+                <img src={location3} alt="location" />
               </Gallery2>
             </Link>
             <Link to="/locationdetail4" style={linkStyle}>
@@ -222,7 +232,7 @@ export default function Location() {
                     입점
                   </p>
                 </div>
-                <img src={gallery2} alt="Top Character" />
+                <img src={location4} alt="location" />
               </Gallery2>
             </Link>
           </GalleryWrap2>

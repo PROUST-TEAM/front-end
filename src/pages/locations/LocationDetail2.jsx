@@ -89,7 +89,7 @@ export default function LocationDetail2() {
               <p>영업시간</p>
             </div>
             <div style={{ fontFamily: "Pretendard_Bold" }}>
-              <p style={linkStyle}>서울특별시 강남구 압구정로18길 31 5층</p>
+              <p style={linkStyle}>서울특별시 강남구 압구정로 18길 31 5층</p>
               <p style={linkStyle}>070-4158-1205</p>
               <p style={linkStyle}>
                 매일 오전 12:00 ~ 오후 20:00 (월,일요일 정기 휴무)
