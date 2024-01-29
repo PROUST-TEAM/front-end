@@ -65,9 +65,10 @@ const Description = styled.div`
     font-family: Pretendard_SemiBold;
     line-height: 1.5;
   }
+  width: 649px;
 `;
 const Map = styled.div``;
-export default function LocationDetail() {
+export default function LocationDetail3() {
   return (
     <LocationDetailWrap>
       <LocationDetailContent>
@@ -88,27 +89,22 @@ export default function LocationDetail() {
               <p>영업시간</p>
             </div>
             <div style={{ fontFamily: "Pretendard_Bold" }}>
-              <p style={linkStyle}>서울특별시 용산구 이태원로 187 1층 2호</p>
-              <p style={linkStyle}>02-793-3439</p>
-              <p style={linkStyle}>일~목 10:30 ~ 22:00</p>
+              <p style={linkStyle}>서울 서초구 방배로42길 35 204호</p>
+              <p style={linkStyle}>02-3442-3163</p>
+              <p style={linkStyle}>
+                평일 10:00 ~ 18:00 (11:00 ~ 13:00 휴게시간) 주말 휴무
+              </p>
             </div>
           </Info>
           <Description>
             <p>
-              이번 단독 플래그쉽 스토어 오픈은 퍼퓸 갤러리의 마스터피스와 같은
-              퍼퓸 브랜드를
-              <br />
-              더욱 가까이 선보이는 장소로 시대를 초월한 클래식한 영국의 니치
-              퍼퓸부터 프랑스
-              <br />
-              황실의 메종 퍼퓸, 모던 빈티지한 파리 니치 퍼퓸까지 그동안 소수의
-              콜렉터들에서만
-              <br />
-              향유되고 다양한 30여개의 니치 퍼퓸 브랜드들 뿐 아니라 지속적으로
-              새로운 니치
-              <br />
-              퍼퓸을 발굴해 첫선을 보이는 익스클루시브한 매장으로 다가갈
-              계획이다.
+              라틴어 단어 DIRECTO에서 따온 [디렉토] 디렉토는 관세 부가세
+              해외배송비에 대한 부담없이, 현지 소비자가로 본사 제품을 직접 받을
+              수 있는 ‘니치브랜드’ 쇼핑몰을 목표로 시작되었습니다. 브랜드에서
+              자체적으로 메종드파팡보다 조금 더 윗단계의 향수를 다루는 장소로
+              ‘자유로운 시향’의 장점을 가지고 있어서 편하게 시향 할 수는
+              있습니다. 또한 브랜드에서 집까지 다이렉트로 제품이 배송되는 만큼
+              안심하고 주문하실 수 있는 쇼핑 환경을 제공하고 있습니다.
             </p>
           </Description>
           <Map>

@@ -65,9 +65,10 @@ const Description = styled.div`
     font-family: Pretendard_SemiBold;
     line-height: 1.5;
   }
+  width: 649px;
 `;
 const Map = styled.div``;
-export default function LocationDetail() {
+export default function LocationDetail1() {
   return (
     <LocationDetailWrap>
       <LocationDetailContent>
@@ -88,27 +89,22 @@ export default function LocationDetail() {
               <p>영업시간</p>
             </div>
             <div style={{ fontFamily: "Pretendard_Bold" }}>
-              <p style={linkStyle}>서울특별시 용산구 이태원로 187 1층 2호</p>
-              <p style={linkStyle}>02-793-3439</p>
-              <p style={linkStyle}>일~목 10:30 ~ 22:00</p>
+              <p style={linkStyle}>
+                서울특별시 종로구 대학로10길 15-15 (동숭동) 해안빌딩 2층
+                퍼퓸그라피
+              </p>
+              <p style={linkStyle}>070-4166-9121</p>
+              <p style={linkStyle}>매일 12:00 ~ 20:30 (월요일 정기 휴무)</p>
             </div>
           </Info>
           <Description>
             <p>
-              이번 단독 플래그쉽 스토어 오픈은 퍼퓸 갤러리의 마스터피스와 같은
-              퍼퓸 브랜드를
-              <br />
-              더욱 가까이 선보이는 장소로 시대를 초월한 클래식한 영국의 니치
-              퍼퓸부터 프랑스
-              <br />
-              황실의 메종 퍼퓸, 모던 빈티지한 파리 니치 퍼퓸까지 그동안 소수의
-              콜렉터들에서만
-              <br />
-              향유되고 다양한 30여개의 니치 퍼퓸 브랜드들 뿐 아니라 지속적으로
-              새로운 니치
-              <br />
-              퍼퓸을 발굴해 첫선을 보이는 익스클루시브한 매장으로 다가갈
-              계획이다.
+              이리 저리 향수 매장을 다니며 눈치 보느라 하나하나 제대로 시향도
+              못하고 힘들게 발품팔아 향수를 시향하던 경험이 있으셨나요? 그
+              불편한 경험을 해결하기 위해 퍼퓸그라피는 누구의 눈치도 보지 않고
+              편하게 시향할 수 있는 공간을 만들었습니다. 퍼퓸그라피의 오프라인
+              공간에 방문하여 모든 제품들을 자유롭게 시향하고 직원들의 전문적인
+              맞춤 추천서비스도 받아보세요.
             </p>
           </Description>
           <Map>

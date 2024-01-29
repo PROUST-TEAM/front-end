@@ -77,7 +77,7 @@ export default function Location() {
 
         <LocationList>
           <GalleryWrap1>
-            <Link to="/locationdetail1" style={linkStyle}>
+            <Link to="/locationDetail1" style={linkStyle}>
               <Gallery1>
                 <div>
                   <p
@@ -87,12 +87,12 @@ export default function Location() {
                       marginBottom: "5px",
                     }}
                   >
-                    이태원
+                    종로구
                   </p>
                   <p style={{ fontSize: "25px", color: "#6BFF94" }}>
-                    Perfume Gallery
+                    PERFUME GRAPHY
                     <span style={{ fontSize: "25px", color: "#EDEDED" }}>
-                      (퍼퓸 갤러리)
+                      (퍼퓸 그라피)
                     </span>
                   </p>
                   <p
@@ -123,12 +123,12 @@ export default function Location() {
                       marginBottom: "5px",
                     }}
                   >
-                    이태원
+                    강남구
                   </p>
                   <p style={{ fontSize: "25px", color: "#6BFF94" }}>
-                    Perfume Gallery
+                    MASION DE PARFUM
                     <span style={{ fontSize: "25px", color: "#EDEDED" }}>
-                      (퍼퓸 갤러리)
+                      (메종 드 파팡)
                     </span>
                   </p>
                   <p
@@ -163,12 +163,12 @@ export default function Location() {
                       marginBottom: "5px",
                     }}
                   >
-                    이태원
+                    서초구
                   </p>
                   <p style={{ fontSize: "25px", color: "#6BFF94" }}>
-                    Perfume Gallery
+                    DIRECTO
                     <span style={{ fontSize: "25px", color: "#EDEDED" }}>
-                      (퍼퓸 갤러리)
+                      (디렉토)
                     </span>
                   </p>
                   <p
@@ -199,10 +199,10 @@ export default function Location() {
                       marginBottom: "5px",
                     }}
                   >
-                    이태원
+                    강남구
                   </p>
                   <p style={{ fontSize: "25px", color: "#6BFF94" }}>
-                    Perfume Gallery
+                    SSENSEFRAGRANCE
                     <span style={{ fontSize: "25px", color: "#EDEDED" }}>
                       (퍼퓸 갤러리)
                     </span>
