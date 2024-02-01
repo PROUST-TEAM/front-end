@@ -13,10 +13,10 @@ import MbtiResult from "./pages/mbti/MbtiResult";
 import MbtiTest from "./pages/mbti/MbtiTest";
 import MyList from "./pages/perfume/MyList";
 import MyPerfumeDetail from "./pages/perfume/PerfumeDetail";
-import Search from "./pages/Search/Search";
-import NonSearch from "./pages/Search/NonSearch";
-import FindPassword from './pages/FindPassword';
-import Join from './pages/Join';
+import Search from "./pages/search/Search";
+import NonSearch from "./pages/search/NonSearch";
+import FindPassword from "./pages/FindPassword";
+import Join from "./pages/Join";
 import MyPage from "./pages/MyPage";
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
           <Route path="/find-pw" element={<FindPassword />} />
           <Route path="/join" element={<Join />} />
           <Route path="/myPage" element={<MyPage />} />
-          </Routes>
+        </Routes>
       </BrowserRouter>
     </div>
   );

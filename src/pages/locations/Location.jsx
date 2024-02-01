@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import topImage from "../../images/top_charac.png";
 import location1 from "../../images/location/perfumegraphy.png";
 import location2 from "../../images/location/masion.jpg";
-import location3 from "../../images/location/directo.png";
+import location3 from "../../images/location/directo.jpg";
 import location4 from "../../images/location/ssenfragrance.jpg";
 
 const LocationWrap = styled.div`
@@ -105,6 +105,7 @@ export default function Location() {
                       (퍼퓸 그라피)
                     </span>
                   </p>
+
                   <p
                     style={{
                       fontSize: "13px",
@@ -112,11 +113,11 @@ export default function Location() {
                       fontFamily: "Pretendard_Medium",
                       marginBottom: "22px",
                       marginTop: "10px",
+                      width: "350px",
                     }}
                   >
-                    리퀴드 이메지네르, 아틀리에 데조, 아무아쥬, 몽탈, 만세라,
-                    카잘, <br />
-                    마쥬리, 랑세, 클라이브 크리스찬 외 해외 향수 브랜드 다수
+                    톰포드, 메종 프란시스 커졍, 랑방, 디올, 세르주루텐, 크리드
+                    어벤투스, 킬리안, 지미추, 안나수이 외 해외 향수 브랜드 다수
                     입점
                   </p>
                 </div>
@@ -148,12 +149,12 @@ export default function Location() {
                       fontFamily: "Pretendard_Medium",
                       marginBottom: "22px",
                       marginTop: "10px",
+                      width: "350px",
                     }}
                   >
-                    리퀴드 이메지네르, 아틀리에 데조, 아무아쥬, 몽탈, 만세라,
-                    카잘, <br />
-                    마쥬리, 랑세, 클라이브 크리스찬 외 해외 향수 브랜드 다수
-                    입점
+                    힐리, 아크로, 아스티에 드 빌라드, 에따 리브르 도랑주, 레 방
+                    게르부아, 레 퍼퓸 드 로진느, 더 아이 앤드 더 노즈, 실밴느
+                    드라꾸뜨 등 입점
                   </p>
                 </div>
 
@@ -188,12 +189,12 @@ export default function Location() {
                       fontFamily: "Pretendard_Medium",
                       marginBottom: "22px",
                       marginTop: "10px",
+                      width: "350px",
                     }}
                   >
-                    리퀴드 이메지네르, 아틀리에 데조, 아무아쥬, 몽탈, 만세라,
-                    카잘, <br />
-                    마쥬리, 랑세, 클라이브 크리스찬 외 해외 향수 브랜드 다수
-                    입점
+                    닐라베르메르, 스테이트오브마인드, TDC, 올팩티브스튜디오,
+                    인스티튜드 트레비앙, 리퀴드 이매지너리, 블러디우드, 블루보틀
+                    등 입점
                   </p>
                 </div>
                 <img src={location3} alt="location" />
@@ -224,12 +225,12 @@ export default function Location() {
                       fontFamily: "Pretendard_Medium",
                       marginBottom: "22px",
                       marginTop: "10px",
+                      width: "400px",
                     }}
                   >
-                    리퀴드 이메지네르, 아틀리에 데조, 아무아쥬, 몽탈, 만세라,
-                    카잘, <br />
-                    마쥬리, 랑세, 클라이브 크리스찬 외 해외 향수 브랜드 다수
-                    입점
+                    이스뜨와 드 퍼퓸, 4160 튜즈데이즈, 아이젠버그, 미르코
+                    부피니, 아쿠아 델 알바, 메종 사이브라이트, 라몬 모네갈, 요지
+                    야마모토, 키에린 뉴욕 등 입점
                   </p>
                 </div>
                 <img src={location4} alt="location" />
