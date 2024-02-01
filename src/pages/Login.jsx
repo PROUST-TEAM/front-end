@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import topImage from '../images/top_charac.png'
 import clearImage from '../images/clear_Icon.png'
 import openImage from '../images/Login-Icons.png'
 import closeImage from '../images/EyeClosed.png'
-import pointImage from '../images/icon.png'
+import pointImage from '../images/point.png'
+import googleImage from '../images/google.png'
+import kakaoImage from '../images/kakao.png'
+import naverImage from '../images/naver.png'
+import GoogleLogin from 'react-google-login';
+import KakaoLogin from 'react-kakao-login';
+import NaverLogin from 'react-naver-login';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -36,11 +42,11 @@ const StyledContent = styled.div`
 `;
 
 const StyledWord = styled.div`
-margin-right: 350px;
-font-size: 17px;
-font-family: Pretendard_ExtraBold;
-margin-top: 15px;
-text-align: left;
+  margin-right: 350px;
+  font-size: 17px;
+  font-family: Pretendard_ExtraBold;
+  margin-top: 15px;
+  text-align: left;
 `;
 
 const StyledInputContainer = styled.div`
@@ -64,13 +70,12 @@ const StyledInput = styled.input`
 
 const StyledClearButton = styled.div`
   position: absolute;
-  right: 40px;
+  right: 47px;
   top: 57%;
   transform: translateY(-50%);
   cursor: pointer;
   opacity: ${({ visible }) => (visible ? '1' : '0')};
   transition: opacity 0.3s ease-in-out;
-  pointer-events: ${({ visible }) => (visible ? 'auto' : 'none')};
 `;
 
 const StyledSwitchContainer = styled.div`
@@ -132,7 +137,7 @@ const StyledButton = styled.button`
 const StyledButtonContainer = styled.div`
   display: flex;
   margin-top: 5px;
-  margin-left: -20px;
+  margin-left: -30px;
   margin-bottom: 10px;
 `;
 
@@ -182,14 +187,47 @@ const StyledPwIcon = styled.img`
   margin-top: 65px;
 `;
 
+const NaverLoginButton = () => {
+  const handleNaverLogin = (response) => {
+    console.log(response);
+  };
+
+  return (
+    <NaverLogin
+      clientId="9ur7a1HEB07xc5dow0Ev"
+      callbackUrl="http://localhost:3000/login#"
+      render={(props) => (
+        <button onClick={props.onClick}>
+          네이버로 로그인
+        </button>
+      )}
+      onSuccess={handleNaverLogin}
+      onFailure={(error) => console.error(error)}
+    />
+  );
+};
+
 export default function Login() {
   const [isClicked, setIsClicked] = useState(false);
   const [userid, setUserid] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
   const [userpw, setPassword] = useState('');
 
+  useEffect(() => {
+    const storedPassword = localStorage.getItem('savedPassword');
+    if (storedPassword) {
+      setPassword(storedPassword);
+    }
+  }, []);
+
   const handleSwitchClick = () => {
     setIsClicked(!isClicked);
+
+    if (!isClicked) {
+      localStorage.setItem('savedPassword', userpw);
+    } else {
+      localStorage.removeItem('savedPassword');
+    }
   };
 
   const handleInputChange = (event) => {
@@ -210,7 +248,40 @@ export default function Login() {
 
   const handlePasswordButtonClick = () => {
     setPassword('');
-  }; 
+  };
+
+  const handleLogin = () => {
+    if (!userid) {
+      document.getElementById("username-input").placeholder = "*아이디를 입력하세요!";
+    }
+    if (!userpw) {
+      document.getElementById("password-input").placeholder = "*비밀번호를 입력하세요!";
+    }
+  
+    if (isClicked) {
+      setUserid(''); 
+      const storedPassword = localStorage.getItem('savedPassword');
+      if (storedPassword) {
+        setPassword(storedPassword);
+      }
+    }
+  };
+
+  const handleGoogleLoginSuccess = (response) => {
+    console.log('Google Login Success', response);
+  };
+  
+  const handleGoogleLoginFailure = (error) => {
+    console.error('Google Login Failure', error);
+  };
+
+  const handleKakaoLoginSuccess = (response) => {
+    console.log('Kakao Login Success', response);
+  };
+
+  const handleKakaoLoginFailure = (error) => {
+    console.error('Kakao Login Failure', error);
+  };
 
   return (
     <>
@@ -225,14 +296,16 @@ export default function Login() {
       </StyledContainer>
       <StyledContent>
         <StyledWord>
-          <p>아이디</p>
+          <p>아이디&nbsp;&nbsp;&nbsp;</p>
         </StyledWord>
         <StyledInputContainer>
           <StyledInput
+            id="username-input"
             type="text" 
             placeholder="아이디를 입력하세요" 
             value={userid}
-            onChange={handleInputChange}/>
+            onChange={handleInputChange}
+            />
           <StyledClearButton visible={userid !== ''} 
             onClick = {handleClearButtonClick}> <img src={clearImage} 
           alt="Clear" style={{ width: '24px', height: '24px' }} />
@@ -242,6 +315,7 @@ export default function Login() {
           <p>비밀번호</p>
         </StyledWord>
         <StyledInput 
+          id="password-input"
           type={isPasswordVisible ? "text" : "password"} placeholder="비밀번호를 입력하세요"  
           defaultValue={userpw}
           onChange={handlePasswordChange}/>
@@ -260,10 +334,8 @@ export default function Login() {
             <StyledSwitchSpan>비밀번호 기억하기</StyledSwitchSpan>
           </StyledSwitchLabel>
         </StyledSwitchContainer>
-        <StyledButton>로그인</StyledButton>
+        <StyledButton onClick={handleLogin}>로그인</StyledButton>
         <StyledButtonContainer>
-          <StyledTextButton to="/find-id">아이디 찾기</StyledTextButton>
-          <StyledTextButton>|</StyledTextButton>
           <StyledTextButton to="/find-pw">비밀번호 찾기</StyledTextButton>
           <StyledTextButton>|</StyledTextButton>
           <StyledTextButton to="/join">회원가입 하기</StyledTextButton>
@@ -273,7 +345,26 @@ export default function Login() {
           <StyledText>또는</StyledText>
           <StyledText>──────────────</StyledText>
         </StyledFooter>
-      </StyledContent>
+        <GoogleLogin
+          clientId="275366161123-it85kl8s9rsulusbbtsk7icfc09n0hba.apps.googleusercontent.com"
+          buttonText="Google로 로그인"
+          onSuccess={handleGoogleLoginSuccess}
+          onFailure={handleGoogleLoginFailure}
+          cookiePolicy={'single_host_origin'}
+    />
+     <KakaoLogin
+        token="c8afde081c9636adc2e72393245455b2"
+        onSuccess={handleKakaoLoginSuccess}
+        onFail={handleKakaoLoginFailure}
+        onLogout={() => console.log('Kakao Logout')}
+        render={(props) => (
+          <button onClick={props.onClick}>
+            카카오로 로그인
+          </button>
+        )}
+      />
+      <NaverLoginButton /> 
+  </StyledContent>
     </>
   );
-}
+} 

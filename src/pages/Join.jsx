@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Image from '../images/third_charac.png';
+import clearImage from '../images/clear_Icon.png'
+import arrowImage from '../images/arrow-left.png'
 import { Link } from 'react-router-dom';
 
 const StyledContainer = styled.div`
@@ -127,7 +129,7 @@ const Join = () => {
           <StyledLoginLink to="/login"> 로그인</StyledLoginLink>
         </StyledExplain>
         <StyledWord>
-          <p>아이디</p>
+          <p>아이디&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
         </StyledWord>
         <StyledInputContainer>
           <StyledInput
@@ -138,7 +140,7 @@ const Join = () => {
           />
         </StyledInputContainer>
         <StyledWord>
-          <p>비밀번호</p>
+          <p>비밀번호&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
         </StyledWord>
         <StyledInputContainer>
           <StyledInput

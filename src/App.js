@@ -1,18 +1,23 @@
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Column from "./pages/Column";
 import Home from "./pages/Home";
-import Location from "./pages/Location/Location";
-import LocationDetail from "./pages/Location/LocationDetail";
+import Location from "./pages/locations/Location";
+import LocationDetail1 from "./pages/locations/LocationDetail1";
+import LocationDetail2 from "./pages/locations/LocationDetail2";
+import LocationDetail3 from "./pages/locations/LocationDetail3";
+import LocationDetail4 from "./pages/locations/LocationDetail4";
 import Login from "./pages/Login";
-import MbtiTest from "./pages/MbtiTest";
+import MbtiMain from "./pages/mbti/MbtiMain";
+import MbtiResult from "./pages/mbti/MbtiResult";
+import MbtiTest from "./pages/mbti/MbtiTest";
 import MyList from "./pages/perfume/MyList";
 import MyPerfumeDetail from "./pages/perfume/PerfumeDetail";
 import Search from "./pages/Search/Search";
 import NonSearch from "./pages/Search/NonSearch";
-import FindId from "./pages/FindId";
 import FindPassword from './pages/FindPassword';
 import Join from './pages/Join';
+import MyPage from "./pages/MyPage";
 
 function App() {
   return (
@@ -26,15 +31,20 @@ function App() {
           <Route path="/detail" element={<MyPerfumeDetail />} />
           <Route path="/column" element={<Column />} />
           <Route path="/location" element={<Location />} />
-          <Route path="/locationDetail" element={<LocationDetail />} />
+          <Route path="/locationDetail1" element={<LocationDetail1 />} />
+          <Route path="/locationDetail2" element={<LocationDetail2 />} />
+          <Route path="/locationDetail3" element={<LocationDetail3 />} />
+          <Route path="/locationDetail4" element={<LocationDetail4 />} />
+          <Route path="/mbtiMain" element={<MbtiMain />} />
           <Route path="/mbtiTest" element={<MbtiTest />} />
+          <Route path="/mbtiResult" element={<MbtiResult />} />
           <Route path="/login" element={<Login />} />
           <Route path="/search" element={<Search />} />
           <Route path="/nonSearch" element={<NonSearch />} />
-          <Route path="/find-id" element={<FindId />} />
           <Route path="/find-pw" element={<FindPassword />} />
           <Route path="/join" element={<Join />} />
-        </Routes>
+          <Route path="/myPage" element={<MyPage />} />
+          </Routes>
       </BrowserRouter>
     </div>
   );
