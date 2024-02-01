@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 import topImage from "../../images/top_charac.png";
 import searchImage from "../../images/search_img.png";
-import { Link } from 'react-router-dom';
+import { Link } from 'react-scroll';
 
-const MainContainer = styled.div`
+const MainContainer = styled.article`
+  position: sticky;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -122,7 +124,11 @@ export const SearchButton = styled(Link)`
   text-decoration: none;  // 링크에 기본 스타일 제거
 `;
 
+
+
 export default function MainPage() {
+  // 검색어가 있는 경우 vs 없는 경우 나눠서 구현
+  // API 연결 후에 변경될 예정
   const [searchText, setSearchText] = useState('');
 
   const handleInputChange = (e) => {
@@ -130,15 +136,9 @@ export default function MainPage() {
   };
 
   const handleSearchButtonClick = () => {
-    // 검색어가 비어있지 않은 경우에만 링크로 이동
     if (searchText.trim() !== '') {
-      // 검색 결과 페이지로 이동
-      // 예시로 "/search" 경로를 사용했습니다.
-      // 실제 사용하고자 하는 경로로 변경해주세요.
       window.location.href = `/search`;
     } else {
-      // 검색어가 비어있는 경우 다른 페이지로 이동하거나, 필요에 따라 아무 작업도 수행하지 않을 수 있습니다.
-      // 여기서는 예시로 "/other" 경로로 이동하도록 설정했습니다.
       window.location.href = '/nonSearch';
     }
   };
