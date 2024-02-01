@@ -30,7 +30,7 @@ const Title = styled.div`
 const TopImage = styled.div`
   position: relative;
   top: -120px;
-  left: -230px;
+  left: -210px;
   > img {
     width: 200px;
     height: 161;
@@ -65,15 +65,16 @@ const Description = styled.div`
     font-family: Pretendard_SemiBold;
     line-height: 1.5;
   }
+  width: 649px;
 `;
 const Map = styled.div``;
-export default function LocationDetail() {
+export default function LocationDetail2() {
   return (
     <LocationDetailWrap>
       <LocationDetailContent>
         <TitleWrap>
           <Title>
-            <span>PERFUME GALLERY</span>
+            <span>MASION DE PARFUM</span>
           </Title>
           <TopImage>
             <img src={topImage} alt="Top Character" />
@@ -88,32 +89,26 @@ export default function LocationDetail() {
               <p>영업시간</p>
             </div>
             <div style={{ fontFamily: "Pretendard_Bold" }}>
-              <p style={linkStyle}>서울특별시 용산구 이태원로 187 1층 2호</p>
-              <p style={linkStyle}>02-793-3439</p>
-              <p style={linkStyle}>일~목 10:30 ~ 22:00</p>
+              <p style={linkStyle}>서울특별시 강남구 압구정로 18길 31 5층</p>
+              <p style={linkStyle}>070-4158-1205</p>
+              <p style={linkStyle}>
+                매일 오전 12:00 ~ 오후 20:00 (월,일요일 정기 휴무)
+              </p>
             </div>
           </Info>
           <Description>
             <p>
-              이번 단독 플래그쉽 스토어 오픈은 퍼퓸 갤러리의 마스터피스와 같은
-              퍼퓸 브랜드를
-              <br />
-              더욱 가까이 선보이는 장소로 시대를 초월한 클래식한 영국의 니치
-              퍼퓸부터 프랑스
-              <br />
-              황실의 메종 퍼퓸, 모던 빈티지한 파리 니치 퍼퓸까지 그동안 소수의
-              콜렉터들에서만
-              <br />
-              향유되고 다양한 30여개의 니치 퍼퓸 브랜드들 뿐 아니라 지속적으로
-              새로운 니치
-              <br />
-              퍼퓸을 발굴해 첫선을 보이는 익스클루시브한 매장으로 다가갈
-              계획이다.
+              2013년에 문을 연 메종 드 파팡의 가로수길 매장은 최고의 향수만을
+              엄선하여 소개하는 국내 유일의 독립 퍼퓸 전문 매장입니다. 메종 드
+              파팡의 퍼퓸 셀렉션은 다양한 향조, 노트, 스토리를 가진 수백여
+              가지의 아름답고 독특한 향수로 구성되어 있으며, 이와 함께 향에 대한
+              이해와 전문적인 지식을 바탕으로 본인의 향을 찾고자 하는 분들에게
+              최적의 가이드를 제공하고자 합니다.
             </p>
           </Description>
           <Map>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d197.74165052977816!2d126.9947095802457!3d37.5346462960255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca24afc074cfd%3A0x5a9988ce6492c8fe!2z7ISc7Jq47Yq567OE7IucIOyaqeyCsOq1rCDsnbTtg5zsm5Drj5kgMTIzLTMy!5e0!3m2!1sko!2skr!4v1705215072058!5m2!1sko!2skr"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3164.359606519921!2d127.02299227533778!3d37.523019526623074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca3ec9c19b1ad%3A0x4c93cb4cc08f53f3!2z66mU7KKFIOuTnCDtjIztjKE!5e0!3m2!1sko!2skr!4v1706547162711!5m2!1sko!2skr"
               width="1144"
               height="604"
               style={{ border: "0" }}
