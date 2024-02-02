@@ -8,7 +8,7 @@ const CharacterContainer = styled.div`
     display: flex;
     flex-direction: column;
     text-align: center; // 텍스트 가운데 정렬
-    margin-top: 50px;
+    margin-top: 20px;
 `;
 
 const MainTitle = styled.div`
@@ -35,7 +35,7 @@ const CharacterList = styled.div`
     display: flex;
     justify-content: center;
     text-align: center;
-    margin-top: 23px;
+    margin-top: 10px;
 `;
 
 const Character1 = styled.div`
@@ -56,8 +56,8 @@ const Character1 = styled.div`
     >img{
         width: 288px;
         height: 461px;
-        margin-top: 42px;
-        margin-bottom: 57px;
+        margin-top: 20px;
+        margin-bottom: 30px;
     }
 `;
 
@@ -72,15 +72,6 @@ const Name = styled.div`
     border-radius: 100px;
     padding: 15px 40px;
     margin: auto;
-`;
-
-const ColoredText = styled.div`
-  color: white ; 
-  font-family: 'Pretendard_ExtraBold', sans-serif;
-  font-size: 20px; 
-  > span {
-    white-space: nowrap; // Prevent automatic line breaks
-  }
 `;
 
 const StyledSpan = styled.span`

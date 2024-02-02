@@ -354,12 +354,6 @@ export default function Header() {
                 MBTI TEST
               </Link>
             </li>
-                <li>
-                  <Link className={`header-nav-item ${isCharacter ? 'active' : ''}`} to='/character'
-                  onClick={() => handleNavLinkClick('/character')}>
-                    CHARACTER
-                  </Link>
-                </li>
           </ul>
         </HeaderLeft>
         <HeaderRight>
@@ -392,7 +386,8 @@ export default function Header() {
         {/* API 연결 후에 로그인 or 비로그인에 따라 드롭다운 달라질 예정 */}
         {isDropdownVisible && (
           <DropdownContainer isVisible={isDropdownVisible}>
-            <DropdownItem>
+            <DropdownItem to='/character'
+                  onClick={() => handleNavLinkClick('/character')}>
               <img src={smileImage} alt= "Smile"/>
               캐릭터 설명
             </DropdownItem>
