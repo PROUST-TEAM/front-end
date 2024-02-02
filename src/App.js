@@ -18,6 +18,7 @@ import NonSearch from "./pages/search/NonSearch";
 import FindPassword from "./pages/FindPassword";
 import Join from "./pages/Join";
 import MyPage from "./pages/MyPage";
+import Character from "./pages/Character";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
           <Route path="/find-pw" element={<FindPassword />} />
           <Route path="/join" element={<Join />} />
           <Route path="/myPage" element={<MyPage />} />
+          <Route path="/character" element={<Character />} />
         </Routes>
       </BrowserRouter>
     </div>

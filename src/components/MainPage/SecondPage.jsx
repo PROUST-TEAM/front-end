@@ -42,7 +42,7 @@ const StyledLink = styled(Link)`
 
   button {
     white-space: nowrap;
-    background-color: black;
+    background-color: transparent;
     color: white;
     font-family: 'Pretendard_ExtraBold', sans-serif;
     font-size: 25px;
