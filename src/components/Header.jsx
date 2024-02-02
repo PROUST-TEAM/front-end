@@ -244,13 +244,14 @@ export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const isHome = location.pathname === "/home";
-  const isList = location.pathname === "/myList";
-  const isColumn = location.pathname === "/column";
-  const isLocation = location.pathname === "/location";
-  const isTest = location.pathname === "/mbtiTest";
+  const isHome = location.pathname === '/home';
+  const isList = location.pathname === '/myList';
+  const isColumn = location.pathname === '/column';
+  const isLocation = location.pathname === '/location';
+  const isTest = location.pathname === '/mbtiTest';
   const isLogin = location.pathname === "/login";
   const isMyPage = location.pathname === "/myPage";
+  const isCharacter = location.pathname === '/character';
 
   const [isSearchPanelVisible, setSearchPanelVisible] = useState(false);
 
@@ -385,7 +386,8 @@ export default function Header() {
         {/* API 연결 후에 로그인 or 비로그인에 따라 드롭다운 달라질 예정 */}
         {isDropdownVisible && (
           <DropdownContainer isVisible={isDropdownVisible}>
-            <DropdownItem>
+            <DropdownItem to='/character'
+                  onClick={() => handleNavLinkClick('/character')}>
               <img src={smileImage} alt= "Smile"/>
               캐릭터 설명
             </DropdownItem>
