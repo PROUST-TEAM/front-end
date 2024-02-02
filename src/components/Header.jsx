@@ -5,6 +5,11 @@ import topImage from "../images/top_charac.png";
 import loginImage from "../images/login_img.png";
 import searchBtnImage from "../images/search_btn.png";
 import closeBtnImage from "../images/close_btn.png";
+import menuImage from "../images/menu.png";
+
+import smileImage from "../images/smile.png";
+import GearImage from "../images/GearSix.png";
+import SignOutImage from "../images/signout.png";
 //import { useLocation } from 'react-router-dom';
 
 const HeaderContainer = styled.header`
@@ -34,7 +39,7 @@ const HeaderLeft = styled.div`
     text-decoration: none;
     color: #aba8a5;
     font-family: "Pretendard_Bold", sans-serif;
-    font-size: 14px;
+    font-size: 20px;
   }
 
   .header-nav-item.active {
@@ -53,12 +58,23 @@ const HeaderRight = styled.div`
   flex-direction: row;
   margin-right: 20px;
   white-space: nowrap;
+  align-items: center;
+  justify-content: center;
 
   .header-nav-item {
     text-decoration: none;
     color: white;
     font-family: "Pretendard_Bold", sans-serif;
-    font-size: 14px;
+    font-size: 20px;
+  }
+
+  > img{
+    width: 24px;
+    height: 24px;
+    margin-left: 20px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
   }
 `;
 
@@ -121,7 +137,7 @@ const SearchPanel = styled.div`
 `;
 
 const CloseButton = styled.div`
-  > img {
+  > img{
     position: absolute;
     margin-right: 15px;
     width: 20px;
@@ -139,7 +155,6 @@ const SearchContainer = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
-  align-items: center;
   justify-content: center;
 
   position: absolute;
@@ -183,6 +198,48 @@ const BlurredBackground = styled.div`
   z-index: 1;
 `;
 
+const DropdownContainer = styled.div`
+  z-index: 2;
+  position: absolute;
+  text-align: center;
+  justify-content: center;
+  width: 150px;
+  top: 140%;
+  right: 0;
+  display: ${(props) => (props.isVisible ? 'flex' : 'none')};
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+`;
+
+const DropdownItem = styled.div`
+  height: 45px;
+  color: #282727;
+  font-family: 'Pretendard_SemiBold', sans-serif;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  &:hover {
+    background-color: #D9D9D9;
+    // border-radius: 10px;
+  }
+  >img{
+    width: 24px;
+    height: 24px;
+    margin-right:5px; 
+    margin-left: 15px;
+  }
+  &:first-child {
+    border-radius: 10px 10px 0 0;
+  }
+  &:last-child {
+    border-radius: 0px 0px 10px 10px;
+  }
+`;
+
+
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -218,7 +275,7 @@ export default function Header() {
     navigate(path);
   };
 
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
 
   const handleInputChange = (e) => {
     setSearchText(e.target.value);
@@ -226,7 +283,7 @@ export default function Header() {
 
   const handleSearchButtonClick = () => {
     // 검색어가 비어있지 않은 경우에만 링크로 이동
-    if (searchText.trim() !== "") {
+    if (searchText.trim() !== '') {
       // 검색 결과 페이지로 이동
       // 예시로 "/search" 경로를 사용했습니다.
       // 실제 사용하고자 하는 경로로 변경해주세요.
@@ -234,9 +291,17 @@ export default function Header() {
     } else {
       // 검색어가 비어있는 경우 다른 페이지로 이동하거나, 필요에 따라 아무 작업도 수행하지 않을 수 있습니다.
       // 여기서는 예시로 "/other" 경로로 이동하도록 설정했습니다.
-      window.location.href = "/nonSearch";
+      window.location.href = '/nonSearch';
     }
   };
+
+  // 드롭다운 관련 코드_추후에 API 연결하면 달라질 예정
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+
+  const handleMenuClick = () => {
+    setDropdownVisible(!isDropdownVisible);
+  };
+
 
   return (
     <>
@@ -292,7 +357,7 @@ export default function Header() {
         </HeaderLeft>
         <HeaderRight>
           <SearchButton onClick={openSearchPanel}>
-            <img src={searchBtnImage} alt="SearchImagee" />
+            <img src= {searchBtnImage} alt= "SearchImagee"/>
           </SearchButton>
           <StyledLink
             className={`header-nav-item ${isLogin ? "active" : ""}`}
@@ -310,6 +375,31 @@ export default function Header() {
             MY PAGE
             <img src={loginImage} alt="LoginImage" />
           </StyledLink>
+          <div onClick={handleMenuClick} style={{ position: 'relative' }}>
+        <img
+          style={{width:"24px", height: "24px", marginLeft: "20px"}}
+          src={menuImage}
+          alt="MenuImage"
+        />
+
+        {/* API 연결 후에 로그인 or 비로그인에 따라 드롭다운 달라질 예정 */}
+        {isDropdownVisible && (
+          <DropdownContainer isVisible={isDropdownVisible}>
+            <DropdownItem>
+              <img src={smileImage} alt= "Smile"/>
+              캐릭터 설명
+            </DropdownItem>
+            <DropdownItem>
+              <img src={GearImage} alt= "Gear"/>
+              설정
+            </DropdownItem>
+            <DropdownItem>
+              <img style={{marginLeft:"20px",width: "16.5px", height:"18px"}} src={SignOutImage} alt= "SignOut"/>  
+              로그아웃
+            </DropdownItem>
+          </DropdownContainer>
+        )}
+      </div>
         </HeaderRight>
       </HeaderContainer>
       <SearchPanel isVisible={isSearchPanelVisible}>
