@@ -20,13 +20,13 @@ const PerfumeDetailContent = styled.div`
 const DetailSpan = styled.div`
   font-size: 200px;
   color: #fefdfc;
-  font-family: Prompt;
+  font-family: Prompt_ExtraBold;
   font-weight: 700;
 `;
 const PerfumeSpan = styled.span`
   font-size: 120px;
   color: #7d7d7d;
-  font-family: Prompt;
+  font-family: Prompt_ExtraBold;
 `;
 
 const BaseImage = styled.div`
@@ -49,18 +49,19 @@ const Info = styled.div`
 `;
 const VerticalLine = styled.div`
   position: absolute;
-  top: 742px;
+  top: 762px;
   left: 50%;
-  transform: translate(-45%, -50%);
+  transform: translate(-50%, -50%);
   height: 171px;
-  border-left: 2px solid #6bff94;
+  background: linear-gradient(#6bff94, #ecf5ef);
+  width: 2px;
 `;
 
 const Circle = styled.div`
   position: absolute;
-  top: 653px;
+  top: 678px;
   left: 50%;
-  transform: translate(-45%, -50%);
+  transform: translate(-50%, -50%);
   background-color: #6bff94;
   border-radius: 50%;
   width: 12px;
@@ -68,10 +69,41 @@ const Circle = styled.div`
 `;
 const Circle2 = styled.div`
   position: absolute;
-  top: 830px;
+  top: 850px;
   left: 50%;
-  transform: translate(-45%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: #ecf5ef;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+`;
+
+const VerticalLine2 = styled.div`
+  position: absolute;
+  top: 2046px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 94px;
+  background: linear-gradient(#6bff94, #f1f5f1);
+  width: 2px;
+`;
+
+const Circle3 = styled.div`
+  position: absolute;
+  top: 2000px;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: #6bff94;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+`;
+const Circle4 = styled.div`
+  position: absolute;
+  top: 2090px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f1f5f1;
   border-radius: 50%;
   width: 12px;
   height: 12px;
@@ -114,35 +146,7 @@ const ReceiptBottom = styled.div`
   width: 526px;
   border-radius: 35.54px 35.54px 17.77px 17.77px;
 `;
-const VerticalLine2 = styled.div`
-  position: absolute;
-  top: 2015px;
-  left: 50%;
-  transform: translate(-45%, -50%);
-  height: 94px;
-  border-left: 2px solid #6bff94;
-`;
 
-const Circle3 = styled.div`
-  position: absolute;
-  top: 1970px;
-  left: 50%;
-  transform: translate(-45%, -50%);
-  background-color: #6bff94;
-  border-radius: 50%;
-  width: 12px;
-  height: 12px;
-`;
-const Circle4 = styled.div`
-  position: absolute;
-  top: 2060px;
-  left: 50%;
-  transform: translate(-45%, -50%);
-  background-color: #6bff94;
-  border-radius: 50%;
-  width: 12px;
-  height: 12px;
-`;
 const lineStyle = {
   height: "2px",
   backgroundColor: "#D9D9D9",
