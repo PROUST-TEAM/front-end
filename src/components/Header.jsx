@@ -39,7 +39,7 @@ const HeaderLeft = styled.div`
     text-decoration: none;
     color: #aba8a5;
     font-family: "Pretendard_Bold", sans-serif;
-    font-size: 14px;
+    font-size: 20px;
   }
 
   .header-nav-item.active {
@@ -65,7 +65,7 @@ const HeaderRight = styled.div`
     text-decoration: none;
     color: white;
     font-family: "Pretendard_Bold", sans-serif;
-    font-size: 14px;
+    font-size: 20px;
   }
 
   > img{
@@ -198,6 +198,46 @@ const BlurredBackground = styled.div`
   z-index: 1;
 `;
 
+const DropdownContainer = styled.div`
+  z-index: 2;
+  position: absolute;
+  text-align: center;
+  justify-content: center;
+  width: 150px;
+  top: 140%;
+  right: 0;
+  display: ${(props) => (props.isVisible ? 'flex' : 'none')};
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+`;
+
+const DropdownItem = styled.div`
+  height: 45px;
+  color: #282727;
+  font-family: 'Pretendard_SemiBold', sans-serif;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  &:hover {
+    background-color: #D9D9D9;
+    // border-radius: 10px;
+  }
+  >img{
+    width: 24px;
+    height: 24px;
+    margin-right:5px; 
+    margin-left: 15px;
+  }
+  &:first-child {
+    border-radius: 10px 10px 0 0;
+  }
+  &:last-child {
+    border-radius: 0px 0px 10px 10px;
+  }
+`;
 
 
 export default function Header() {
