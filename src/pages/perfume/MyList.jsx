@@ -17,13 +17,13 @@ const PerfumeListContent = styled.div`
 const ListSpan = styled.div`
   font-size: 200px;
   color: #fefdfc;
-  font-family: Prompt;
+  font-family: Prompt_ExtraBold;
   font-weight: 700;
 `;
-const PerfumeSpan = styled.span`
+const MySpan = styled.span`
   font-size: 120px;
   color: #7d7d7d;
-  font-family: Prompt;
+  font-family: Prompt_ExtraBold;
 `;
 
 const BaseImage = styled.div`
@@ -121,7 +121,7 @@ export default function MyList() {
   return (
     <PerfimeListWrap>
       <PerfumeListContent>
-        <PerfumeSpan>PERFUME</PerfumeSpan>
+        <MySpan>MY</MySpan>
         <br />
         <ListSpan>LIST</ListSpan>
         <BaseImage>

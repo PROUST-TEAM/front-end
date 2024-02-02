@@ -53,7 +53,7 @@ const StyledLink = styled(Link)`
   }
 
   > button:hover {
-    background-color: black;
+    background-color: transparent;
     color: #6BFF94;
 
     border: 2px solid #6BFF94;
@@ -74,7 +74,7 @@ export default function SecondPage() {
               <button>향의 노트</button>
           </StyledLink>
           <StyledLink to="/column#column3">
-              <button>향의 유지력</button>
+              <button>향의 지속력</button>
           </StyledLink>
         </KeyButton>
         <KeyButton>
