@@ -251,7 +251,6 @@ export default function Header() {
   const isTest = location.pathname === '/mbtiTest';
   const isLogin = location.pathname === "/login";
   const isMyPage = location.pathname === "/myPage";
-  const isCharacter = location.pathname === '/character';
 
   const [isSearchPanelVisible, setSearchPanelVisible] = useState(false);
 
