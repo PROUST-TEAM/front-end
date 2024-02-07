@@ -9,9 +9,6 @@ import pointImage from '../images/point.png'
 import googleImage from '../images/google.png'
 import kakaoImage from '../images/kakao.png'
 import naverImage from '../images/naver.png'
-import GoogleLogin from 'react-google-login';
-import KakaoLogin from 'react-kakao-login';
-import NaverLogin from 'react-naver-login';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -22,16 +19,15 @@ const StyledContainer = styled.div`
 
 const StyledParagraph = styled.p`
   color: black;
-  margin-top: 50px;
+  margin-top: 55px;
   margin-right: -40px;
-  margin-left: 55px;
-  font-size: 25px;
+  margin-left: 80px;
+  font-size: 35px;
   font-family: Pretendard_ExtraBold;
 `;
 
 const StyledImage = styled.img`
   margin-top: 50px;
-  margin-left: -15px;
 `;
 
 const StyledContent = styled.div`
@@ -39,13 +35,14 @@ const StyledContent = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: white;
+  margin-bottom: 100px;
 `;
 
 const StyledWord = styled.div`
-  margin-right: 350px;
-  font-size: 17px;
-  font-family: Pretendard_ExtraBold;
-  margin-top: 15px;
+  margin-right: 450px;
+  margin-bottom: 7px;
+  font-size: 23px;
+  font-family: Pretendard_Bold;
   text-align: left;
 `;
 
@@ -56,22 +53,23 @@ const StyledInputContainer = styled.div`
 `;
 
 const StyledInput = styled.input`
-  width: 400px;
-  height: 25px;
-  padding: 7px;
+  width: 560px;
+  height: 48px;
+  padding: 6px;
   margin-top: 5px;
-  margin-right: 30px;
+  margin-bottom: 30px;
   border: none;
   background-color: #f0f0f0;
-  color: #333;
-  border-radius: 5px;
-  font-family: Pretendard_ExtraBold;
+  border-radius: 6px;
+  font-family: Pretendard_Light;
+  font-size: 16px;
+  text-indent: 20px;
 `;
 
 const StyledClearButton = styled.div`
   position: absolute;
-  right: 47px;
-  top: 57%;
+  right: 15px;
+  top: 38%;
   transform: translateY(-50%);
   cursor: pointer;
   opacity: ${({ visible }) => (visible ? '1' : '0')};
@@ -82,29 +80,32 @@ const StyledSwitchContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-left: -270px;
-  margin-top: 20px;
+  margin-left: -370px;
 `;
 
 const StyledSwitch = styled.div`
   position: relative;
-  width: 2em;
-  height: 1em;
-  border: max(2px, 0.1em) solid black;
-  border-radius: 1.25em;
+  width: 2.4em;
+  height: 1.25em;
+  border: 2px solid black;
+  border-radius: 10em;
   overflow: hidden;
   cursor: pointer;
   background-color: black;
+  transition: background-color 250ms linear;
 `;
 
 const StyledSlider = styled.div`
   position: absolute;
-  width: 1em;
-  height: 1em;
+  top: -0.1em;
+  width: 1.2em;
+  height: 1.2em;
   border-radius: 50%;
   background-color: white;
+  border: 2px solid black;
   transition: left 250ms linear;
-  left: ${({ isClicked }) => (isClicked ? '50%' : '0')};
+  background-color: ${({ isClicked }) => (isClicked ? '#6BFF94' : 'white')};
+  left: ${({ isClicked }) => (isClicked ? '41%' : '0')};
 `;
 
 const StyledSwitchLabel = styled.label`
@@ -114,24 +115,24 @@ const StyledSwitchLabel = styled.label`
 `;
 
 const StyledSwitchSpan = styled.span`
-  font-size: 13px;
+  font-size: 16px;
   margin-left: 10px;
   font-family: Pretendard_ExtraBold;
 `;
 
 const StyledButton = styled.button`
-  width: 415px;
-  height: 40px;
-  padding: 7px;
-  margin-top: 30px;
+  width: 572px;
+  height: 50px;
+  padding: 6px;
+  margin-top: 50px;
   margin-bottom: 0px;
-  margin-right: 30px;
   background-color: black;
   color: white;
+  font-size: 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  font-family: Pretendard_ExtraBold;
+  font-family: Pretendard_Bold;
 `;
 
 const StyledButtonContainer = styled.div`
@@ -139,6 +140,7 @@ const StyledButtonContainer = styled.div`
   margin-top: 5px;
   margin-left: -30px;
   margin-bottom: 10px;
+  justify-content: space-between;
 `;
 
 const StyledTextButton = styled(Link)`
@@ -146,10 +148,11 @@ const StyledTextButton = styled(Link)`
   background-color: white;
   border: none;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 14px;
   color: black;
-  font-family: Pretendard_ExtraBold;
+  font-family: Pretendard_Medium;
   text-decoration: none;
+  margin-right: -27px;
 
   &:not(:last-child) {
     margin-right: -20px;
@@ -158,60 +161,46 @@ const StyledTextButton = styled(Link)`
 `;
 
 const StyledFooter = styled.div`
-  margin-top: 30px;
+  margin-top: 20px;
   margin-bottom: 10px;
-  margin-left: -30px;
   display: flex;  
 `;
 
 const StyledText = styled.span`
-  font-size: 12px;
+  font-size: 14px;
   color: black;
-  font-family: Pretendard_ExtraBold;
+  font-family: Pretendard_Medium;
   margin: 0 5px; 
 `;
 
 const StyledpwButton = styled.div`
-  position: absolute;
-  right: 42px;
-  top: 57%;
   transform: translateY(-50%);
   cursor: pointer;
 `
 
 const StyledPwIcon = styled.img`
-  width: 24px;
-  height: 24px;
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  right: -269px;
+  top: -74px;
   cursor: pointer;
-  margin-right: 544px;
-  margin-top: 65px;
 `;
 
-const NaverLoginButton = () => {
-  const handleNaverLogin = (response) => {
-    console.log(response);
-  };
-
-  return (
-    <NaverLogin
-      clientId="9ur7a1HEB07xc5dow0Ev"
-      callbackUrl="http://localhost:3000/login#"
-      render={(props) => (
-        <button onClick={props.onClick}>
-          네이버로 로그인
-        </button>
-      )}
-      onSuccess={handleNaverLogin}
-      onFailure={(error) => console.error(error)}
-    />
-  );
-};
+const StyledLoginButtonContainer = styled.div`
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+  margin-bottom: 70px;
+  cursor: pointer;
+`;
 
 export default function Login() {
   const [isClicked, setIsClicked] = useState(false);
-  const [userid, setUserid] = useState('');
+  const [usermail, setUsermail] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
   const [userpw, setPassword] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const storedPassword = localStorage.getItem('savedPassword');
@@ -231,11 +220,11 @@ export default function Login() {
   };
 
   const handleInputChange = (event) => {
-    setUserid(event.target.value);
+    setUsermail(event.target.value);
   };
 
   const handleClearButtonClick = () => {
-    setUserid('');
+    setUsermail('');
   };
 
   const handlePasswordChange = (event) => {
@@ -251,15 +240,41 @@ export default function Login() {
   };
 
   const handleLogin = () => {
-    if (!userid) {
-      document.getElementById("username-input").placeholder = "*아이디를 입력하세요!";
+    const usermailInput = document.getElementById("usermail-input");
+    const passwordInput = document.getElementById("password-input");
+
+    if (!usermail) {
+      usermailInput.placeholder = "*이메일을 입력하세요.";
+      usermailInput.style.color = "black";
+      usermailInput.style.fontFamily = "Pretendard_Light"; 
+      usermailInput.style.border = "3px solid #B3261E";
+      usermailInput.classList.add('placeholder-red'); 
+    } else {
+      usermailInput.placeholder = "이메일을 입력하세요.";
+      usermailInput.style.color = "initial";
+      usermailInput.style.fontFamily = "Pretendard_Light"; 
+      usermailInput.style.border = "none";
+      usermailInput.classList.remove('placeholder-red');
     }
+    
     if (!userpw) {
-      document.getElementById("password-input").placeholder = "*비밀번호를 입력하세요!";
-    }
-  
+      passwordInput.placeholder = "*비밀번호를 입력하세요.";
+      passwordInput.style.color = "black";
+      passwordInput.style.fontFamily = "Pretendard_Light";
+      passwordInput.style.border = "3px solid #B3261E";
+      passwordInput.classList.add('placeholder-red');
+    } else {
+      passwordInput.placeholder = "비밀번호를 입력하세요.";
+      passwordInput.style.color = "initial";
+      passwordInput.style.fontFamily = "Pretendard_Light";
+      passwordInput.style.border = "none";
+      passwordInput.classList.remove('placeholder-red'); 
+    }    
+
+    setIsLoggedIn(true);
+    
     if (isClicked) {
-      setUserid(''); 
+      setUsermail(''); 
       const storedPassword = localStorage.getItem('savedPassword');
       if (storedPassword) {
         setPassword(storedPassword);
@@ -267,24 +282,9 @@ export default function Login() {
     }
   };
 
-  const handleGoogleLoginSuccess = (response) => {
-    console.log('Google Login Success', response);
-  };
-  
-  const handleGoogleLoginFailure = (error) => {
-    console.error('Google Login Failure', error);
-  };
-
-  const handleKakaoLoginSuccess = (response) => {
-    console.log('Kakao Login Success', response);
-  };
-
-  const handleKakaoLoginFailure = (error) => {
-    console.error('Kakao Login Failure', error);
-  };
-
   return (
     <>
+    <StyledContent>
       <StyledContainer>
         <StyledParagraph>
           <p>
@@ -292,23 +292,32 @@ export default function Login() {
             프루스트를 이용해 보세요.
           </p>
         </StyledParagraph>
-        <StyledImage src={topImage} alt="Top Character" width="300" height="168" />
+        <StyledImage src={topImage} alt="Top Character" width="330" height="189" />
       </StyledContainer>
-      <StyledContent>
+      <div style={{ position: 'absolute', top: '41.5%', left: '62%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
+      {(isLoggedIn &&!usermail) && (
+      <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
+      )}
+      </div>
+      <div style={{ position: 'absolute', top: '55.2%', left: '62%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
+      {(isLoggedIn &&!userpw) && (
+      <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
+      )}
+      </div>
         <StyledWord>
-          <p>아이디&nbsp;&nbsp;&nbsp;</p>
+          <p>이메일&nbsp;&nbsp;&nbsp;&nbsp;</p>
         </StyledWord>
         <StyledInputContainer>
           <StyledInput
-            id="username-input"
+            id="usermail-input"
             type="text" 
-            placeholder="아이디를 입력하세요" 
-            value={userid}
+            placeholder="이메일을 입력하세요." 
+            value={usermail}
             onChange={handleInputChange}
             />
-          <StyledClearButton visible={userid !== ''} 
+          <StyledClearButton visible={usermail !== ''} 
             onClick = {handleClearButtonClick}> <img src={clearImage} 
-          alt="Clear" style={{ width: '24px', height: '24px' }} />
+          alt="Clear" style={{ width: '32px', height: '32px' }} />
           </StyledClearButton>
         </StyledInputContainer>
         <StyledWord>
@@ -316,7 +325,7 @@ export default function Login() {
         </StyledWord>
         <StyledInput 
           id="password-input"
-          type={isPasswordVisible ? "text" : "password"} placeholder="비밀번호를 입력하세요"  
+          type={isPasswordVisible ? "text" : "password"} placeholder="비밀번호를 입력하세요."  
           defaultValue={userpw}
           onChange={handlePasswordChange}/>
         <StyledpwButton visible={userpw !== ''} onClick={handlePasswordButtonClick}>
@@ -328,7 +337,7 @@ export default function Login() {
         </StyledpwButton>
         <StyledSwitchContainer>
           <StyledSwitchLabel>
-            <StyledSwitch onClick={handleSwitchClick}>
+            <StyledSwitch isClicked={isClicked} onClick={handleSwitchClick}>
               <StyledSlider isClicked={isClicked} />
             </StyledSwitch>
             <StyledSwitchSpan>비밀번호 기억하기</StyledSwitchSpan>
@@ -341,29 +350,15 @@ export default function Login() {
           <StyledTextButton to="/join">회원가입 하기</StyledTextButton>
           </StyledButtonContainer>
         <StyledFooter>
-          <StyledText>──────────────</StyledText>
+          <StyledText>─────────────────</StyledText>
           <StyledText>또는</StyledText>
-          <StyledText>──────────────</StyledText>
+          <StyledText>─────────────────</StyledText>
         </StyledFooter>
-        <GoogleLogin
-          clientId="275366161123-it85kl8s9rsulusbbtsk7icfc09n0hba.apps.googleusercontent.com"
-          buttonText="Google로 로그인"
-          onSuccess={handleGoogleLoginSuccess}
-          onFailure={handleGoogleLoginFailure}
-          cookiePolicy={'single_host_origin'}
-    />
-     <KakaoLogin
-        token="c8afde081c9636adc2e72393245455b2"
-        onSuccess={handleKakaoLoginSuccess}
-        onFail={handleKakaoLoginFailure}
-        onLogout={() => console.log('Kakao Logout')}
-        render={(props) => (
-          <button onClick={props.onClick}>
-            카카오로 로그인
-          </button>
-        )}
-      />
-      <NaverLoginButton /> 
+  <StyledLoginButtonContainer>
+    <img src={googleImage} alt="Google" style={{ width: '80px', height: '80px' }} />
+    <img src={kakaoImage} alt="Kakao" style={{ width: '80px', height: '80px' }} />
+    <img src={naverImage} alt="Naver" style={{ width: '80px', height: '80px' }} />
+  </StyledLoginButtonContainer>
   </StyledContent>
     </>
   );

@@ -20,25 +20,24 @@ const StyledContent = styled.div`
 
 const StyledParagraph = styled.p`
   color: black;
-  margin-top: -10px;
-  font-size: 25px;
+  margin-top: -20px;
+  font-size: 29px;
   font-family: Pretendard_ExtraBold;
 `;
 
 const StyledExplain = styled.p`
-  color: #999;
-  margin-top: 13px;
-  font-size: 20px;
-  font-family: Pretendard_ExtraBold;
+  color: #7D7D7D;
+  margin-top: 20px;
+  font-size: 24px;
+  font-family: Pretendard_Bold;
   margin-bottom: 50px;
 `;
 
-const StyledArrow = styled.span`
-  font-size: 30px;
+const StyledArrow = styled.img`
   cursor: pointer;
   position: absolute;
-  top: 50px;
-  left: 0px;
+  top: 75px;
+  left: -7px;
 `;
 
 const StyledImage = styled.img`
@@ -46,10 +45,10 @@ const StyledImage = styled.img`
 `;
 
 const StyledWord = styled.div`
-  font-size: 17px;
-  font-family: Pretendard_ExtraBold;
-  margin-top: 15px;
-  margin-right: 350px;
+  font-size: 23px;
+  font-family: Pretendard_Bold;
+  margin-right: 450px;
+  margin-bottom: 7px;
 `;
 
 const StyledInputContainer = styled.div`
@@ -58,22 +57,23 @@ const StyledInputContainer = styled.div`
 `;
 
 const StyledInput = styled.input`
-  width: 400px;
-  height: 25px;
-  padding: 7px;
+  width: 560px;
+  height: 48px;
+  padding: 6px;
   margin-top: 5px;
-  margin-right: 5px;
+  margin-bottom: 30px;
   border: none;
   background-color: #f0f0f0;
-  color: #333;
-  border-radius: 5px;
-  font-family: Pretendard_ExtraBold;
+  border-radius: 6px;
+  font-family: Pretendard_Light;
+  font-size: 16px;
+  text-indent: 20px;
 `;
 
 const StyledClearButton = styled.div`
   position: absolute;
   right: 15px;
-  top: 56%;
+  top: 37.5%;
   transform: translateY(-50%);
   cursor: pointer;
   opacity: ${({ visible }) => (visible ? '1' : '0')};
@@ -81,33 +81,33 @@ const StyledClearButton = styled.div`
 `;
 
 const StyledSendButton = styled.button`
-  width: 100px;
-  height: 30px;
+  width: 120px;
+  height: 32px;
   padding: 7px;
-  margin-top: 20px;
-  margin-left: 310px;
-  margin-bottom: 1px;
+  margin-top: 7px;
+  margin-left: 445px;
+  margin-bottom: 4px;
   background-color: black;
   color: white;
   border: none;
   border-radius: 20px;
   cursor: pointer;
-  font-family: Pretendard_ExtraBold;
-  font-size: 12px;
+  font-family: Pretendard_Bold;
+  font-size: 14px;
 `;
 
 const StyledNextButton = styled.button`
-  width: 415px;
-  height: 40px;
-  padding: 7px;
+  width: 572px;
+  height: 50px;
+  padding: 6px;
   margin-top: 50px; 
   background-color: black;
   color: white;
   border: none;
-  border-radius: 20px;
+  border-radius: 30px;
   cursor: pointer;
-  font-family: Pretendard_ExtraBold;
-  font-size: 15px;
+  font-family: Pretendard_Bold;
+  font-size: 20px;
 `;
 
 
@@ -139,23 +139,23 @@ const FindPassword = () => {
   return (
     <StyledContainer>
       <StyledContent>
-        <StyledArrow onClick={handleBackToLogin}>&#10229;</StyledArrow>
-        <StyledImage src={Image} alt="Top Character" width="300" height="168" />
+      <StyledArrow src={arrowImage}  onClick={handleBackToLogin} alt="Arrow Image" width="32" height="32" ></StyledArrow>
+        <StyledImage src={Image} alt="Top Character" width="330" height="189" />
         <StyledParagraph>비밀번호 찾기</StyledParagraph>
         <StyledExplain>비밀번호는 가입시 입력된 이메일로 찾으실 수 있습니다.</StyledExplain>
         <StyledWord>
-          <p>아이디</p>
+          <p>이름</p>
         </StyledWord>
         <StyledInputContainer>
           <StyledInput
             type="text"
-            placeholder="아이디를 입력하세요"
+            placeholder="이름을 입력하세요."
             value={userid}
             onChange={handleInputChange}
           />
           <StyledClearButton visible={userid !== ''} 
             onClick = {handleClearButtonClick}> <img src={clearImage} 
-          alt="Clear" style={{ width: '24px', height: '24px' }} />
+          alt="Clear" style={{ width: '32px', height: '32px' }} />
           </StyledClearButton>
         </StyledInputContainer>
         <StyledWord>
@@ -164,7 +164,7 @@ const FindPassword = () => {
         <StyledInputContainer>
             <StyledInput
                 type="text"
-                placeholder="이메일을 입력하세요"
+                placeholder="이메일을 입력하세요."
             />
         </StyledInputContainer>
         <StyledSendButton onClick={handleSendClick}>
@@ -173,7 +173,7 @@ const FindPassword = () => {
         <StyledInputContainer>
               <StyledInput
               type="text"
-              placeholder="인증번호를 입력하세요"
+              placeholder="인증번호를 입력하세요."
             />
         </StyledInputContainer>
         <StyledNextButton onClick={handleNextClick}>

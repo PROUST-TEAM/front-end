@@ -21,28 +21,27 @@ const StyledContent = styled.div`
 
 const StyledParagraph = styled.p`
   color: black;
-  margin-top: -10px;
-  font-size: 25px;
+  margin-top: -20px;
+  font-size: 29px;
   font-family: Pretendard_ExtraBold;
 `;
 
 const StyledExplain = styled.p`
-  color: #999;
-  margin-top: 13px;
-  font-size: 20px;
-  font-family: Pretendard_ExtraBold;
+  color: #7D7D7D;
+  margin-top: 20px;
+  font-size: 24px;
+  font-family: Pretendard_Bold;
   margin-bottom: 50px;
   display: flex;
   justify-content: center;
   margin-left: -20px;
 `;
 
-const StyledArrow = styled.span`
-  font-size: 30px;
+const StyledArrow = styled.img`
   cursor: pointer;
   position: absolute;
-  top: 50px;
-  left: 0px;
+  top: 75px;
+  left: -7px;
 `;
 
 const StyledImage = styled.img`
@@ -50,47 +49,49 @@ const StyledImage = styled.img`
 `;
 
 const StyledWord = styled.div`
-  font-size: 17px;
-  font-family: Pretendard_ExtraBold;
-  margin-top: 15px;
-  margin-right: 300px;
+  font-size: 23px;
+  font-family: Pretendard_Bold;
+  margin-right: 450px;
+  margin-bottom: 7px;
 `;
 
 const StyledInputContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  margin-left: 22px;
 `;
 
 const StyledInput = styled.input`
-  width: 400px;
-  height: 25px;
-  padding: 7px;
+  width: 560px;
+  height: 48px;
+  padding: 6px;
   margin-top: 5px;
-  margin-right: 5px;
+  margin-bottom: 30px;
   border: none;
   background-color: #f0f0f0;
-  color: #333;
-  border-radius: 5px;
-  font-family: Pretendard_ExtraBold;
+  border-radius: 6px;
+  font-family: Pretendard_Light;
+  font-size: 16px;
+  text-indent: 20px;
 `;
 
 const StyledNextButton = styled.button`
-  width: 415px;
-  height: 40px;
-  padding: 7px;
+  width: 572px;
+  height: 50px;
+  padding: 6px;
   margin-top: 50px; 
   background-color: black;
   color: white;
   border: none;
-  border-radius: 20px;
+  border-radius: 30px;
   cursor: pointer;
-  font-family: Pretendard_ExtraBold;
-  font-size: 15px;
+  font-family: Pretendard_Bold;
+  font-size: 20px;
 `;
 
 const StyledLoginLink = styled(Link)`
-  color: skyblue;
+  color: #4AA2F3;
   text-decoration: none; 
   cursor: pointer;
   margin-left: 8px;
@@ -121,40 +122,40 @@ const Join = () => {
   return (
     <StyledContainer>
       <StyledContent>
-        <StyledArrow onClick={handleBackToLogin}>&#10229;</StyledArrow>
-        <StyledImage src={Image} alt="Top Character" width="300" height="168" />
+      <StyledArrow src={arrowImage}  onClick={handleBackToLogin} alt="Arrow Image" width="32" height="32" ></StyledArrow>
+        <StyledImage src={Image} alt="Top Character" width="330" height="189" />
         <StyledParagraph>회원가입</StyledParagraph>
         <StyledExplain>
           이미 가입된 계정이 있으신가요?{' '}
           <StyledLoginLink to="/login"> 로그인</StyledLoginLink>
         </StyledExplain>
         <StyledWord>
-          <p>아이디&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+          <p>아이디</p>
         </StyledWord>
         <StyledInputContainer>
           <StyledInput
             type="text"
-            placeholder="아이디를 입력하세요"
+            placeholder="아이디를 입력하세요."
             value={userid}
             onChange={handleInputChange}
           />
         </StyledInputContainer>
         <StyledWord>
-          <p>비밀번호&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+          <p>비밀번호</p>
         </StyledWord>
         <StyledInputContainer>
           <StyledInput
             type="text"
-            placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요"
+            placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요."
           />
         </StyledInputContainer>
         <StyledWord>
-          <p>비밀번호 확인</p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;비밀번호 확인</p>
         </StyledWord>
         <StyledInputContainer>
           <StyledInput
             type="text"
-            placeholder="비밀번호를 입력해 주세요"
+            placeholder="비밀번호를 입력해 주세요."
           />
         </StyledInputContainer>
         <StyledNextButton onClick={handleNextClick}>

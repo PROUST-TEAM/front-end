@@ -16,26 +16,26 @@ const StyledContainer = styled.div`
 const StyledParagraph = styled.p`
   color: white;
   margin-top: 20px;
-  margin-bottom: 60px;
-  font-size: 70px;
+  margin-bottom: 90px;
+  font-size: 85px;
   font-family: Prompt_ExtraBold;
 `;
 
 const StyledImage = styled.img`
-  margin-top: 10px;
+  margin-top: 60px;
 `;
 
 const StyledRow = styled.div`
   display: flex;
   align-items: center;
   margin-top: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 `;
 
 const StyledWord = styled.div`
-  margin-left: 0;
-  margin-right: 55px;
-  font-size: 17px;
+  margin-left: -5px;
+  margin-right: 75px;
+  font-size: 26px;
   font-family: Pretendard_ExtraBold;
   text-align: left;
   color: #6BFF94;
@@ -47,20 +47,22 @@ const StyledInputContainer = styled.div`
 `;
 
 const StyledInput = styled.input`
-  width: 450px;
-  height: 25px;
+  width: 600px;
+  height: 35px;
   padding: 7px;
   margin-top: 5px;
   background-color: black;
   color: white;
-  border: 2px solid white; 
-  font-family: Pretendard_ExtraBold;
+  border: 3px solid white; 
+  font-family: Pretendard_Bold;
+  font-size: 20px;
+  text-indent: 10px;
 `;
 
 const StyledButtonContainer = styled.div`
   display: flex;
   margin-top: 20px;
-  margin-left: 440px;
+  margin-left: 632px;
 `;
 
 const StyledTextButton = styled.button`
@@ -69,25 +71,25 @@ const StyledTextButton = styled.button`
   color: red;
   border: none;
   cursor: pointer;
-  font-size: 12px;
-  margin-right: 10px;
+  font-size: 16px;
+  margin-right: 15px;
 `;
 
 const StyledModifyButton = styled.button`
-  width: 70px;
-  height: 30px;
+  width: 80px;
+  height: 33px;
   background-color: transparent;
   color: white;
-  border: 2px solid white;
+  border: 3px solid white;
   border-radius: 30px;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 14px;
 `;
 
 export default function MyPage() {
   return (
     <StyledContainer>
-      <StyledImage src={topCharac} alt="Top Character" width="110" height="110" />
+      <StyledImage src={topCharac} alt="Top Character" width="120" height="120" />
       <StyledParagraph>MY PAGE</StyledParagraph>
 
       <StyledRow>
