@@ -251,13 +251,14 @@ export default function Header() {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
-  const isHome = location.pathname === "/home";
-  const isList = location.pathname === "/myList";
-  const isColumn = location.pathname === "/column";
-  const isLocation = location.pathname === "/location";
-  const isTest = location.pathname === "/mbtiTest";
+  const isHome = location.pathname === '/home';
+  const isList = location.pathname === '/myList';
+  const isColumn = location.pathname === '/column';
+  const isLocation = location.pathname === '/location';
+  const isTest = location.pathname === '/mbtiTest';
   const isLogin = location.pathname === "/login";
   const isMyPage = location.pathname === "/myPage";
+  const isCharacter = location.pathname === '/character';
 
   const [isSearchPanelVisible, setSearchPanelVisible] = useState(false);
 
@@ -408,7 +409,9 @@ export default function Header() {
           />
           {isDropdownVisible && (
             <DropdownContainer isVisible={isDropdownVisible}>
-              <DropdownItem>
+              <DropdownItem
+                to='/character'
+                onClick={() => handleNavLinkClick('/character')}>
                 <img src={smileImage} alt= "Smile"/>
                 캐릭터 설명
               </DropdownItem>
@@ -443,7 +446,8 @@ export default function Header() {
           />
           {isDropdownVisible && (
             <DropdownContainer isVisible={isDropdownVisible}>
-              <DropdownItem>
+              <DropdownItem to='/character'
+                  onClick={() => handleNavLinkClick('/character')}>
                 <img src={smileImage} alt= "Smile"/>
                 캐릭터 설명
               </DropdownItem>
