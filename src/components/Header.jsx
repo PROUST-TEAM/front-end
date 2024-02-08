@@ -10,7 +10,10 @@ import menuImage from "../images/menu.png";
 import smileImage from "../images/smile.png";
 import GearImage from "../images/GearSix.png";
 import SignOutImage from "../images/signout.png";
-//import { useLocation } from 'react-router-dom';
+
+// import axios from 'axios';
+
+import LogoutModal from "./LogOutModal";
 
 const HeaderContainer = styled.header`
   background-color: black;
@@ -245,7 +248,6 @@ const DropdownItem = styled.div`
   }
 `;
 
-
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -258,7 +260,7 @@ export default function Header() {
   const isTest = location.pathname === '/mbtiTest';
   const isLogin = location.pathname === "/login";
   const isMyPage = location.pathname === "/myPage";
-  const isCharacter = location.pathname === '/character';
+  // const isCharacter = location.pathname === '/character';
 
   const [isSearchPanelVisible, setSearchPanelVisible] = useState(false);
 
@@ -293,12 +295,9 @@ export default function Header() {
     // 검색어가 비어있지 않은 경우에만 링크로 이동
     if (searchText.trim() !== '') {
       // 검색 결과 페이지로 이동
-      // 예시로 "/search" 경로를 사용했습니다.
-      // 실제 사용하고자 하는 경로로 변경해주세요.
       window.location.href = `/search`;
     } else {
-      // 검색어가 비어있는 경우 다른 페이지로 이동하거나, 필요에 따라 아무 작업도 수행하지 않을 수 있습니다.
-      // 여기서는 예시로 "/other" 경로로 이동하도록 설정했습니다.
+      // 검색어가 비어있는 경우
       window.location.href = '/nonSearch';
     }
   };
@@ -332,6 +331,43 @@ export default function Header() {
   // 로그인 상태 관리
   const [isLoggedIn, setLoggedIn] = useState(true);
 
+  // 모달 상태 관리
+  const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
+
+  const handleLogout = () => {
+    setDropdownVisible(false); // 드롭다운 닫기
+    setLogoutModalVisible(true); // 로그아웃 모달 열기
+  };
+
+  // const handleLogout = () => {
+  //   // 드롭다운 닫기
+  //   setDropdownVisible(false);
+  
+  //   // 서버의 로그아웃 엔드포인트 URL로 설정
+  //   const logoutEndpoint = '서버의 로그아웃 엔드포인트 URL';
+  
+  //   // Axios를 사용하여 POST 요청 보내기
+  //   axios.post(logoutEndpoint)
+  //     .then(response => {
+  //       // 서버에서 성공적으로 응답이 오면 로그아웃 성공 처리
+  //       console.log('로그아웃 성공:', response.data);
+        
+  //       // 로그아웃 모달 닫기
+  //       setLogoutModalVisible(false);
+  //     })
+  //     .catch(error => {
+  //       // 에러 처리
+  //       console.error('로그아웃 에러:', error);
+  
+  //       // 로그아웃 모달 닫기
+  //       setLogoutModalVisible(false);
+  //     });
+  // };
+
+  const handleCloseModal = () => {
+    setLogoutModalVisible(false); // 모달 닫기
+  };
+  
   return (
     <>
       <HeaderContainer>
@@ -419,13 +455,17 @@ export default function Header() {
                 <img src={GearImage} alt= "Gear"/>
                 설정
               </DropdownItem>
-              <DropdownItem>
+              <DropdownItem onClick={handleLogout}>
                 <img style={{marginLeft:"20px",width: "16.5px", height:"18px"}} src={SignOutImage} alt= "SignOut"/>  
                 로그아웃
+                
               </DropdownItem>
             </DropdownContainer>
           )}
           </div>
+          {isLogoutModalVisible && (
+        <LogoutModal onClose={handleCloseModal} handleLogout={handleLogout} />
+      )}
           </>
           ) : (
             // 로그인이 되지 않았을 때의 Header 
