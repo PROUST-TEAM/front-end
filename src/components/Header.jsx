@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import topImage from "../images/top_charac.png";
@@ -199,6 +199,7 @@ const BlurredBackground = styled.div`
 `;
 
 const DropdownContainer = styled.div`
+  display: 
   z-index: 2;
   position: absolute;
   text-align: center;
@@ -237,12 +238,18 @@ const DropdownItem = styled.div`
   &:last-child {
     border-radius: 0px 0px 10px 10px;
   }
+
+  /* 로그인되지 않은 상태일 때 모든 가장자리의 radius를 추가 */
+  &:only-child {
+    border-radius: 10px;
+  }
 `;
 
 
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
 
   const isHome = location.pathname === "/home";
   const isList = location.pathname === "/myList";
@@ -302,6 +309,27 @@ export default function Header() {
     setDropdownVisible(!isDropdownVisible);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownVisible(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Close the dropdown when the location changes
+    setDropdownVisible(false);
+  }, [location.pathname]);
+
+  // 로그인 상태 관리
+  const [isLoggedIn, setLoggedIn] = useState(false);
 
   return (
     <>
@@ -359,14 +387,10 @@ export default function Header() {
           <SearchButton onClick={openSearchPanel}>
             <img src= {searchBtnImage} alt= "SearchImagee"/>
           </SearchButton>
-          <StyledLink
-            className={`header-nav-item ${isLogin ? "active" : ""}`}
-            to="/login"
-            onClick={() => handleNavLinkClick("/login")}
-          >
-            LOGIN
-            <img src={loginImage} alt="LoginImage" />
-          </StyledLink>
+
+          {/* 로그인이 되었을 때의 Header  */}
+          {isLoggedIn ? (
+            <>
           <StyledLink
             className={`header-nav-item ${isMyPage ? "active" : ""}`}
             to="/myPage"
@@ -375,31 +399,59 @@ export default function Header() {
             MY PAGE
             <img src={loginImage} alt="LoginImage" />
           </StyledLink>
-          <div onClick={handleMenuClick} style={{ position: 'relative' }}>
-        <img
-          style={{width:"24px", height: "24px", marginLeft: "20px"}}
-          src={menuImage}
-          alt="MenuImage"
-        />
-
-        {/* API 연결 후에 로그인 or 비로그인에 따라 드롭다운 달라질 예정 */}
-        {isDropdownVisible && (
-          <DropdownContainer isVisible={isDropdownVisible}>
-            <DropdownItem>
-              <img src={smileImage} alt= "Smile"/>
-              캐릭터 설명
-            </DropdownItem>
-            <DropdownItem>
-              <img src={GearImage} alt= "Gear"/>
-              설정
-            </DropdownItem>
-            <DropdownItem>
-              <img style={{marginLeft:"20px",width: "16.5px", height:"18px"}} src={SignOutImage} alt= "SignOut"/>  
-              로그아웃
-            </DropdownItem>
-          </DropdownContainer>
-        )}
-      </div>
+          
+          <div onClick={handleMenuClick} style={{ position: 'relative' }} ref={dropdownRef}>
+          <img
+            style={{width:"24px", height: "24px", marginLeft: "20px"}}
+            src={menuImage}
+            alt="MenuImage"
+          />
+          {isDropdownVisible && (
+            <DropdownContainer isVisible={isDropdownVisible}>
+              <DropdownItem>
+                <img src={smileImage} alt= "Smile"/>
+                캐릭터 설명
+              </DropdownItem>
+              <DropdownItem>
+                <img src={GearImage} alt= "Gear"/>
+                설정
+              </DropdownItem>
+              <DropdownItem>
+                <img style={{marginLeft:"20px",width: "16.5px", height:"18px"}} src={SignOutImage} alt= "SignOut"/>  
+                로그아웃
+              </DropdownItem>
+            </DropdownContainer>
+          )}
+          </div>
+          </>
+          ) : (
+            // 로그인이 되지 않았을 때의 Header 
+            <>
+          <StyledLink
+            className={`header-nav-item ${isLogin ? "active" : ""}`}
+            to="/login"
+            onClick={() => handleNavLinkClick("/login")}
+          >
+            LOGIN
+            <img src={loginImage} alt="LoginImage" />
+          </StyledLink>
+          <div onClick={handleMenuClick} style={{ position: 'relative' }} ref={dropdownRef}>
+          <img
+            style={{width:"24px", height: "24px", marginLeft: "20px"}}
+            src={menuImage}
+            alt="MenuImage"
+          />
+          {isDropdownVisible && (
+            <DropdownContainer isVisible={isDropdownVisible}>
+              <DropdownItem>
+                <img src={smileImage} alt= "Smile"/>
+                캐릭터 설명
+              </DropdownItem>
+            </DropdownContainer>
+          )}
+          </div>
+          </>
+          )}
         </HeaderRight>
       </HeaderContainer>
       <SearchPanel isVisible={isSearchPanelVisible}>
