@@ -9,7 +9,7 @@ const KeyWordContainer= styled.div`
   color: white;
   font-family: 'Pretendard_Bold', sans-serif;
   font-size: 35px;
-  margin-top: 600px; /* 추가: 두 페이지 사이에 간격을 주기 위함 */
+  margin-top: 620px; /* 추가: 두 페이지 사이에 간격을 주기 위함 */
 `;
 
 const KeyWordTitle = styled.p`

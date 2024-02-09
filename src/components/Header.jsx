@@ -14,10 +14,13 @@ import SignOutImage from "../images/signout.png";
 
 const HeaderContainer = styled.header`
   background-color: black;
+  width: 100%;
   padding: 20px;
   justify-content: space-between;
   display: flex;
   align-items: center;
+  position: fixed;
+  z-index: 3;
 `;
 
 const HeaderLeft = styled.div`
@@ -56,10 +59,13 @@ const HeaderLeft = styled.div`
 const HeaderRight = styled.div`
   display: flex;
   flex-direction: row;
-  margin-right: 20px;
+  margin-right: 30px;
   white-space: nowrap;
   align-items: center;
   justify-content: center;
+  position: fixed; /* 수정된 부분 */
+  right:0;
+
 
   .header-nav-item {
     text-decoration: none;
@@ -83,7 +89,6 @@ const SearchButton = styled.div`
   justify-content: center;
 
   > img {
-    margin-right: 15px;
     width: 40px;
     height: 40px;
   }
@@ -115,12 +120,14 @@ const StyledLink = styled(Link)`
 `;
 
 const SearchPanel = styled.div`
-  position: absolute;
+  position: fixed;
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
   justify-content: center;
+  margin-top: 60px;
+  z-index: 3;
   width: 100%;
   height: 310px;
   display: ${(props) => (props.isVisible ? "block" : "none")};
@@ -132,7 +139,7 @@ const SearchPanel = styled.div`
     transform: translate(-50%, -50%);
     margin-top: 15px;
     height: 187px;
-    z-index: 2;
+    z-index: 3;
   }
 `;
 
@@ -296,8 +303,6 @@ export default function Header() {
       // 실제 사용하고자 하는 경로로 변경해주세요.
       window.location.href = `/search`;
     } else {
-      // 검색어가 비어있는 경우 다른 페이지로 이동하거나, 필요에 따라 아무 작업도 수행하지 않을 수 있습니다.
-      // 여기서는 예시로 "/other" 경로로 이동하도록 설정했습니다.
       window.location.href = '/nonSearch';
     }
   };

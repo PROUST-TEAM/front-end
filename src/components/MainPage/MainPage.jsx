@@ -6,7 +6,6 @@ import video1 from "../../images/main_ani.mp4";
 import { Link } from 'react-scroll';
 
 const MainContainer = styled.article`
-  position: sticky;
   width: 100%;
   display: flex;
   align-items: center;
@@ -15,6 +14,7 @@ const MainContainer = styled.article`
   position: relative;
   padding-top: 30px;
   margin-bottom: 50px;
+  margin-top: 50px;
 `;
 
 const Image = styled.div`

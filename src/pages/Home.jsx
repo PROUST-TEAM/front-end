@@ -28,30 +28,31 @@ const NavigationContainer = styled.div`
 const Indicator = styled.div`
   width: 10px;
   height: 10px;
-  background-color: transparent;
+  background-color: ${(props) => (props.isSelected ? '#6BFF94' : 'transparent')};
   border-radius: 50%;
   margin-bottom: 10px;
   border: 1px solid white;
   cursor: pointer;
+  transition: background-color 0.3s ease; /* 색상 전환 효과 추가 */
 
-  &:hover {
-    background-color: #6BFF94;
-    border: 1px solid #6BFF94;
-  }
 `;
 
 const sections = ['main', 'second', 'third', 'fourth', 'fifth'];
 
 export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
+  const [selectedIndicator, setSelectedIndicator] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
 
-      const currentSectionIndex = Math.floor(scrollPosition / windowHeight);
+      // 수정된 부분: 스크롤이 어느 섹션에 속하는지를 판단할 때 0.5를 더해 반올림합니다.
+      const currentSectionIndex = Math.round(scrollPosition / windowHeight + 0.2);
+
       setCurrentSection(currentSectionIndex);
+      setSelectedIndicator(currentSectionIndex);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -63,6 +64,8 @@ export default function Home() {
 
   const handleIndicatorClick = (index) => {
     setCurrentSection(index);
+    setSelectedIndicator(index);
+
     window.scrollTo({
       top: index * window.innerHeight,
       behavior: 'smooth',
@@ -73,7 +76,11 @@ export default function Home() {
     <>
       <NavigationContainer>
         {sections.map((section, index) => (
-          <Indicator key={index} onClick={() => handleIndicatorClick(index)} />
+          <Indicator
+            key={index}
+            isSelected={selectedIndicator === index}
+            onClick={() => handleIndicatorClick(index)}
+          />
         ))}
       </NavigationContainer>
 

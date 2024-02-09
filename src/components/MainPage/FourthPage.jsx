@@ -13,7 +13,7 @@ const FourthContainer = styled.div`
   color: white;
 
   position: relative;
-  margin-top: 200px;
+  margin-top: 160px;
 `;
 
 const Title = styled.div`
@@ -138,7 +138,7 @@ const ReceiptBottom = styled.div`
 
 export default function FourthPage() {
 
-  const [isLoggedIn, setLoggedIn] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState(false);
 
   return (
     <FourthContainer>

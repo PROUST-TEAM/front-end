@@ -12,7 +12,7 @@ const PerfumeTestContainer = styled.div`
   flex-direction: column;
 
   position: relative;
-  margin-top: 300px;
+  margin-top: 400px;
 `;
 
 const BackImage = styled.div`
@@ -42,7 +42,7 @@ const Text = styled.div`
 const SecondImage = styled.div`
   position: relative;
   top: 50px;
-  z-index: 3;
+  z-index: 2;
 
   > img {
     width: 802px;
