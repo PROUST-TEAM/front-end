@@ -334,7 +334,7 @@ export default function Header() {
   }, [location.pathname]);
 
   // 로그인 상태 관리
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(true);
 
   return (
     <>

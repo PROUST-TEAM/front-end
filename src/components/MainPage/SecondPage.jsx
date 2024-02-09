@@ -29,9 +29,6 @@ const KeyWordDes = styled.p`
 `;
 
 const KeyButton = styled.div`
-
-  
-  
 `;
 
 const StyledLink = styled(Link)`
@@ -44,7 +41,7 @@ const StyledLink = styled(Link)`
     white-space: nowrap;
     background-color: transparent;
     color: white;
-    font-family: 'Pretendard_ExtraBold', sans-serif;
+    font-family: 'Pretendard_Bold', sans-serif;
     font-size: 25px;
     border: 2px solid white;
     border-radius: 100px;

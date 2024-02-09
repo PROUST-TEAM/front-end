@@ -31,10 +31,9 @@ const Indicator = styled.div`
   background-color: ${(props) => (props.isSelected ? '#6BFF94' : 'transparent')};
   border-radius: 50%;
   margin-bottom: 10px;
-  border: 1px solid white;
+  border: 1px solid ${(props) => (props.isSelected ? '#6BFF94' : 'white')};
   cursor: pointer;
   transition: background-color 0.3s ease; /* 색상 전환 효과 추가 */
-
 `;
 
 const sections = ['main', 'second', 'third', 'fourth', 'fifth'];

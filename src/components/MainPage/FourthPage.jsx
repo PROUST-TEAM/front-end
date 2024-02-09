@@ -67,13 +67,14 @@ const StyledLink = styled(Link)`
 `;
 
 
-const ReceiptContainer = styled.div`
+const ReceiptContainer = styled(Link)`
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-top: 50px;
   padding: 15px;
   z-index: 1;
+  text-decoration: none;
 `;
 
 const ReceiptTop = styled.div`
@@ -138,7 +139,7 @@ const ReceiptBottom = styled.div`
 
 export default function FourthPage() {
 
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(true);
 
   return (
     <FourthContainer>
@@ -148,38 +149,38 @@ export default function FourthPage() {
             PROUST PICK
           </Title>
           <BestContainer>
-          <ReceiptContainer>
-          <ReceiptTop>
-            <ReceiptTitle>
-                PROUST
-                <p>PICK</p>
-            </ReceiptTitle>
-            <HorizontalLine/>
-              <img
-                src={perfume}
-                alt="Base Character"
-              />
-            <ReceiptSubTitle>
-                Eau Duelle
-            </ReceiptSubTitle>
-            <Explanation>
-              <p>
-                오듀엘르 
-              </p>
-              <span>
-                #신비로운 바닐라 #스파이스 #달달함 #우디
-              </span>
-            </Explanation>
-            </ReceiptTop>
-            <ReceiptBottom>
-              <img
-                src={barcode}
-                alt="Base Character"
-                style={{ margin: "20px 0 20px 0" }}
-              />
-            </ReceiptBottom>
+          <ReceiptContainer to="/detail">
+            <ReceiptTop>
+              <ReceiptTitle>
+                  PROUST
+                  <p>PICK</p>
+              </ReceiptTitle>
+              <HorizontalLine/>
+                <img
+                  src={perfume}
+                  alt="Base Character"
+                />
+              <ReceiptSubTitle>
+                  Eau Duelle
+              </ReceiptSubTitle>
+              <Explanation>
+                <p>
+                  오듀엘르 
+                </p>
+                <span>
+                  #신비로운 바닐라 #스파이스 #달달함 #우디
+                </span>
+              </Explanation>
+              </ReceiptTop>
+              <ReceiptBottom>
+                <img
+                  src={barcode}
+                  alt="Base Character"
+                  style={{ margin: "20px 0 20px 0" }}
+                />
+              </ReceiptBottom>
             </ReceiptContainer>
-            <ReceiptContainer>
+            <ReceiptContainer to="/detail">
             <ReceiptTop>
               <ReceiptTitle>
                  PROUST
@@ -210,7 +211,7 @@ export default function FourthPage() {
               />
             </ReceiptBottom>
             </ReceiptContainer>
-            <ReceiptContainer>
+            <ReceiptContainer to="/detail">
             <ReceiptTop>
               <ReceiptTitle>
                  PROUST

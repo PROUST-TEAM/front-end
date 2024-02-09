@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 import topImage from "../../images/top_charac.png";
 import searchImage from "../../images/search_img.png";
-import video1 from "../../images/main_ani.mp4";
+import video1 from "../../images/main_ani.webm";
 import { Link } from 'react-scroll';
 
 const MainContainer = styled.article`
@@ -18,11 +18,18 @@ const MainContainer = styled.article`
 `;
 
 const Image = styled.div`
-  > img {
+  > video {
     width: 803px;
-    height: 452px;
+    height: 452px;  
+    z-index: 1; //이미지가 Title 위로 가도록
+    background-color: trnasparent;
   }
-  z-index: 0; //이미지가 Title 위로 가도록
+  
+  // > img {
+  //   width: 803px;
+  //   height: 452px;
+  // }
+  // z-index: 2;
 `;
 
 const Title= styled.div`
@@ -151,10 +158,10 @@ export default function MainPage() {
           PROUST
         </Title>
         <Image>
-            {/* <video autoPlay loop muted>
-                <source src={video1} type='video/mp4' />
-            </video> */}
-          <img src={topImage} alt="Top Character" />
+        <video autoPlay loop muted>
+          <source src={video1} type='video/webm' />
+        </video>
+          {/* <img src={topImage} alt="Top Character" /> */}
         </Image>
         <SubTitle>
         <ColoredText>몰랐던 향수 정보</ColoredText> 찾는데 낭비하는 시간,
