@@ -186,6 +186,7 @@ const Perfume = styled.div`
     margin-top: -10px;
   }
 `;
+
 const Heart = styled.div`
   display: inline;
   > svg {

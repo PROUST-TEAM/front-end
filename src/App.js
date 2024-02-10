@@ -20,6 +20,7 @@ import FindPasswordSecond from "./pages/FindPasswordSecond";
 import Join from "./pages/Join";
 import MyPage from "./pages/MyPage";
 import MyPageModify from "./pages/MyPageModify";
+import Character from "./pages/Character";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
           <Route path="/join" element={<Join />} />
           <Route path="/myPage" element={<MyPage />} />
           <Route path="/myPageModify" element={<MyPageModify />} />
+          <Route path="/character" element={<Character />} />
         </Routes>
       </BrowserRouter>
     </div>
