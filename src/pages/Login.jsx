@@ -105,7 +105,7 @@ const StyledSlider = styled.div`
   border: 2px solid black;
   transition: left 250ms linear;
   background-color: ${({ isClicked }) => (isClicked ? '#6BFF94' : 'white')};
-  left: ${({ isClicked }) => (isClicked ? '41%' : '0')};
+  left: ${({ isClicked }) => (isClicked ? 'calc(100% - 1.3em)' : '0')}; 
 `;
 
 const StyledSwitchLabel = styled.label`
@@ -183,7 +183,7 @@ const StyledPwIcon = styled.img`
   width: 28px;
   height: 28px;
   right: -269px;
-  top: -74px;
+  top: -73px;
   cursor: pointer;
 `;
 
@@ -204,15 +204,19 @@ export default function Login() {
 
   useEffect(() => {
     const storedPassword = localStorage.getItem('savedPassword');
+    const isPasswordSaved = storedPassword ? true : false;
+    setIsClicked(isPasswordSaved);
+    setIsPasswordVisible(true); 
     if (storedPassword) {
       setPassword(storedPassword);
     }
   }, []);
+  
 
   const handleSwitchClick = () => {
     setIsClicked(!isClicked);
-
-    if (!isClicked) {
+  
+    if (!isClicked && userpw.trim() !== '') {
       localStorage.setItem('savedPassword', userpw);
     } else {
       localStorage.removeItem('savedPassword');
@@ -236,7 +240,9 @@ export default function Login() {
   };
 
   const handlePasswordButtonClick = () => {
-    setPassword('');
+    const currentPassword = userpw;
+    setPassword(''); 
+    setTimeout(() => setPassword(currentPassword), 0); 
   };
 
   const handleLogin = () => {
@@ -257,7 +263,7 @@ export default function Login() {
       usermailInput.classList.remove('placeholder-red');
     }
     
-    if (!userpw) {
+    if (!userpw || (userpw === '' && isPasswordVisible)) {
       passwordInput.placeholder = "*비밀번호를 입력하세요.";
       passwordInput.style.color = "black";
       passwordInput.style.fontFamily = "Pretendard_Light";
@@ -268,9 +274,9 @@ export default function Login() {
       passwordInput.style.color = "initial";
       passwordInput.style.fontFamily = "Pretendard_Light";
       passwordInput.style.border = "none";
-      passwordInput.classList.remove('placeholder-red'); 
-    }    
-
+      passwordInput.classList.remove('placeholder-red');
+    }     
+    
     setIsLoggedIn(true);
     
     if (isClicked) {
@@ -278,6 +284,9 @@ export default function Login() {
       const storedPassword = localStorage.getItem('savedPassword');
       if (storedPassword) {
         setPassword(storedPassword);
+      }
+      if (userpw !== storedPassword) {
+        localStorage.setItem('savedPassword', userpw);
       }
     }
   };
@@ -294,16 +303,16 @@ export default function Login() {
         </StyledParagraph>
         <StyledImage src={topImage} alt="Top Character" width="330" height="189" />
       </StyledContainer>
-      <div style={{ position: 'absolute', top: '41.5%', left: '62%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
-      {(isLoggedIn &&!usermail) && (
-      <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
-      )}
-      </div>
-      <div style={{ position: 'absolute', top: '55.2%', left: '62%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
-      {(isLoggedIn &&!userpw) && (
-      <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
-      )}
-      </div>
+      <div style={{ position: 'absolute', transform: 'translate(440%, 820%)', zIndex: 2 }}>
+          {(isLoggedIn && !usermail) && (
+            <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
+          )}
+        </div>
+        <div style={{ position: 'absolute', transform: 'translate(440%, 1190%)', zIndex: 2 }}>
+          {(isLoggedIn && (!userpw || userpw === '')) && (
+            <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
+          )}
+        </div>
         <StyledWord>
           <p>이메일&nbsp;&nbsp;&nbsp;&nbsp;</p>
         </StyledWord>
@@ -325,7 +334,7 @@ export default function Login() {
         </StyledWord>
         <StyledInput 
           id="password-input"
-          type={isPasswordVisible ? "text" : "password"} placeholder="비밀번호를 입력하세요."  
+          type={isPasswordVisible ? "password" : "text"} placeholder="비밀번호를 입력하세요."  
           defaultValue={userpw}
           onChange={handlePasswordChange}/>
         <StyledpwButton visible={userpw !== ''} onClick={handlePasswordButtonClick}>
@@ -355,9 +364,9 @@ export default function Login() {
           <StyledText>─────────────────</StyledText>
         </StyledFooter>
   <StyledLoginButtonContainer>
-    <img src={googleImage} alt="Google" style={{ width: '80px', height: '80px' }} />
-    <img src={kakaoImage} alt="Kakao" style={{ width: '80px', height: '80px' }} />
-    <img src={naverImage} alt="Naver" style={{ width: '80px', height: '80px' }} />
+    <img src={googleImage} alt="Google" style={{ width: '90px', height: '90px' }} />
+    <img src={kakaoImage} alt="Kakao" style={{ width: '90px', height: '90px' }} />
+    <img src={naverImage} alt="Naver" style={{ width: '90px', height: '90px' }} />
   </StyledLoginButtonContainer>
   </StyledContent>
     </>
