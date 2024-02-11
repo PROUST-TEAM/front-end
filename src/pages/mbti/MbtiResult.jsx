@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import entp from "../../images/mbti/entp.png";
 import perfume from "../../images/perfume.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import datas from "./json/results.json";
 
 const MbtiResultWrap = styled.div``;
@@ -13,6 +13,7 @@ const MbtiResultContent = styled.div`
   text-align: center;
   margin-top: 50px;
 `;
+
 const ResultLeft = styled.div`
   // flex: 70%;
   // margin-left: 50px;
@@ -30,8 +31,10 @@ const ResultLeft = styled.div`
     }
   }
 `;
+
 const ResultRight = styled.div``;
 const Center = styled.div``;
+
 const Explanation = styled.div`
   margin: 25px 50px 40px 50px;
   font-family: Pretendard_SemiBold;
@@ -42,6 +45,7 @@ const Explanation = styled.div`
   text-align: center;
   width: 441px;
 `;
+
 const StartButton = styled.div`
   border: 2px solid #fefdfc;
   border-radius: 100px;
@@ -90,6 +94,10 @@ const StyledHr = styled.hr`
 `;
 
 export default function MbtiResult() {
+  const location = useLocation();
+  const mbtiList = location.state && location.state.mbtiList;
+
+  console.log('mbti총 결과',mbtiList);
   return (
     <MbtiResultWrap>
       <MbtiResultContent>
