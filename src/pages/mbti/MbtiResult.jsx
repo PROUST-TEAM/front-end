@@ -11,7 +11,7 @@ const MbtiResultContent = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 50px;
+  margin-top: 100px;
 `;
 
 const ResultLeft = styled.div`
@@ -38,12 +38,12 @@ const Center = styled.div``;
 const Explanation = styled.div`
   margin: 25px 50px 40px 50px;
   font-family: Pretendard_SemiBold;
-  font-size: 16px;
+  font-size: 20px;
   color: rgba(255, 255, 255, 0.7);
   text-align: left;
   line-height: 1.4;
   text-align: center;
-  width: 441px;
+  width: 500px;
 `;
 
 const StartButton = styled.div`
@@ -63,14 +63,14 @@ const StartButton = styled.div`
 `;
 const titleStyle = {
   fontFamily: "Pretendard_ExtraBold",
-  fontSize: "20px",
+  fontSize: "25px",
   color: "#6BFF94",
   margin: "0px 0 10px 0",
   display: "inline-block",
 };
 const textStyle = {
   fontFamily: "Pretendard_Medium",
-  fontSize: "12px",
+  fontSize: "15px",
   color: "rgba(255, 255, 255, 0.7)",
   marginBottom: "5px",
 };
@@ -81,9 +81,9 @@ const Circle2 = styled.div`
   width: 12px;
   height: 12px;
   position: absolute;
-  top: 436px;
+  top: 506px;
   left: 50%;
-  transform: translate(1000%, -50%);
+  transform: translate(800%, -50%);
 `;
 
 const StyledHr = styled.hr`
