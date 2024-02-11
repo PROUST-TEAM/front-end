@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react";
 import styled from "styled-components";
 import secondImage from "../../images/sec_charac.png";
 import backImage from "../../images/test_back_img.png";
-import { Link } from 'react-router-dom'; 
+import { Link } from "react-router-dom";
 
 const PerfumeTestContainer = styled.div`
   display: flex;
@@ -61,42 +61,54 @@ const StyledLink = styled(Link)`
     white-space: nowrap;
     background-color: black;
     color: white;
-    font-family: 'Pretendard_ExtraBold', sans-serif;
+    font-family: "Pretendard_ExtraBold", sans-serif;
     font-size: 25px;
     border: 2px solid white;
     border-radius: 100px;
     padding: 15px 40px;
   }
-  
+
   > button:hover {
     background-color: black;
-    color: #6BFF94;
+    color: #6bff94;
 
-    border: 2px solid #6BFF94;
+    border: 2px solid #6bff94;
   }
 `;
-
-
 
 export default function ThirdPage() {
   return (
     <PerfumeTestContainer>
       <BackImage>
-        <img src={backImage} alt="BackImg"/>
+        <img src={backImage} alt="BackImg" />
       </BackImage>
       <Text>
-        <p style={{ fontSize: "50px", color: "white", fontFamily: "Pretendard_ExtraBold" }}>나와 어울리는 향은?</p>
-        <p style={
-          { fontSize: "35px", color: "white", fontFamily: "Pretendard_Bold", marginTop: "20px" }}>
-            MBTI TEST로 나와 어울리는 향을 찾아봐
+        <p
+          style={{
+            fontSize: "50px",
+            color: "white",
+            fontFamily: "Pretendard_ExtraBold",
+          }}
+        >
+          나와 어울리는 향은?
+        </p>
+        <p
+          style={{
+            fontSize: "35px",
+            color: "white",
+            fontFamily: "Pretendard_Bold",
+            marginTop: "20px",
+          }}
+        >
+          MBTI TEST로 나와 어울리는 향을 찾아봐
         </p>
       </Text>
       <SecondImage>
-        <img src= {secondImage} alt='Second Character'/>
+        <img src={secondImage} alt="Second Character" />
       </SecondImage>
-      <StyledLink to="/mbtiTest">
+      <StyledLink to="/mbtiMain">
         <button>나만의 향 찾으러 가기</button>
       </StyledLink>
     </PerfumeTestContainer>
-  )
+  );
 }

@@ -10,7 +10,7 @@ const MbtiTestWrap = styled.div`
   text-align: center;
 `;
 const MbtiTestContent = styled.div`
-  //margin-bottom: 50px;
+  margin-top: 60px;
 `;
 const Title = styled.div`
   color: #6bff94;
