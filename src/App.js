@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import MbtiMain from "./pages/mbti/MbtiMain";
 import MbtiResult from "./pages/mbti/MbtiResult";
 import MbtiTest from "./pages/mbti/MbtiTest";
+import Mbti from "./pages/mbti/Mbti";
 import MyList from "./pages/perfume/MyList";
 import MyPerfumeDetail from "./pages/perfume/PerfumeDetail";
 import Search from "./pages/search/Search";
@@ -41,6 +42,7 @@ function App() {
           <Route path="/mbtiMain" element={<MbtiMain />} />
           <Route path="/mbtiTest" element={<MbtiTest />} />
           <Route path="/mbtiResult" element={<MbtiResult />} />
+          <Route path="/mbti" element={<Mbti/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/search" element={<Search />} />
           <Route path="/nonSearch" element={<NonSearch />} />

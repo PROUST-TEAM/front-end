@@ -1,16 +1,16 @@
 import { React,useState } from "react";
 import styled from "styled-components";
 import middleImg from "../../images/sec_charac.png";
-import arrowLeft from "../../images/arrow_left.png";
-import arrowRight from "../../images/arrow_right.png";
 import { useNavigate } from 'react-router-dom';
-//import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 //import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import statusImg from "../../images/Shape.png";
 //import numberImg from "../../images/Number0.png";
 //import datas from "./json/questions.json";
 
-const MbtiTestWrap = styled.div``;
+const MbtiTestWrap = styled.div`
+  margin-top: 60px;
+`;
 const MbtiTestTopWrap = styled.div`
   display: flex;
   align-items: center;
@@ -20,6 +20,7 @@ const MbtiTestTopWrap = styled.div`
 const MbtiTestTopContent = styled.div``;
 
 const Question = styled.div`
+user-select: none;
   display: inline-block;
   > p {
     display: flex;
@@ -37,6 +38,7 @@ const Question = styled.div`
   }
 `;
 const Options = styled.div`
+user-select: none;
   text-align: start;
   > div {
     background-color: #ffffff;
@@ -50,6 +52,7 @@ const Options = styled.div`
   }
 `;
 const Option = styled.div`
+user-select: none;
   padding: 20px 20px 20px 20px;
 
   > p {
@@ -75,6 +78,7 @@ const MbtiTestBottomWrap = styled.div`
   margin-bottom: 100px;
 
   >p{
+    user-select: none;
     font-family: "Pretendard_ExtraBold", sans-serif;
     color: white;
     font-size: 20px;
@@ -213,8 +217,8 @@ export default function MbtiTest() {
     a:[{type:'S', number:'A', text:'너 어떻게 그런 생각을 해?'},
     {type:'N', number:'B', text:'이런 상상을 안 해봤다고?'}]},
 
-    // {q: ['테스트가 모두 끝났어! 결과 보러 갈래?'],
-    // a:[{type:'', text:'나의 성향에 맞는 향수 보러 가기'}]}
+    // {q: ['MBTI TEST가 끝났어! 너의 성향에 맞는 향수 보러갈래?'],
+    // a:[{type:'', text:'MBTI 결과 보러가기'}]}
   ]
 
   const [mbtiList, setMbtiList] = useState([
@@ -236,10 +240,13 @@ export default function MbtiTest() {
     setMbtiList(ls);
     
     if (page + 1 === questionList.length) {
-      // Navigate to '/mbtiResult' when the last question is reached
-      navigate('/mbtiResult', { state: { mbtiList: ls } });
+      // return (
+      //     {/* <Link >
+      //       <Button>내 성향에 맞는 향수 결과 보러가기</Button>
+      //     </Link> */}
+      // );
+      navigate('/mbti', { state: { mbtiList: ls } });
     } else {
-      // Move to the next question
       setPage((prevPage) => prevPage + 1);
     }
   };

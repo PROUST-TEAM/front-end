@@ -131,7 +131,7 @@ const StyledHr = styled.hr`
 
 export default function MbtiResult() {
   const location = useLocation();
-  const mbtiList = location.state && location.state.mbtiList;
+  const mbtiList = location.state ? location.state.mbtiList : null;
 
   console.log('mbti총 결과',mbtiList);
 
