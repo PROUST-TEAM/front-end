@@ -16,11 +16,14 @@ import SignOutImage from "../images/signout.png";
 import LogoutModal from "./LogOutModal";
 
 const HeaderContainer = styled.header`
+  position: fixed;
   background-color: black;
-  padding: 20px;
+  padding: 10px;
   justify-content: space-between;
   display: flex;
   align-items: center;
+  z-index: 3;
+  width: 100%;
 `;
 
 const HeaderLeft = styled.div`
@@ -59,7 +62,8 @@ const HeaderLeft = styled.div`
 const HeaderRight = styled.div`
   display: flex;
   flex-direction: row;
-  margin-right: 20px;
+  margin-right: 40px;
+  margin-left: 10px;
   white-space: nowrap;
   align-items: center;
   justify-content: center;
@@ -86,7 +90,6 @@ const SearchButton = styled.div`
   justify-content: center;
 
   > img {
-    margin-right: 15px;
     width: 40px;
     height: 40px;
   }
@@ -118,7 +121,7 @@ const StyledLink = styled(Link)`
 `;
 
 const SearchPanel = styled.div`
-  position: absolute;
+  position: fixed;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -126,7 +129,9 @@ const SearchPanel = styled.div`
   justify-content: center;
   width: 100%;
   height: 310px;
+  margin-top: 62px;
   display: ${(props) => (props.isVisible ? "block" : "none")};
+  z-index: 2;
 
   > img {
     position: absolute;
@@ -137,7 +142,7 @@ const SearchPanel = styled.div`
     height: 187px;
     z-index: 2;
   }
-`;
+`; 
 
 const CloseButton = styled.div`
   > img{
@@ -159,6 +164,7 @@ const SearchContainer = styled.div`
   align-items: center;
   text-align: center;
   justify-content: center;
+  z-index: 2;
 
   position: absolute;
   top: 73%;
@@ -176,7 +182,6 @@ const SearchContainer = styled.div`
   width: 732px;
   height: 40px;
   color: #f3f3f3;
-  z-index: 2;
 `;
 
 const Input = styled.input`
@@ -202,18 +207,18 @@ const BlurredBackground = styled.div`
 `;
 
 const DropdownContainer = styled.div`
-  display: 
   z-index: 2;
   position: absolute;
   text-align: center;
   justify-content: center;
   width: 150px;
-  top: 140%;
+  top: 175%;
   right: 0;
   display: ${(props) => (props.isVisible ? 'flex' : 'none')};
   flex-direction: column;
   background-color: white;
   border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0.1, 0.1, 0.1, 0.2);
 `;
 
 const DropdownItem = styled.div`
@@ -269,6 +274,20 @@ export default function Header() {
     closeSearchPanel();
   }, [location.pathname]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // 검색 패널이 열려있고, 클릭된 요소가 검색 패널 외부인 경우에만 검색 패널 닫기
+      if (isSearchPanelVisible && !searchPanelRef.current.contains(event.target)) {
+        closeSearchPanel();
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isSearchPanelVisible]);
   const openSearchPanel = () => {
     setSearchPanelVisible(true);
   };
@@ -276,6 +295,8 @@ export default function Header() {
   const closeSearchPanel = () => {
     setSearchPanelVisible(false);
   };
+
+  const searchPanelRef = useRef(null);
 
   // ... (rest of the code)
 
@@ -329,7 +350,7 @@ export default function Header() {
   }, [location.pathname]);
 
   // 로그인 상태 관리
-  const [isLoggedIn, setLoggedIn] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState(false);
 
   // 모달 상태 관리
   const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
@@ -478,6 +499,14 @@ export default function Header() {
             LOGIN
             <img src={loginImage} alt="LoginImage" />
           </StyledLink>
+          <StyledLink
+            className={`header-nav-item ${isMyPage ? "active" : ""}`}
+            to="/myPage"
+            onClick={() => handleNavLinkClick("/myPage")}
+          >
+            MY PAGE
+            <img src={loginImage} alt="LoginImage" />
+          </StyledLink>
           <div onClick={handleMenuClick} style={{ position: 'relative' }} ref={dropdownRef}>
           <img
             style={{width:"24px", height: "24px", marginLeft: "20px"}}
@@ -498,7 +527,7 @@ export default function Header() {
           )}
         </HeaderRight>
       </HeaderContainer>
-      <SearchPanel isVisible={isSearchPanelVisible}>
+      <SearchPanel isVisible={isSearchPanelVisible} ref={searchPanelRef}>
         <CloseButton onClick={closeSearchPanel}>
           <img src={closeBtnImage} alt="CloseButton" />
         </CloseButton>
@@ -511,7 +540,7 @@ export default function Header() {
             value={searchText}
             onChange={handleInputChange}
           />
-          <SearchButton to="#" onClick={handleSearchButtonClick}>
+          <SearchButton to="#" onClick={handleSearchButtonClick} style={{marginRight:"20px"}}>
             <img src={searchBtnImage} alt="SearchImg" />
           </SearchButton>
         </SearchContainer>
