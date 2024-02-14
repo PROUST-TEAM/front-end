@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 import topImage from "../../images/top_charac.png";
 import searchImage from "../../images/search_img.png";
-import { Link } from 'react-router-dom';
+import video1 from "../../images/main_ani.webm";
+import { Link } from 'react-scroll';
 
-const MainContainer = styled.div`
+const MainContainer = styled.article`
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,14 +14,22 @@ const MainContainer = styled.div`
   position: relative;
   padding-top: 30px;
   margin-bottom: 50px;
+  margin-top: 50px;
 `;
 
 const Image = styled.div`
+  // > video {
+  //   width: 803px;
+  //   height: 452px;  
+  //   z-index: 1; //이미지가 Title 위로 가도록
+  //   background-color: trnasparent;
+  // }
+  
   > img {
     width: 803px;
     height: 452px;
   }
-  z-index: 0; //이미지가 Title 위로 가도록
+  z-index: 1;
 `;
 
 const Title= styled.div`
@@ -122,7 +132,11 @@ export const SearchButton = styled(Link)`
   text-decoration: none;  // 링크에 기본 스타일 제거
 `;
 
+
+
 export default function MainPage() {
+  // 검색어가 있는 경우 vs 없는 경우 나눠서 구현
+  // API 연결 후에 변경될 예정
   const [searchText, setSearchText] = useState('');
 
   const handleInputChange = (e) => {
@@ -130,15 +144,9 @@ export default function MainPage() {
   };
 
   const handleSearchButtonClick = () => {
-    // 검색어가 비어있지 않은 경우에만 링크로 이동
     if (searchText.trim() !== '') {
-      // 검색 결과 페이지로 이동
-      // 예시로 "/search" 경로를 사용했습니다.
-      // 실제 사용하고자 하는 경로로 변경해주세요.
       window.location.href = `/search`;
     } else {
-      // 검색어가 비어있는 경우 다른 페이지로 이동하거나, 필요에 따라 아무 작업도 수행하지 않을 수 있습니다.
-      // 여기서는 예시로 "/other" 경로로 이동하도록 설정했습니다.
       window.location.href = '/nonSearch';
     }
   };
@@ -150,6 +158,9 @@ export default function MainPage() {
           PROUST
         </Title>
         <Image>
+        {/* <video autoPlay loop muted>
+          <source src={video1} type='video/webm' />
+        </video> */}
           <img src={topImage} alt="Top Character" />
         </Image>
         <SubTitle>

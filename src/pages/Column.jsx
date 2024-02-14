@@ -4,6 +4,7 @@ import secondImage from "../images/sec_charac.png";
 //import columnBack from "../images/column_back_img.png";
 
 const ColumContainer = styled.div`
+  margin-top: 40px;
   display: flex;
   align-items: center;
   justify-content: center;

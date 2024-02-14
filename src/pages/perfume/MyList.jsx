@@ -6,6 +6,7 @@ import perfume from "../../images/perfume.png";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 const PerfimeListWrap = styled.div`
+  margin-top: 40px;
   display: flex;
   align-items: center;
   justify-content: center;

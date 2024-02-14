@@ -12,7 +12,7 @@ const PerfumeTestContainer = styled.div`
   flex-direction: column;
 
   position: relative;
-  margin-top: 300px;
+  margin-top: 400px;
 `;
 
 const BackImage = styled.div`

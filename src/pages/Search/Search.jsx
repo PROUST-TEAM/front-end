@@ -8,6 +8,7 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const RootWrap = styled.div`
+  margin-top: 50px;
   display: flex;
   align-items: center;
   justify-content: center;

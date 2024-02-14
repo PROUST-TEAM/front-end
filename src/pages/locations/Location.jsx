@@ -8,6 +8,7 @@ import location3 from "../../images/location/directo.jpg";
 import location4 from "../../images/location/ssenfragrance.jpg";
 
 const LocationWrap = styled.div`
+  margin-top: 40px;
   display: flex;
   align-items: center;
   justify-content: center;

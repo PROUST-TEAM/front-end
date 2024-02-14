@@ -11,6 +11,7 @@ const StyledContainer = styled.div`
   align-items: center;
   justify-content: center;
   background-color: black;
+  margin-top: 90px;
 `;
 
 const StyledParagraph = styled.p`

@@ -9,7 +9,7 @@ import statusImg from "../../images/Shape.png";
 //import datas from "./json/questions.json";
 
 const MbtiTestWrap = styled.div`
-  margin-top: 60px;
+  margin-top: 140px;
 `;
 const MbtiTestTopWrap = styled.div`
   display: flex;
@@ -70,7 +70,7 @@ user-select: none;
 `;
 
 const MbtiTestBottomWrap = styled.div`
-  margin-top: 120px;
+  margin-top: 100px;
   display: flex;
   align-items: center;
   justify-content: center;

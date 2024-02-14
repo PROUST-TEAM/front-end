@@ -9,7 +9,7 @@ const KeyWordContainer= styled.div`
   color: white;
   font-family: 'Pretendard_Bold', sans-serif;
   font-size: 35px;
-  margin-top: 600px; /* 추가: 두 페이지 사이에 간격을 주기 위함 */
+  margin-top: 620px; /* 추가: 두 페이지 사이에 간격을 주기 위함 */
 `;
 
 const KeyWordTitle = styled.p`
@@ -29,9 +29,6 @@ const KeyWordDes = styled.p`
 `;
 
 const KeyButton = styled.div`
-
-  
-  
 `;
 
 const StyledLink = styled(Link)`
@@ -44,7 +41,7 @@ const StyledLink = styled(Link)`
     white-space: nowrap;
     background-color: transparent;
     color: white;
-    font-family: 'Pretendard_ExtraBold', sans-serif;
+    font-family: 'Pretendard_Bold', sans-serif;
     font-size: 25px;
     border: 2px solid white;
     border-radius: 100px;

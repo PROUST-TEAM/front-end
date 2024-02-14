@@ -4,6 +4,7 @@ import middleImg from "../../images/sec_charac.png";
 import { Link } from "react-router-dom";
 
 const MbtiTestWrap = styled.div`
+  margin-top: 80px;
   display: flex;
   align-items: center;
   justify-content: center;

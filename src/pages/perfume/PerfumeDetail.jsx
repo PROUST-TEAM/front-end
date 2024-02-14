@@ -8,6 +8,7 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import Comment from "../../components/Comment";
 
 const PerfimeDetailWrap = styled.div`
+  margin-top: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
