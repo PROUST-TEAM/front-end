@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 const MbtiTestWrap = styled.div`
+  margin-top: 80px;
   display: flex;
   align-items: center;
   justify-content: center;

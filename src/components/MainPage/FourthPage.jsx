@@ -139,7 +139,7 @@ const ReceiptBottom = styled.div`
 
 export default function FourthPage() {
 
-  const [isLoggedIn, setLoggedIn] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState(false);
 
   return (
     <FourthContainer>

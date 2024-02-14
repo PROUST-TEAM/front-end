@@ -44,7 +44,7 @@ const MbtiResultContent = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 100px;
+  margin-top: 180px;
 `;
 
 const ResultLeft = styled.div`

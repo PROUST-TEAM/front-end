@@ -29,7 +29,7 @@ const Image = styled.div`
     width: 803px;
     height: 452px;
   }
-  z-index: 2;
+  z-index: 1;
 `;
 
 const Title= styled.div`

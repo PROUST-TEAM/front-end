@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import topImage from "../../images/top_charac.png";
 
-const LocationDetailWrap = styled.div`
+const LocationDetailWrap = styled.div` 
+  margin-top: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
