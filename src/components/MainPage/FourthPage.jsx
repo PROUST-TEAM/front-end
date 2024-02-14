@@ -5,6 +5,7 @@ import perfume from "../../images/perfume.png";
 import barcode from "../../images/barcode.png";
 
 const FourthContainer = styled.div`
+  user-select: none;
   display: flex;
   height: auto;
   align-items: center;

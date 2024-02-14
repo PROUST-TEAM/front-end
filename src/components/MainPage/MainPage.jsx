@@ -6,6 +6,7 @@ import video1 from "../../images/main_ani.webm";
 import { Link } from 'react-scroll';
 
 const MainContainer = styled.article`
+  user-select: none;
   width: 100%;
   display: flex;
   align-items: center;
