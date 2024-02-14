@@ -9,10 +9,6 @@ import pointImage from '../images/point.png'
 import googleImage from '../images/google.png'
 import kakaoImage from '../images/kakao.png'
 import naverImage from '../images/naver.png'
-import GoogleLogin from 'react-google-login';
-import KakaoLogin from 'react-kakao-login';
-import NaverLogin from 'react-naver-login';
-// import axios from 'axios';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -293,36 +289,6 @@ export default function Login() {
         localStorage.setItem('savedPassword', userpw);
       }
     }
-    }
-  };
-
-  const handleGoogleLoginSuccess = (response) => {
-    console.log('Google Login Success', response);
-  };
-  
-  const handleGoogleLoginFailure = (error) => {
-    console.error('Google Login Failure', error);
-  };
-
-  const handleKakaoLoginSuccess = (response) => {
-    console.log('Kakao Login Success', response);
-
-    // // 서버로 전송할 데이터
-    // const requestData = {
-    //   kakaoToken: response.access_token,
-    // };
-
-    // // axios를 사용하여 GET 요청 수행
-    // axios.get('/user/kakao/callback', { params: requestData })
-    //   .then((serverResponse) => {
-    //     console.log('Server Response:', serverResponse.data);
-    //     // 필요한 작업 수행
-    //   })
-    //   .catch((error) => console.error('Error:', error));
-  };
-
-  const handleKakaoLoginFailure = (error) => {
-    console.error('Kakao Login Failure', error);
   };
 
   return (

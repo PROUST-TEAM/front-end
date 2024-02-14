@@ -18,18 +18,18 @@ const MainContainer = styled.article`
 `;
 
 const Image = styled.div`
-  > video {
-    width: 803px;
-    height: 452px;  
-    z-index: 1; //이미지가 Title 위로 가도록
-    background-color: trnasparent;
-  }
-  
-  // > img {
+  // > video {
   //   width: 803px;
-  //   height: 452px;
+  //   height: 452px;  
+  //   z-index: 1; //이미지가 Title 위로 가도록
+  //   background-color: trnasparent;
   // }
-  // z-index: 2;
+  
+  > img {
+    width: 803px;
+    height: 452px;
+  }
+  z-index: 2;
 `;
 
 const Title= styled.div`
@@ -158,10 +158,10 @@ export default function MainPage() {
           PROUST
         </Title>
         <Image>
-        <video autoPlay loop muted>
+        {/* <video autoPlay loop muted>
           <source src={video1} type='video/webm' />
-        </video>
-          {/* <img src={topImage} alt="Top Character" /> */}
+        </video> */}
+          <img src={topImage} alt="Top Character" />
         </Image>
         <SubTitle>
         <ColoredText>몰랐던 향수 정보</ColoredText> 찾는데 낭비하는 시간,

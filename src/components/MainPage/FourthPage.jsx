@@ -145,7 +145,7 @@ export default function FourthPage() {
     <FourthContainer>
         {isLoggedIn ? (
           <>
-          <Title style={{fontSize: "60px"}}>
+          <Title style={{fontSize: "60px" }}>
             PROUST PICK
           </Title>
           <BestContainer>
