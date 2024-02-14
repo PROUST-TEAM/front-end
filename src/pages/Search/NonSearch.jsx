@@ -5,6 +5,7 @@ import searchImage from "../../images/search_img.png";
 import { Link } from "react-router-dom";
 
 const SearchWrap = styled.div`
+  margin-top:50px;
   display: flex;
   align-items: center;
   justify-content: center;
