@@ -36,13 +36,13 @@ const Text = styled.div`
   transform: translate(-50%, -50%);
   white-space: nowrap;
 
-  z-index: 2;
+  z-index: 1;
 `;
 
 const SecondImage = styled.div`
   position: relative;
   top: 50px;
-  z-index: 3;
+  z-index: 1;
 
   > img {
     width: 802px;
@@ -55,7 +55,7 @@ const SecondImage = styled.div`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
-  z-index: 4;
+  z-index: 1;
 
   > button {
     white-space: nowrap;
