@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import topCharac from '../images/bg_top.png';
-import openImage from '../images/wEyeOpend.png';
-import closeImage from '../images/wEyeClosed .png';
+import openImage from '../images/Login-Icons.png';
+import closeImage from '../images/EyeClosed.png';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -51,9 +51,9 @@ const StyledInput = styled.input`
   height: 35px;
   padding: 7px;
   margin-top: 5px;
-  background-color: black;
-  color: white;
-  border: 3px solid white; 
+  background-color: #E7E7E7;
+  color: #7D7D7D;
+  border: 3px solid #E7E7E7; 
   font-family: Pretendard_Bold;
   font-size: 20px;
   text-indent: 10px;
@@ -62,7 +62,7 @@ const StyledInput = styled.input`
 const StyledButtonContainer = styled.div`
   display: flex;
   margin-top: 20px;
-  margin-left: 632px;
+  margin-left: 650px;
   margin-bottom: 140px;
 `;
 
@@ -76,8 +76,8 @@ const StyledTextButton = styled.button`
   margin-right: 15px;
 `;
 
-const StyledModifyButton = styled.button`
-  width: 80px;
+const StyledCompleteButton = styled.button`
+  width: 60px;
   height: 33px;
   background-color: transparent;
   color: white;
@@ -95,10 +95,10 @@ const StyledVisibleButton = styled.div`
 
 const StyledVisibleIcon = styled.img`
   position: absolute;
-  width: 25px;
-  height: 17px;
-  top: -6px;
-  right: 16px;
+  width: 29px;
+  height: 29px;
+  top: -12px;
+  right: 15px;
   cursor: pointer;
 `;
 
@@ -234,8 +234,8 @@ export default function MyPage() {
       
       <StyledButtonContainer>
         <StyledTextButton onClick={handleWithdrawal}>탈퇴하기</StyledTextButton>
-        <Link to="/myPageModify">
-          <StyledModifyButton>수정하기</StyledModifyButton>
+        <Link to="/myPage">
+          <StyledCompleteButton>완료</StyledCompleteButton>
         </Link>
       </StyledButtonContainer>
 

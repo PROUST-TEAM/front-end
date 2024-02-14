@@ -41,3 +41,8 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+.placeholder-red::placeholder {
+	color: #B3261E;
+	font-family: Pretendard-ExtraBold;
+  }
