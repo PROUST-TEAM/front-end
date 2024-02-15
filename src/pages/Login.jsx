@@ -215,6 +215,9 @@ export default function Login() {
       // 서버 응답 확인
       console.log("Server response:", response.data);
 
+      // 로그인 토큰 저장
+      localStorage.setItem("token", response.data.result.token);
+
       // 로그인 성공 후 페이지 이동
       navigate("/home");
     } catch (error) {
