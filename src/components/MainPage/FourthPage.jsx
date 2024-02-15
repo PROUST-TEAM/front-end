@@ -1,5 +1,4 @@
-//import React, { useState } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
 import perfume from "../../images/perfume.png";
@@ -14,7 +13,7 @@ const FourthContainer = styled.div`
   color: white;
 
   position: relative;
-  margin-top: 200px;
+  margin-top: 160px;
 `;
 
 const Title = styled.div`
@@ -68,15 +67,14 @@ const StyledLink = styled(Link)`
 `;
 
 
-const ReceiptContainer = styled.div`
+const ReceiptContainer = styled(Link)`
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-top: 50px;
   padding: 15px;
   z-index: 1;
-
-  filter: blur(13px);
+  text-decoration: none;
 `;
 
 const ReceiptTop = styled.div`
@@ -118,14 +116,14 @@ const ReceiptSubTitle = styled.div`
 
 const Explanation = styled.div`
   font-family: 'Pretendard_SemiBold', sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   color: rgba(0, 0, 0, 0.63);
   text-align: center;
   line-height: 1.4;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 
   >p{
-    margin-top: 10px;
+    margin-top: 15px;
   }
 `;
 
@@ -141,22 +139,48 @@ const ReceiptBottom = styled.div`
 
 export default function FourthPage() {
 
-  // const [isUserLogin, setUserLogin] = useState(false);
-
-  // const blurOffLoginUser = () => {
-  //   setUserLogin(true);
-  // };
+  const [isLoggedIn, setLoggedIn] = useState(false);
 
   return (
     <FourthContainer>
-        <Title>
-            <ColoredText>회원가입</ColoredText>하고 향수 추천받아봐
-        </Title>
-        <BestContainer>
-            {/* 비로그인/로그인 구분
-                비로그인 - 이미지로 처리
-                로그인 - 이미지 및 API 받아서 처리*/}
-            <ReceiptContainer>
+        {isLoggedIn ? (
+          <>
+          <Title style={{fontSize: "60px" }}>
+            PROUST PICK
+          </Title>
+          <BestContainer>
+          <ReceiptContainer to="/detail">
+            <ReceiptTop>
+              <ReceiptTitle>
+                  PROUST
+                  <p>PICK</p>
+              </ReceiptTitle>
+              <HorizontalLine/>
+                <img
+                  src={perfume}
+                  alt="Base Character"
+                />
+              <ReceiptSubTitle>
+                  Eau Duelle
+              </ReceiptSubTitle>
+              <Explanation>
+                <p>
+                  오듀엘르 
+                </p>
+                <span>
+                  #신비로운 바닐라 #스파이스 #달달함 #우디
+                </span>
+              </Explanation>
+              </ReceiptTop>
+              <ReceiptBottom>
+                <img
+                  src={barcode}
+                  alt="Base Character"
+                  style={{ margin: "20px 0 20px 0" }}
+                />
+              </ReceiptBottom>
+            </ReceiptContainer>
+            <ReceiptContainer to="/detail">
             <ReceiptTop>
               <ReceiptTitle>
                  PROUST
@@ -178,6 +202,77 @@ export default function FourthPage() {
                   #신비로운 바닐라 #스파이스 #달달함 #우디
                 </span>
               </Explanation>
+            </ReceiptTop>
+            <ReceiptBottom>
+              <img
+                src={barcode}
+                alt="Base Character"
+                style={{ margin: "20px 0 20px 0" }}
+              />
+            </ReceiptBottom>
+            </ReceiptContainer>
+            <ReceiptContainer to="/detail">
+            <ReceiptTop>
+              <ReceiptTitle>
+                 PROUST
+                 <p>PICK</p>
+              </ReceiptTitle>
+              <HorizontalLine/>
+              <img
+                src={perfume}
+                alt="Base Character"
+              />
+              <ReceiptSubTitle>
+                 Eau Duelle
+              </ReceiptSubTitle>
+              <Explanation>
+                <p>
+                  오듀엘르 
+                </p>
+                <span>
+                  #신비로운 바닐라 #스파이스 #달달함 #우디
+                </span>
+              </Explanation>
+            </ReceiptTop>
+            <ReceiptBottom>
+              <img
+                src={barcode}
+                alt="Base Character"
+                style={{ margin: "20px 0 20px 0" }}
+              />
+            </ReceiptBottom>
+            </ReceiptContainer>
+        </BestContainer>
+
+        </>
+        ) : (
+          <>
+          <Title>
+            <ColoredText>회원가입</ColoredText>하고 향수 추천받아봐
+        </Title>
+          <BestContainer style={{filter: 'blur(14px)'}}>
+          <ReceiptContainer>
+          <ReceiptTop>
+            <ReceiptTitle>
+                PROUST
+                <p>PICK</p>
+            </ReceiptTitle>
+            <HorizontalLine/>
+              <img
+                src={perfume}
+                alt="Base Character"
+              />
+            <ReceiptSubTitle>
+                Eau Duelle
+            </ReceiptSubTitle>
+            <Explanation>
+              <p>
+                오듀엘르 
+              </p>
+              <span>
+                #신비로운 바닐라 #스파이스 #달달함 #우디
+              </span>
+            </Explanation>
             </ReceiptTop>
             <ReceiptBottom>
               <img
@@ -253,6 +348,8 @@ export default function FourthPage() {
         <StyledLink to="/login">
             <button>회원가입하러 가기</button>
         </StyledLink>
+        </>
+        )}
     </FourthContainer>
   )
 }

@@ -8,17 +8,13 @@ import topSlide from "../../images/top_slide.png";
 import secondSlide from "../../images/second_slide.png";
 import thirdSlide from "../../images/third_slide.png";
 
-// import topImage from "../../images/top_charac.png";
-// import secondImage from "../../images/sec_charac.png";
-// import thirdImage from "../../images/third_charac.png";
-
 import { Link } from 'react-router-dom';
 
 const CarouselContainer = styled.div`
   max-width: 970px;
   margin: 0 auto;
-  margin-top: 400px;
-  margin-bottom: 200px;
+  margin-top: 170px;
+  margin-bottom: 100px;
 `;
 
 const StyledLink = styled(Link)`

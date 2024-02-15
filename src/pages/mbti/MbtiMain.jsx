@@ -4,18 +4,21 @@ import middleImg from "../../images/sec_charac.png";
 import { Link } from "react-router-dom";
 
 const MbtiTestWrap = styled.div`
+  margin-top: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
 `;
 const MbtiTestContent = styled.div`
-  //margin-bottom: 50px;
+  margin-top: 60px;
+  user-select: none;
 `;
 const Title = styled.div`
   color: #6bff94;
   font-family: Prompt_Black;
   font-size: 100px;
+  user-select: none;
 `;
 
 const Info = styled.div`
@@ -24,11 +27,13 @@ const Info = styled.div`
     font-family: Pretendard_Bold;
     font-size: 28px;
     margin-bottom: 20px;
+    user-select: none;
   }
 `;
 
 const StartButton = styled.div`
   border: 2px solid #fefdfc;
+  user-select: none;
   border-radius: 100px;
   padding: 15px 100px;
   margin-top: 80px;

@@ -8,7 +8,7 @@ const CharacterContainer = styled.div`
     display: flex;
     flex-direction: column;
     text-align: center; // 텍스트 가운데 정렬
-    margin-top: 20px;
+    margin-top: 105px;
 `;
 
 const MainTitle = styled.div`
