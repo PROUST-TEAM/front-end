@@ -220,6 +220,9 @@ export default function Login() {
 
       // 로그인 성공 후 페이지 이동
       navigate("/home");
+      // 강제로 페이지 새로고침
+      window.location.reload();
+      
     } catch (error) {
       console.error("Error during API call:", error);
       alert("존재하지 않는 이메일입니다.");
