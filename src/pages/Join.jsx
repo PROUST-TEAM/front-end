@@ -275,7 +275,7 @@ const Join = () => {
             onClick={handleTogglePasswordVisibility}
           />
           </StyledPasswordContainer>
-        <StyledNextButton onClick={handleNextClick}>
+        <StyledNextButton onClick={handleNextClick}>  
           다음
         </StyledNextButton>
       </StyledContent>
