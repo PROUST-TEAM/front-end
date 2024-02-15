@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
 import perfume from "../../images/perfume.png";
@@ -141,6 +141,18 @@ const ReceiptBottom = styled.div`
 export default function FourthPage() {
 
   const [isLoggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // 로컬 스토리지에서 토큰 불러오기
+    const storedToken = localStorage.getItem('token');
+
+    // 토큰이 존재하면 로그인 상태를 true로 설정
+    if (storedToken) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, []);
 
   return (
     <FourthContainer>
