@@ -111,40 +111,6 @@ export default function MyList() {
   const [response, setResponse] = useState([]);
   const navigate = useNavigate();
 
-  // const onFilterClick = async (filter) => {
-  //   if (activeFilters.includes(filter)) {
-  //     // 이미 선택된 필터를 다시 클릭한 경우
-  //     // 해당 필터 배열에서 삭제
-  //     setActiveFilters(activeFilters.filter((f) => f !== filter));
-  //     console.log(activeFilters.filter((f) => f !== filter));
-  //   } else {
-  //     // 새로운 필터를 클릭한 경우
-  //     // 해당 필터 배열에 추가
-  //     setActiveFilters([...activeFilters, filter]);
-  //     console.log([...activeFilters, filter]);
-  //   }
-
-  //   axios
-  //     .get(`${apiUrl}/perfumeList`, {
-  //       params: {
-  //         activeFilters: activeFilters,
-  //         // 필요에 따라 다른 쿼리 매개변수를 추가할 수 있습니다.
-  //       },
-  //       headers: {
-  //         Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
-  //       },
-  //     })
-  //     .then((response) => {
-  //       // 서버 응답 확인
-  //       console.log("Server response:", response.data);
-  //       setResponse(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     });
-  // };
-
-  // useEffect 사용
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -158,8 +124,8 @@ export default function MyList() {
           },
         });
 
-        console.log("Server response:", response.data.result);
-        setResponse(response.data);
+        console.log("향수 리스트:", response.data.result);
+        setResponse(response.data.result);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -179,11 +145,11 @@ export default function MyList() {
   };
 
   const onClickHeart = async (perfume) => {
+    console.log(perfume.name);
     axios
-      .patch(`${apiUrl}/${perfume.name}/perfumeList`, {
+      .patch(`${apiUrl}/${perfume.name}/likePerfumes`, {
         params: {
-          activeFilters: perfume.name,
-          // 필요에 따라 다른 쿼리 매개변수를 추가할 수 있습니다.
+          Name: perfume.name,
         },
         headers: {
           Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
@@ -191,7 +157,7 @@ export default function MyList() {
       })
       .then((response) => {
         // 서버 응답 확인
-        console.log("Server response:", response.data);
+        console.log("향수 찜: ", response.data.result);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -216,7 +182,7 @@ export default function MyList() {
               // 해당 필터 배열에 존재 -> 필터 삭제
               // 해당 필터 배열에 존재 X -> 필터 추가
               onClick={() => onFilterClick(filter)}
-              // 필터 배열에 존재 -> treu
+              // 필터 배열에 존재 -> true
               // 필터 배열에 존재 X -> false
               active={activeFilters.includes(filter)}
             >
@@ -225,51 +191,40 @@ export default function MyList() {
             </FilterItem>
           ))}
         </Filter>
-        <Perfumes>
-          {/* 차후 useNavigate 로 변경 예상 */}
-          <Link to="/detail" style={linkStyle}>
-            <Perfume>
-              <Heart
-                onClick={(event) => {
-                  setHeartFilled(!isHeartFilled); // 하트 채워지게
-                  event.preventDefault(); // Link to 방지
-                }}
-              >
-                {/* 지금은 state가 연결되어있어서 하나 누르면 싹다 눌립니다.
-                나중에 서버에서 상태 받아와서 바꾸는 코드로 변경하겠습니다 */}
-                {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-              </Heart>
-              <div>
-                <img src={perfume} alt="Base Character" />
-              </div>
-              <div>
-                <p>Eau Duelle</p>
-              </div>
-            </Perfume>
-          </Link>
-        </Perfumes>
 
         <Perfumes>
-          {/* {response.result &&
-            response.result.perfumeList.map((perfume, index) => (
-              <Link to={`/detail`} key={index} style={linkStyle}>
+          {response &&
+            response.perfumeList_contentsData &&
+            response.perfumeList_contentsData.map((perfume, index) => (
+              <Link
+                to="/detail"
+                state={{ name: perfume.name }}
+                style={{ textDecoration: "none" }}
+              >
                 <Perfume>
                   <Heart
-                    onClick={() => {
-                      onClickHeart(); // 하트 클릭 시 동작할 함수
+                    onClick={(event) => {
+                      console.log(response);
+                      onClickHeart(perfume); // 하트 클릭 시 동작할 함수
+                      console.log(perfume.name);
+                      event.preventDefault();
                     }}
                   >
                     {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
                   </Heart>
                   <div>
-                    <img src={perfume.imageUrl} alt={perfume.name} />
+                    <img
+                      src="https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/uploads/1.png"
+                      alt={perfume.name}
+                      style={{ width: "200px", height: "250px" }}
+                    />
                   </div>
                   <div>
                     <p>{perfume.name}</p>
                   </div>
                 </Perfume>
               </Link>
-            ))} */}
+            ))}
         </Perfumes>
       </PerfumeListContent>
     </PerfimeListWrap>

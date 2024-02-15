@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import baseImage from "../../images/base_charac.png";
 import perfume from "../../images/perfume.png";
 import barcode from "../../images/barcode.png";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-
 import Comment from "../../components/Comment";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const PerfimeDetailWrap = styled.div`
   margin-top: 40px;
@@ -174,6 +175,36 @@ const titleStyle = {
 };
 export default function PerfumeDetail() {
   const [isHeartFilled, setHeartFilled] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [response, setResponse] = useState([]);
+  const location = useLocation();
+  const perfumeName = location.state.name;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${apiUrl}/${perfumeName}/getPerfumes`,
+          {
+            params: {
+              Name: perfumeName,
+            },
+            headers: {
+              Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
+            },
+          }
+        );
+
+        console.log("향수 디테일:", response.data.result);
+        setResponse(response.data.result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData(); // Fetch data when component mounts
+  }, [perfumeName]);
 
   return (
     <PerfimeDetailWrap>
