@@ -11,8 +11,6 @@ import smileImage from "../images/smile.png";
 import GearImage from "../images/GearSix.png";
 import SignOutImage from "../images/signout.png";
 
-// import axios from 'axios';
-
 import LogoutModal from "./LogOutModal";
 
 const HeaderContainer = styled.header`
@@ -265,12 +263,11 @@ export default function Header() {
   const isTest = location.pathname === '/mbtiTest';
   const isLogin = location.pathname === "/login";
   const isMyPage = location.pathname === "/myPage";
-  // const isCharacter = location.pathname === '/character';
 
   const [isSearchPanelVisible, setSearchPanelVisible] = useState(false);
 
   useEffect(() => {
-    // Close the SearchPanel when the location changes
+    // 다른 위치를 선택하는 경우 panel이 닫히도록
     closeSearchPanel();
   }, [location.pathname]);
 
@@ -297,8 +294,6 @@ export default function Header() {
   };
 
   const searchPanelRef = useRef(null);
-
-  // ... (rest of the code)
 
   const handleNavLinkClick = (path) => {
     // SearchPanel을 닫고 지정된 경로로 이동합니다.
@@ -352,6 +347,18 @@ export default function Header() {
   // 로그인 상태 관리
   const [isLoggedIn, setLoggedIn] = useState(false);
 
+  useEffect(() => {
+    // 로컬 스토리지에서 토큰 불러오기
+    const storedToken = localStorage.getItem('token');
+
+    // 토큰이 존재하면 로그인 상태를 true로 설정
+    if (storedToken) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, []);
+
   // 모달 상태 관리
   const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
 
@@ -359,31 +366,6 @@ export default function Header() {
     setDropdownVisible(false); // 드롭다운 닫기
     setLogoutModalVisible(true); // 로그아웃 모달 열기
   };
-
-  // const handleLogout = () => {
-  //   // 드롭다운 닫기
-  //   setDropdownVisible(false);
-  
-  //   // 서버의 로그아웃 엔드포인트 URL로 설정
-  //   const logoutEndpoint = '서버의 로그아웃 엔드포인트 URL';
-  
-  //   // Axios를 사용하여 POST 요청 보내기
-  //   axios.post(logoutEndpoint)
-  //     .then(response => {
-  //       // 서버에서 성공적으로 응답이 오면 로그아웃 성공 처리
-  //       console.log('로그아웃 성공:', response.data);
-        
-  //       // 로그아웃 모달 닫기
-  //       setLogoutModalVisible(false);
-  //     })
-  //     .catch(error => {
-  //       // 에러 처리
-  //       console.error('로그아웃 에러:', error);
-  
-  //       // 로그아웃 모달 닫기
-  //       setLogoutModalVisible(false);
-  //     });
-  // };
 
   const handleCloseModal = () => {
     setLogoutModalVisible(false); // 모달 닫기
@@ -497,14 +479,6 @@ export default function Header() {
             onClick={() => handleNavLinkClick("/login")}
           >
             LOGIN
-            <img src={loginImage} alt="LoginImage" />
-          </StyledLink>
-          <StyledLink
-            className={`header-nav-item ${isMyPage ? "active" : ""}`}
-            to="/myPage"
-            onClick={() => handleNavLinkClick("/myPage")}
-          >
-            MY PAGE
             <img src={loginImage} alt="LoginImage" />
           </StyledLink>
           <div onClick={handleMenuClick} style={{ position: 'relative' }} ref={dropdownRef}>

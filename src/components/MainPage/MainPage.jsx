@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 import topImage from "../../images/top_charac.png";
 import searchImage from "../../images/search_img.png";
-import video1 from "../../images/main_ani.webm";
+//import video1 from "../../images/main_ani.webm";
 import { Link } from 'react-scroll';
 
 const MainContainer = styled.article`
