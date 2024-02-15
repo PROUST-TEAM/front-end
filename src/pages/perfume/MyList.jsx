@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import baseImage from "../../images/base_charac.png";
 import perfume from "../../images/perfume.png";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
+import axios from "axios";
 
 const PerfimeListWrap = styled.div`
   margin-top: 40px;
@@ -105,6 +106,8 @@ const linkStyle = {
 export default function MyList() {
   const [isHeartFilled, setHeartFilled] = useState(false);
   const [activeFilters, setActiveFilters] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   const onFilterClick = (filter) => {
     if (activeFilters.includes(filter)) {
@@ -118,7 +121,26 @@ export default function MyList() {
       setActiveFilters([...activeFilters, filter]);
       console.log([...activeFilters, filter]);
     }
+
+    axios
+      .get(`${apiUrl}/perfumeList`, {
+        params: {
+          activeFilters: activeFilters,
+          // 필요에 따라 다른 쿼리 매개변수를 추가할 수 있습니다.
+        },
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
+        },
+      })
+      .then((response) => {
+        // 서버 응답 확인
+        console.log("Server response:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
+
   return (
     <PerfimeListWrap>
       <PerfumeListContent>
@@ -131,7 +153,7 @@ export default function MyList() {
 
         <Filter>
           {/* 배열 순회하며 FilterItem 생성 */}
-          {["우드", "시트러스", "메탈릭", "머스크", "플로럴"].map((filter) => (
+          {["우디", "시트러스", "프루티", "머스크", "플로럴"].map((filter) => (
             <FilterItem
               key={filter} // filter 값 자체를 고유 식별자로 사용
               // 해당 필터 배열에 존재 -> 필터 삭제
@@ -168,43 +190,30 @@ export default function MyList() {
               </div>
             </Perfume>
           </Link>
-          <Perfume>
-            <Heart
-              onClick={(event) => {
-                setHeartFilled(!isHeartFilled); // 하트 채워지게
-                event.preventDefault(); // Link to 방지
-              }}
-            >
-              {/* 지금은 state가 연결되어있어서 하나 누르면 싹다 눌립니다.
-                나중에 서버에서 상태 받아와서 바꾸는 코드로 변경하겠습니다 */}
-              {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-            </Heart>
-            <div>
-              <img src={perfume} alt="Base Character" />
-            </div>
-            <div>
-              <p>Eau Duelle</p>
-            </div>
-          </Perfume>
-          <Perfume>
-            <Heart
-              onClick={(event) => {
-                setHeartFilled(!isHeartFilled); // 하트 채워지게
-                event.preventDefault(); // Link to 방지
-              }}
-            >
-              {/* 지금은 state가 연결되어있어서 하나 누르면 싹다 눌립니다.
-                나중에 서버에서 상태 받아와서 바꾸는 코드로 변경하겠습니다 */}
-              {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-            </Heart>
-            <div>
-              <img src={perfume} alt="Base Character" />
-            </div>
-            <div>
-              <p>Eau Duelle</p>
-            </div>
-          </Perfume>
         </Perfumes>
+
+        {/* <Perfumes>
+          {perfumeList.map((perfume, index) => (
+            <Link key={index} to={`/detail/${perfume.name}`} style={linkStyle}>
+              <Perfume>
+                <Heart
+                  onClick={(event) => {
+                    setHeartFilled(!isHeartFilled);
+                    event.preventDefault();
+                  }}
+                >
+                  {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
+                </Heart>
+                <div>
+                  <img src={perfume.imageUrl} alt={perfume.name} />
+                </div>
+                <div>
+                  <p>{perfume.name}</p>
+                </div>
+              </Perfume>
+            </Link>
+          ))}
+        </Perfumes> */}
       </PerfumeListContent>
     </PerfimeListWrap>
   );
