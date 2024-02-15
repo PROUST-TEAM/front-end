@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 import styled from "styled-components";
 import topImage from "../images/top_charac.png";
 import loginImage from "../images/login_img.png";
@@ -307,17 +308,40 @@ export default function Header() {
     setSearchText(e.target.value);
   };
 
-  const handleSearchButtonClick = () => {
-    // 검색어가 비어있지 않은 경우에만 링크로 이동
-    if (searchText.trim() !== '') {
-      // 검색 결과 페이지로 이동
-      window.location.href = `/search`;
-    } else {
-      // 검색어가 비어있는 경우
-      window.location.href = '/nonSearch';
+  const apiUrl = process.env.REACT_APP_API_URL;
+
+  useEffect(() => {
+    const searchData = location.state && location.state.searchData;
+    console.log("Search Data:", searchData);
+
+    setSearchText('');
+  }, [location]);
+  
+  const handleSearchButtonClick = async (event) => {
+    try {
+      if (searchText.trim() !== '') {
+        const response = await axios.post(`${apiUrl}/ai/search`, {
+          search: searchText,
+        });
+  
+        console.log("Server response:", response.data);
+  
+        if (response.data.isSuccess) {
+          navigate('/search', { state: { searchData: response.data } });
+        } else {
+          window.location.href = '/nonSearch';
+        }
+      } else {
+        window.location.href = '/nonSearch';
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 429) {
+        window.location.href = '/nonSearch';
+      } else {
+        window.location.href = '/errorPage';
+      }
     }
   };
-
   // 드롭다운 관련 코드_추후에 API 연결하면 달라질 예정
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 

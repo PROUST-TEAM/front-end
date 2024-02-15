@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import topImage from "../../images/top_charac.png";
 import searchImage from "../../images/search_img.png";
 import miniTopImg from "../../images/mini_top_img.png";
 import perfume from "../../images/perfume.png";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const RootWrap = styled.div`
   margin-top: 50px;
@@ -201,25 +202,49 @@ const Heart = styled.div`
 export default function Search() {
   const [isHeartFilled, setHeartFilled] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleInputChange = (e) => {
     setSearchText(e.target.value);
   };
 
-  const handleSearchButtonClick = () => {
-    // 검색어가 비어있지 않은 경우에만 링크로 이동
-    if (searchText.trim() !== "") {
-      // 검색 결과 페이지로 이동
-      // 예시로 "/search" 경로를 사용했습니다.
-      // 실제 사용하고자 하는 경로로 변경해주세요.
-      window.location.href = `/search`;
-    } else {
-      // 검색어가 비어있는 경우 다른 페이지로 이동하거나, 필요에 따라 아무 작업도 수행하지 않을 수 있습니다.
-      // 여기서는 예시로 "/other" 경로로 이동하도록 설정했습니다.
-      window.location.href = "/nonSearch";
+  const location = useLocation();
+
+  useEffect(() => {
+    const searchData = location.state && location.state.searchData;
+    console.log("Search Data:", searchData);
+
+    setSearchText('');
+  }, [location]);
+  
+  const handleSearchButtonClick = async (event) => {
+    try {
+      if (searchText.trim() !== '') {
+        const response = await axios.post(`${apiUrl}/ai/search`, {
+          search: searchText,
+        });
+  
+        console.log("Server response:", response.data);
+  
+        if (response.data.isSuccess) {
+          navigate('/search', { state: { searchData: response.data } });
+        } else {
+          window.location.href = '/nonSearch';
+        }
+      } else {
+        window.location.href = '/nonSearch';
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 429) {
+        window.location.href = '/nonSearch';
+      } else {
+        window.location.href = '/errorPage';
+      }
     }
   };
 
+  
   return (
     <RootWrap>
       <SearchWrap>
