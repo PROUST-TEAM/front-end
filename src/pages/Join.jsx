@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Image from '../images/third_charac.png';
@@ -145,18 +145,36 @@ const StyledTogglePasswordButton = styled.img`
   width: 28px;
 `;
 
+const StyledErrorMessage = styled.div`
+  color: #B3261E;
+  font-size: 16px;
+  margin-top: -20px;
+  margin-left: 250px;
+  font-family: Pretendard;
+`;
 
 const Join = () => {
   const navigate = useNavigate();
-  const [isClicked, setIsClicked] = useState(false);
-  const [usermail, setUsermail] = useState('');
+  const [isEmailClearButtonVisible, setIsEmailClearButtonVisible] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+  const [usermail, setUsermail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isNexted, setIsNexted] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isPasswordMatch, setIsPasswordMatch] = useState(false);
+  const [isLengthValid, setIsLengthValid] = useState(true);
+  const [containsNumber, setContainsNumber] = useState(true);
+  const [additionalPasswordMessage, setAdditionalPasswordMessage] = useState("");
+  const [additionalConfirmPasswordMessage, setAdditionalConfirmPasswordMessage] = useState("");
 
-  const handleTogglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
+  const handleTogglePasswordVisibility = (inputType) => {
+    if (inputType === 'password') {
+      setIsPasswordVisible(!isPasswordVisible);
+    } else if (inputType === 'confirmPassword') {
+      setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
+    }
   };
 
   const handleBackToLogin = () => {
@@ -165,43 +183,124 @@ const Join = () => {
 
   const handleInputChange = (event) => {
     setUsermail(event.target.value);
+    handleInputValidation("mail-input", event.target.value);
+
+    const enteredEmail = event.target.value;
+    setUsermail(enteredEmail);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValid = emailRegex.test(enteredEmail) && enteredEmail.length <= 320;
+
+    setIsEmailValid(isValid);
+  };
+
+  const handlePasswordChange = (event) => {
+    const enteredPassword = event.target.value;
+    setPassword(enteredPassword);
+  
+    let isLengthValid = false;
+    let containsNumber = false;
+  
+    if (enteredPassword.trim() === "") {
+      setAdditionalPasswordMessage("");
+    } else {
+      isLengthValid = enteredPassword.length >= 8;
+      containsNumber = /\d/.test(enteredPassword);
+  
+      if (!isLengthValid) {
+        setAdditionalPasswordMessage("비밀번호는 최소 8자 이상이어야 합니다.");
+      } else if (!containsNumber) {
+        setAdditionalPasswordMessage("비밀번호에 숫자가 포함되어야 합니다.");
+      } else {
+        setAdditionalPasswordMessage("");
+      }
+    }
+  
+    setIsLengthValid(isLengthValid);
+    setContainsNumber(containsNumber);
+  
+    const isPasswordMatch = confirmPassword === enteredPassword;
+    setIsPasswordMatch(isPasswordMatch);
+  
+    handleInputValidation("password-input", enteredPassword);
+  }; 
+
+  const handleConfirmPasswordChange = (event) => {
+    setConfirmPassword(event.target.value);
+    handleInputValidation("confirmPassword-input", event.target.value);
+  
+    const isPasswordMatch = event.target.value === password;
+    setIsPasswordMatch(isPasswordMatch);
+  
+    if (event.target.value !== '') {
+      if (!isPasswordMatch) {
+        setAdditionalConfirmPasswordMessage("비밀번호가 일치하지 않습니다.");
+      } else {
+        setAdditionalConfirmPasswordMessage("비밀번호가 일치합니다.");
+      }
+    } else {
+      setAdditionalConfirmPasswordMessage("");
+    }
   };
 
   const handleClearButtonClick = () => {
     setUsermail('');
+    handleInputValidation("mail-input", '');
   };
 
   const handleNextClick = () => {
-    console.log('Next email logic');
-  
-    const usermailInput = document.getElementById("usermail-input");
+    const usermailInput = document.getElementById("mail-input");
     const passwordInput = document.getElementById("password-input");
-    const confirmPasswordInput = document.getElementById("confirmpassword-input");
+    const confirmPasswordInput = document.getElementById("confirmPassword-input");
+    
+    if (!usermail) {
+      handleInputValidation("mail-input", usermail);
+    }
   
-    handleInputValidation(usermailInput, "이메일을 입력하세요.", usermail);
-    handleInputValidation(passwordInput, "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요.", password);
-    handleInputValidation(confirmPasswordInput, "비밀번호를 입력해 주세요.", confirmPassword);
+    if (!password || (password === '' && isPasswordVisible)) {
+      handleInputValidation("password-input", password);
+    }
+  
+    if (!confirmPassword || (confirmPassword === '' && isConfirmPasswordVisible)) {
+      handleInputValidation("confirmPassword-input", confirmPassword);
+    }
   
     setIsNexted(true);
-  };
+  };  
+
+  const handleInputValidation = (inputId, inputValue) => {
+    const inputElement = document.getElementById(inputId);
   
-  const handleInputValidation = (inputElement, placeholderText, inputValue) => {
-    console.log('Input Validation:', inputElement, placeholderText, inputValue);
+    if (inputElement) {
+      const placeholderText = inputElement.getAttribute("data-placeholder");
   
-    if (inputElement && inputValue === '') {
-      console.log('Setting styles for empty input...');
-      inputElement.placeholder = `*${placeholderText}`;
-      inputElement.style.color = "black";
-      inputElement.style.fontFamily = "Pretendard_Light"; 
-      inputElement.style.border = "3px solid #B3261E";
-      inputElement.classList.add('placeholder-red'); 
-    } else if (inputElement) {
-      console.log('Resetting styles...');
-      inputElement.placeholder = placeholderText;
-      inputElement.style.color = "initial";
-      inputElement.style.fontFamily = "Pretendard_Light"; 
-      inputElement.style.border = "none";
-      inputElement.classList.remove('placeholder-red');
+      if (inputValue === '' || !isEmailValid || (!isLengthValid || !containsNumber)) {
+        inputElement.placeholder = `*${placeholderText}`;
+        inputElement.style.color = "black";
+        inputElement.style.fontFamily = "Pretendard_Light";
+        inputElement.style.border = "3px solid #B3261E";
+        inputElement.classList.add('placeholder-red');
+      } else if (inputId === "confirmPassword-input") {
+        if (isPasswordMatch) {
+          inputElement.placeholder = `*${placeholderText}`;
+          inputElement.style.color = "black";
+          inputElement.style.fontFamily = "Pretendard_Light";
+          inputElement.style.border = "3px solid #22851A";
+          inputElement.classList.remove('placeholder-red');
+        } else {
+          inputElement.placeholder = `*${placeholderText}`;
+          inputElement.style.color = "black";
+          inputElement.style.fontFamily = "Pretendard_Light";
+          inputElement.style.border = "3px solid #B3261E";
+          inputElement.classList.add('placeholder-red');
+        }
+      } else {
+        inputElement.placeholder = placeholderText;
+        inputElement.style.color = "initial";
+        inputElement.style.fontFamily = "Pretendard_Light";
+        inputElement.style.border = "none";
+        inputElement.classList.remove('placeholder-red');
+      }
     }
   };
   
@@ -221,6 +320,7 @@ const Join = () => {
         </StyledWord>
         <StyledInputContainer>
           <StyledInput
+            id="mail-input"
             type="text"
             placeholder="이메일을 입력하세요."
             data-placeholder="이메일을 입력하세요."
@@ -231,6 +331,9 @@ const Join = () => {
             <img src={clearImage} alt="Clear" style={{ width: '32px', height: '32px' }} />
           </StyledClearButton>
         </StyledInputContainer>
+        {usermail !== '' && !isEmailValid && (
+          <StyledErrorMessage>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;유효하지 않은 이메일입니다.</StyledErrorMessage>
+        )}
         <div style={{ position: 'absolute', transform: 'translate(942%, 138%)', zIndex: 2 }}>
           {(isNexted && !password) && (
             <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
@@ -245,36 +348,44 @@ const Join = () => {
           <p>비밀번호</p>
         </StyledWord>
         <StyledPasswordContainer>
-          <StyledPasswordInput
-          type={isPasswordVisible ? "text" : "password"} 
-            placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요."
-            data-placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요."
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <StyledTogglePasswordButton
-            src={isPasswordVisible ? closeImage : openImage}
-            alt="Toggle Password Visibility"
-            onClick={handleTogglePasswordVisibility}
-          />
-        </StyledPasswordContainer>
-        <StyledWord>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;비밀번호 확인</p>
-        </StyledWord>
-        <StyledPasswordContainer>
-          <StyledPasswordInput
-          type={isPasswordVisible ? "text" : "password"} 
-            placeholder="비밀번호를 입력해 주세요."
-            data-placeholder="비밀번호를 입력해 주세요."
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          <StyledTogglePasswordButton
-            src={isPasswordVisible ? closeImage : openImage}
-            alt="Toggle Password Visibility"
-            onClick={handleTogglePasswordVisibility}
-          />
-          </StyledPasswordContainer>
+      <StyledPasswordInput
+        id="password-input"
+        type={isPasswordVisible ? "text" : "password"}
+        placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요."
+        data-placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요."
+        value={password}
+        onChange={handlePasswordChange}
+      />
+      <StyledTogglePasswordButton
+        src={isPasswordVisible ? closeImage : openImage}
+        alt="Toggle Password Visibility"
+        onClick={() => handleTogglePasswordVisibility('password')}
+      />
+    </StyledPasswordContainer>
+    {additionalPasswordMessage && (
+      <StyledErrorMessage>{additionalPasswordMessage}</StyledErrorMessage>
+    )}
+    <StyledWord>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;비밀번호 확인</p>
+    </StyledWord>
+    <StyledPasswordContainer>
+      <StyledPasswordInput
+        id="confirmPassword-input"
+        type={isConfirmPasswordVisible ? "text" : "password"}
+        placeholder="비밀번호를 입력해 주세요."
+        data-placeholder="비밀번호를 입력해 주세요."
+        value={confirmPassword}
+        onChange={handleConfirmPasswordChange}
+      />
+      <StyledTogglePasswordButton
+        src={isConfirmPasswordVisible ? closeImage : openImage}
+        alt="Toggle Password Visibility"
+        onClick={() => handleTogglePasswordVisibility('confirmPassword')}
+      />
+    </StyledPasswordContainer>
+    {additionalConfirmPasswordMessage && (
+      <StyledErrorMessage>{additionalConfirmPasswordMessage}</StyledErrorMessage>
+    )}
         <StyledNextButton onClick={handleNextClick}>
           다음
         </StyledNextButton>

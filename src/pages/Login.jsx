@@ -183,7 +183,7 @@ const StyledPwIcon = styled.img`
   width: 28px;
   height: 28px;
   right: -269px;
-  top: -73px;
+  top: -75px;
   cursor: pointer;
 `;
 
@@ -223,16 +223,9 @@ export default function Login() {
     }
   };
 
-  const handleInputChange = (event) => {
-    setUsermail(event.target.value);
-  };
-
   const handleClearButtonClick = () => {
     setUsermail('');
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+    handleInputValidation("usermail-input", '');
   };
 
   const handlePasswordVisibility = () => {
@@ -250,37 +243,17 @@ export default function Login() {
     const passwordInput = document.getElementById("password-input");
 
     if (!usermail) {
-      usermailInput.placeholder = "*이메일을 입력하세요.";
-      usermailInput.style.color = "black";
-      usermailInput.style.fontFamily = "Pretendard_Light"; 
-      usermailInput.style.border = "3px solid #B3261E";
-      usermailInput.classList.add('placeholder-red'); 
-    } else {
-      usermailInput.placeholder = "이메일을 입력하세요.";
-      usermailInput.style.color = "initial";
-      usermailInput.style.fontFamily = "Pretendard_Light"; 
-      usermailInput.style.border = "none";
-      usermailInput.classList.remove('placeholder-red');
+      handleInputValidation("usermail-input", usermail);
     }
-    
+  
     if (!userpw || (userpw === '' && isPasswordVisible)) {
-      passwordInput.placeholder = "*비밀번호를 입력하세요.";
-      passwordInput.style.color = "black";
-      passwordInput.style.fontFamily = "Pretendard_Light";
-      passwordInput.style.border = "3px solid #B3261E";
-      passwordInput.classList.add('placeholder-red');
-    } else {
-      passwordInput.placeholder = "비밀번호를 입력하세요.";
-      passwordInput.style.color = "initial";
-      passwordInput.style.fontFamily = "Pretendard_Light";
-      passwordInput.style.border = "none";
-      passwordInput.classList.remove('placeholder-red');
-    }     
-    
+      handleInputValidation("password-input", userpw);
+    }
+  
     setIsLoggedIn(true);
-    
+
     if (isClicked) {
-      setUsermail(''); 
+      setUsermail('');
       const storedPassword = localStorage.getItem('savedPassword');
       if (storedPassword) {
         setPassword(storedPassword);
@@ -288,6 +261,35 @@ export default function Login() {
       if (userpw !== storedPassword) {
         localStorage.setItem('savedPassword', userpw);
       }
+    }
+  };
+
+  const handleInputChange = (event) => {
+    setUsermail(event.target.value);
+    handleInputValidation("usermail-input", event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+    handleInputValidation("password-input", event.target.value);
+  };
+
+  const handleInputValidation = (inputId, inputValue) => {
+    const inputElement = document.getElementById(inputId);
+    const placeholderText = inputElement.getAttribute("data-placeholder");
+  
+    if (inputValue === '') {
+      inputElement.placeholder = `*${placeholderText}`;
+      inputElement.style.color = "black";
+      inputElement.style.fontFamily = "Pretendard_Light";
+      inputElement.style.border = "3px solid #B3261E";
+      inputElement.classList.add('placeholder-red');
+    } else {
+      inputElement.placeholder = placeholderText;
+      inputElement.style.color = "initial";
+      inputElement.style.fontFamily = "Pretendard_Light";
+      inputElement.style.border = "none";
+      inputElement.classList.remove('placeholder-red');
     }
   };
 
@@ -321,6 +323,7 @@ export default function Login() {
             id="usermail-input"
             type="text" 
             placeholder="이메일을 입력하세요." 
+            data-placeholder="이메일을 입력하세요."
             value={usermail}
             onChange={handleInputChange}
             />
@@ -335,6 +338,7 @@ export default function Login() {
         <StyledInput 
           id="password-input"
           type={isPasswordVisible ? "password" : "text"} placeholder="비밀번호를 입력하세요."  
+          data-placeholder="비밀번호를 입력하세요."
           defaultValue={userpw}
           onChange={handlePasswordChange}/>
         <StyledpwButton visible={userpw !== ''} onClick={handlePasswordButtonClick}>
