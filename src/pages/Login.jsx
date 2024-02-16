@@ -16,7 +16,7 @@ const StyledContainer = styled.div`
   align-items: center;
   justify-content: center;
   background-color: white;
-  margin-top: 58px;
+  margin-top: 48px;
 `;
 
 const StyledParagraph = styled.p`
@@ -60,7 +60,7 @@ const StyledInput = styled.input`
   padding: 6px;
   margin-top: 5px;
   margin-bottom: 30px;
-  border: none;
+  border: 3px solid #f0f0f0;
   background-color: #f0f0f0;
   border-radius: 6px;
   font-family: Pretendard_Light;
@@ -99,7 +99,7 @@ const StyledSwitch = styled.div`
 
 const StyledSlider = styled.div`
   position: absolute;
-  top: -0.025em;
+  top: -0.07em;
   width: 1.2em;
   height: 1.2em;
   border-radius: 50%;
@@ -113,7 +113,7 @@ const StyledSlider = styled.div`
 const StyledSwitchLabel = styled.label`
   display: flex;
   align-items: center;
-  margin-right: 30px;
+  margin-right: 50px;
 `;
 
 const StyledSwitchSpan = styled.span`
@@ -185,7 +185,7 @@ const StyledPwIcon = styled.img`
   width: 28px;
   height: 28px;
   right: -269px;
-  top: -73px;
+  top: -74px;
   cursor: pointer;
 `;
 
@@ -193,7 +193,7 @@ const StyledLoginButtonContainer = styled.div`
   display: flex;
   gap: 15px;
   margin-top: 15px;
-  margin-bottom: 70px;
+  margin-bottom: 78px;
   cursor: pointer;
 `;
 
@@ -244,7 +244,7 @@ export default function Login() {
       usermailInput.placeholder = "이메일을 입력하세요.";
       usermailInput.style.color = "initial";
       usermailInput.style.fontFamily = "Pretendard_Light";
-      usermailInput.style.border = "none";
+      usermailInput.style.border = "3px solid #f0f0f0";
       usermailInput.classList.remove("placeholder-red");
     }
 
@@ -258,20 +258,20 @@ export default function Login() {
       passwordInput.placeholder = "비밀번호를 입력하세요.";
       passwordInput.style.color = "initial";
       passwordInput.style.fontFamily = "Pretendard_Light";
-      passwordInput.style.border = "none";
+      passwordInput.style.border = "3px solid #f0f0f0";
       passwordInput.classList.remove("placeholder-red");
     }
 
     setIsLoggedIn(true);
 
     if (isClicked) {
-      setUsermail("");
-      const storedPassword = localStorage.getItem("savedPassword");
-      if (storedPassword) {
-        setPassword(storedPassword);
+      setPassword("");
+      const storedEmail = localStorage.getItem("savedEmail");
+      if (storedEmail) {
+        setUsermail(storedEmail);
       }
-      if (userpw !== storedPassword) {
-        localStorage.setItem("savedPassword", userpw);
+      if (usermail !== storedEmail) {
+        localStorage.setItem("savedEmail", usermail);
       }
     }
   };
@@ -282,25 +282,26 @@ export default function Login() {
     onClickLogin();
   };
 
-  useEffect(() => {
-    const storedPassword = localStorage.getItem("savedPassword");
-    const isPasswordSaved = storedPassword ? true : false;
-    setIsClicked(isPasswordSaved);
-    setIsPasswordVisible(true);
-    if (storedPassword) {
-      setPassword(storedPassword);
-    }
-  }, []);
-
   const handleSwitchClick = () => {
     setIsClicked(!isClicked);
-
-    if (!isClicked && userpw.trim() !== "") {
-      localStorage.setItem("savedPassword", userpw);
+  
+    if (!isClicked && usermail.trim() !== "") {
+      localStorage.setItem("savedEmail", usermail);
     } else {
-      localStorage.removeItem("savedPassword");
+      localStorage.removeItem("savedEmail");
     }
   };
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("savedEmail");
+    const isEmailSaved = storedEmail ? true : false;
+    
+    setIsClicked(isEmailSaved);
+    
+    if (isEmailSaved) {
+      setUsermail(storedEmail);
+    }
+  }, []);
 
   const handleInputChange = (event) => {
     setUsermail(event.target.value);
@@ -345,7 +346,7 @@ export default function Login() {
         <div
           style={{
             position: "absolute",
-            transform: "translate(440%, 820%)",
+            transform: "translate(440%, 960%)",
             zIndex: 2,
           }}
         >
@@ -356,7 +357,7 @@ export default function Login() {
         <div
           style={{
             position: "absolute",
-            transform: "translate(440%, 1190%)",
+            transform: "translate(440%, 1330%)",
             zIndex: 2,
           }}
         >
@@ -412,7 +413,7 @@ export default function Login() {
             <StyledSwitch isClicked={isClicked} onClick={handleSwitchClick}>
               <StyledSlider isClicked={isClicked} />
             </StyledSwitch>
-            <StyledSwitchSpan>비밀번호 기억하기</StyledSwitchSpan>
+            <StyledSwitchSpan>이메일 기억하기</StyledSwitchSpan>
           </StyledSwitchLabel>
         </StyledSwitchContainer>
         <StyledButton onClick={handleClick}>로그인</StyledButton>
