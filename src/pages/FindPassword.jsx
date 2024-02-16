@@ -17,6 +17,7 @@ const StyledContent = styled.div`
   position: relative;
   text-align: center;
   color: black;
+  margin-top: 75px;
 `;
 
 const StyledParagraph = styled.p`

@@ -15,6 +15,7 @@ const StyledContainer = styled.div`
   align-items: center;
   justify-content: center;
   background-color: white;
+  margin-top: 70px;
 `;
 
 const StyledParagraph = styled.p`
@@ -35,7 +36,7 @@ const StyledContent = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: white;
-  margin-bottom: 100px;
+  margin-bottom: 140px;
 `;
 
 const StyledWord = styled.div`
@@ -191,7 +192,7 @@ const StyledLoginButtonContainer = styled.div`
   display: flex;
   gap: 15px;
   margin-top: 15px;
-  margin-bottom: 70px;
+  margin-bottom: 58px;
   cursor: pointer;
 `;
 
@@ -305,12 +306,12 @@ export default function Login() {
         </StyledParagraph>
         <StyledImage src={topImage} alt="Top Character" width="330" height="189" />
       </StyledContainer>
-      <div style={{ position: 'absolute', transform: 'translate(440%, 820%)', zIndex: 2 }}>
+      <div style={{ position: 'absolute', transform: 'translate(440%, 1024%)', zIndex: 2 }}>
           {(isLoggedIn && !usermail) && (
             <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
           )}
         </div>
-        <div style={{ position: 'absolute', transform: 'translate(440%, 1190%)', zIndex: 2 }}>
+        <div style={{ position: 'absolute', transform: 'translate(440%, 1390%)', zIndex: 2 }}>
           {(isLoggedIn && (!userpw || userpw === '')) && (
             <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
           )}
@@ -343,7 +344,7 @@ export default function Login() {
           onChange={handlePasswordChange}/>
         <StyledpwButton visible={userpw !== ''} onClick={handlePasswordButtonClick}>
           <StyledPwIcon
-            src={isPasswordVisible ? openImage : closeImage}
+            src={isPasswordVisible ? closeImage : openImage}
             alt={isPasswordVisible ? "Show Password" : "Hide Password"}
             onClick={handlePasswordVisibility}
           />  
