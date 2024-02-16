@@ -82,7 +82,7 @@ const HeaderRight = styled.div`
     margin-left: 20px;
     align-items: center;
     justify-content: center;
-    margin-bottom: 4px;
+    margin-bottom: 1px;
   }
 `;
 
@@ -115,7 +115,7 @@ const StyledLink = styled(Link)`
 
   > img {
     margin-left: 5px;
-    margin-bottom: 4px;
+    margin-bottom: 1px;
     width: 20px;
     height: 20px;
   }
