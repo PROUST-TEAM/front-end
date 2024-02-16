@@ -206,6 +206,26 @@ export default function PerfumeDetail() {
     fetchData(); // Fetch data when component mounts
   }, [perfumeName]);
 
+  const onClickHeart = async (perfume) => {
+    console.log(perfume.name);
+    axios
+      .patch(`${apiUrl}/${perfume.name}/likePerfumes`, {
+        params: {
+          Name: perfume.name,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
+        },
+      })
+      .then((response) => {
+        // 서버 응답 확인
+        console.log("향수 찜: ", response.data.result);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   return (
     <PerfimeDetailWrap>
       <PerfumeDetailContent>
@@ -221,9 +241,68 @@ export default function PerfumeDetail() {
           <VerticalLine />
           <Circle2 />
           <Receipt>
-            <ReceiptTop>
-              <Heart onClick={() => setHeartFilled(!isHeartFilled)}>
-                {/* 나중에 서버 연결하면, 상태 받아와서 검사 후 연결하는 코드로 전환 */}
+            {response &&
+              response.perfume_contentsData &&
+              response.perfume_contentsData.map((perfume, index) => (
+                <ReceiptTop>
+                  <Heart
+                    onClick={(event) => {
+                      console.log(response);
+                      onClickHeart(perfume); // 하트 클릭 시 동작할 함수
+                      console.log(perfume.name);
+                      event.preventDefault();
+                    }}
+                  >
+                    {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
+                  </Heart>
+                  <br />
+                  <p style={titleStyle}>{perfume.name}</p>
+                  <p style={textStyle}>{perfume.nameKor}</p>
+                  <p style={textStyle}>
+                    #신비로운 바닐라 #스파이스 #달달함 #우디
+                  </p>
+                  <div style={lineStyle} />
+                  <img
+                    src={perfume.imageUrl}
+                    alt={perfume.name}
+                    style={{ width: "260px", height: "338px" }}
+                  />
+                  <Explanation>
+                    <span>{perfume.description}</span>
+                  </Explanation>
+                </ReceiptTop>
+                // <Perfume>
+                //   <Heart
+                //     onClick={(event) => {
+                //       console.log(response);
+                //       onClickHeart(perfume); // 하트 클릭 시 동작할 함수
+                //       console.log(perfume.name);
+                //       event.preventDefault();
+                //     }}
+                //   >
+                //     {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
+                //   </Heart>
+                //   <div>
+                //     <img
+                //       src={perfume.imageUrl}
+                //       alt={perfume.name}
+                //       style={{ width: "200px", height: "250px" }}
+                //     />
+                //   </div>
+                //   <div>
+                //     <p>{perfume.name}</p>
+                //   </div>
+                // </Perfume>
+              ))}
+            {/* <ReceiptTop>
+              <Heart
+                onClick={(event) => {
+                  console.log(response);
+                  onClickHeart(perfume); // 하트 클릭 시 동작할 함수
+                  console.log(perfume.name);
+                  event.preventDefault();
+                }}
+              >
                 {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
               </Heart>
               <br />
@@ -245,7 +324,7 @@ export default function PerfumeDetail() {
                   바닐라는 빛과 그림자를 표현합니다.
                 </span>
               </Explanation>
-            </ReceiptTop>
+            </ReceiptTop> */}
             <ReceiptBottom>
               <img
                 src={barcode}

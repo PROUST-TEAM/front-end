@@ -78,7 +78,7 @@ const Perfume = styled.div`
   height: 381px;
   margin: 10px 10px;
   > div > p {
-    font-size: 35px;
+    font-size: 20px;
     color: #282727;
     font-family: Pretendard_ExtraBold;
     margin-top: 10px;
@@ -214,7 +214,7 @@ export default function MyList() {
                   </Heart>
                   <div>
                     <img
-                      src="https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/uploads/1.png"
+                      src={perfume.imageUrl}
                       alt={perfume.name}
                       style={{ width: "200px", height: "250px" }}
                     />
