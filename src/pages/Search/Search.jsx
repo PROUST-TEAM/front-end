@@ -216,6 +216,7 @@ export default function Search() {
   const [response, setResponse] = useState([]);
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   //const [perfumeNames, setPerfumeNames] = useState([]);
 
@@ -224,6 +225,11 @@ export default function Search() {
   };
 
   const location = useLocation();
+
+  // 특정 기호를 16진수로 변환하는 함수
+  const convertToHex = (str) => {
+    return Array.from(str).map(char => char.charCodeAt(0).toString(16)).join('');
+  };
 
   useEffect(() => {
     const searchData = location.state && location.state.searchData;
@@ -234,7 +240,12 @@ export default function Search() {
         if (searchData && searchData.result) {
           const requests = searchData.result.map(async (item) => {
             console.log("Current item name:", item.name);
-            const response = await axios.get(`${apiUrl}/${item.name}/getPerfumes`);
+
+            // 기호가 포함되어 있다면 16진수로 변환
+          const sanitizedName = item.name.includes('/') ? convertToHex(item.name) : item.name;
+
+          const response = await axios.get(`${apiUrl}/${sanitizedName}/getPerfumes`);
+
             return response.data.result;
           });
     
@@ -277,6 +288,34 @@ export default function Search() {
     }
   };
 
+  const onClickHeart = async (perfume, index) => {
+    if (token) {
+      // 토큰이 있는 경우에만 찜 기능을 사용
+      try {
+        const response = await axios.patch(
+          `${apiUrl}/${perfume.name}/likePerfumes`,
+          {
+            params: {
+              Name: perfume.name,
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+  
+        // 서버 응답 확인
+        console.log("향수 찜: ", response.data.result);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    } else {
+      // 토큰이 없는 경우에는 로그인 페이지로 이동
+      navigate('/login');
+    }
+  };
 
   return (
     <RootWrap>
@@ -306,43 +345,43 @@ export default function Search() {
       </SearchWrap>
       <ListWrap>
       <Perfumes>
-  {response &&
-    response.map((perfumeGroup, index) => (
-      <React.Fragment key={index}>
-        {perfumeGroup.perfume_contentsData.map((perfume, perfumeIndex) => (
-          <Link
-            to="/detail"
-            state={{ name: perfume.name }}
-            style={{ textDecoration: "none" }}
-            key={perfumeIndex}
-          >
-            <Perfume>
-              <Heart
-                onClick={(event) => {
-                  console.log(response);
-                  // onClickHeart(perfume); // 하트 클릭 시 동작할 함수
-                  console.log(perfume.name);
-                  event.preventDefault();
-                }}
-              >
-                {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-              </Heart>
-              <div>
-                <img
-                  src={`https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/${perfume.imageUrl}`}
-                  alt={perfume.name}
-                  style={{ width: "200px", height: "250px" }}
-                />
-              </div>
-              <div>
-                <p>{perfume.name}</p>
-              </div>
-            </Perfume>
-          </Link>
-        ))}
-      </React.Fragment>
-    ))}
-</Perfumes>
+        {response &&
+          response.map((perfumeGroup, index) => (
+            <React.Fragment key={index}>
+              {perfumeGroup.perfume_contentsData.map((perfume, perfumeIndex) => (
+                <Link
+                  to="/detail"
+                  state={{ name: perfume.name }}
+                  style={{ textDecoration: "none" }}
+                  key={perfumeIndex}
+                >
+                  <Perfume>
+                    <Heart
+                      onClick={(event) => {
+                        console.log(response);
+                        onClickHeart(perfume); // 하트 클릭 시 동작할 함수
+                        console.log(perfume.name);
+                        event.preventDefault();
+                      }}
+                    >
+                      {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
+                    </Heart>
+                    <div>
+                      <img
+                        src={`https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/${perfume.imageUrl}`}
+                        alt={perfume.name}
+                        style={{ width: "200px", height: "250px" }}
+                      />
+                    </div>
+                    <div>
+                      <p>{perfume.name}</p>
+                    </div>
+                  </Perfume>
+                </Link>
+              ))}
+            </React.Fragment>
+          ))}
+      </Perfumes>
       </ListWrap>
     </RootWrap>
   );

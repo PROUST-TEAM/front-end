@@ -340,6 +340,8 @@ export default function Header() {
       } else {
         window.location.href = '/errorPage';
       }
+    } finally {
+      closeSearchPanel(); // 검색 버튼 클릭 시 패널을 닫도록 추가
     }
   };
   // 드롭다운 관련 코드_추후에 API 연결하면 달라질 예정
