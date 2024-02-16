@@ -15,6 +15,10 @@ const CommentItem = styled.div`
   color: #282727;
   display: flex;
   justify-content: space-between;
+
+  svg:hover {
+    color: red; // 호버 시 색상 변경
+  }
 `;
 
 const CommentList = styled.div`
@@ -55,6 +59,10 @@ const CancelButton = styled.button`
   font-size: 20px;
   font-family: Pretendard_Medium;
   color: #6bff94;
+
+  &:hover {
+    color: red;
+  }
 `;
 
 const PostButton = styled.button`
@@ -65,6 +73,10 @@ const PostButton = styled.button`
   font-family: Pretendard_Medium;
   color: #7d7d7d;
   margin: 25px 0px 0px 30px;
+
+  &:hover {
+    color: black; // Change text color on hover
+  }
 `;
 
 export default function Comment(props) {

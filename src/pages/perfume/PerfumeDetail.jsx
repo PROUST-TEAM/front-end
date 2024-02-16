@@ -51,7 +51,7 @@ const Info = styled.div`
 `;
 const VerticalLine = styled.div`
   position: absolute;
-  top: 762px;
+  top: 725px;
   left: 50%;
   transform: translate(-50%, -50%);
   height: 171px;
@@ -61,7 +61,7 @@ const VerticalLine = styled.div`
 
 const Circle = styled.div`
   position: absolute;
-  top: 678px;
+  top: 638px;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #6bff94;
@@ -71,7 +71,7 @@ const Circle = styled.div`
 `;
 const Circle2 = styled.div`
   position: absolute;
-  top: 850px;
+  top: 815px;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #ecf5ef;
@@ -175,7 +175,7 @@ const titleStyle = {
   display: "inline-block",
 };
 export default function PerfumeDetail() {
-  const [isHeartFilled, setHeartFilled] = useState(false);
+  const [isHeartFilled, setHeartFilled] = useState(true);
   const apiUrl = process.env.REACT_APP_API_URL;
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [response, setResponse] = useState([]);
@@ -285,37 +285,6 @@ export default function PerfumeDetail() {
                   </Explanation>
                 </ReceiptTop>
               ))}
-            {/* <ReceiptTop>
-              <Heart
-                onClick={(event) => {
-                  console.log(response);
-                  onClickHeart(perfume); // 하트 클릭 시 동작할 함수
-                  console.log(perfume.name);
-                  event.preventDefault();
-                }}
-              >
-                {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-              </Heart>
-              <br />
-              <p style={titleStyle}>Eau Duelle</p>
-              <p style={textStyle}>오 듀엘르</p>
-              <p style={textStyle}>#신비로운 바닐라 #스파이스 #달달함 #우디</p>
-              <div style={lineStyle} />
-              <img
-                src={perfume}
-                alt="Base Character"
-                style={{ width: "260px", height: "338px" }}
-              />
-              <Explanation>
-                <span>
-                  오 듀엘르는 바닐라 깍지가 고아, 카르타고, 베니스, 바빌론 등의
-                  향신료 항로를 따라 가는, 상상 속의 여행을 표현한 향입니다.전
-                  설적인 기항지를 거치면서 향에 새로운 맛들이 베어들게 됩니다.
-                  시간과 국경을 초월하는 여행을 통해 마다가스카르의 부르봉
-                  바닐라는 빛과 그림자를 표현합니다.
-                </span>
-              </Explanation>
-            </ReceiptTop> */}
             <ReceiptBottom>
               <img
                 src={barcode}
