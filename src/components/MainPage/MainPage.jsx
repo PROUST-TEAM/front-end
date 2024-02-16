@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 import topImage from "../../images/top_charac.png";
 import searchImage from "../../images/search_img.png";
-//import video1 from "../../images/main_ani.webm";
+import video1 from "../../images/main_ani.webm";
 import { Link } from 'react-scroll';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
@@ -135,7 +135,37 @@ export const SearchButton = styled(Link)`
   text-decoration: none;  // 링크에 기본 스타일 제거
 `;
 
+const LoaderContainer = styled.div`
+  user-select: none;
+  margin-top: 100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
+  > video {
+    //width: 803px;
+    height: 500px;  
+    background-color: trnasparent;
+  }
+`;
+
+const LoaderMessage = styled.div`
+  font-family: Pretendard_ExtraBold;
+  font-size: 40px;
+  z-index: 1; //text가 이미지 위로 가게
+  color: #6BFF94;
+  margin-top: -70px;
+
+  >p{
+    margin-top: 10px;
+    font-family: Pretendard_ExtraBold;
+    font-size: 30px;
+    z-index: 1; //text가 이미지 위로 가게
+    color: white;
+  }
+`;
 
 export default function MainPage() {
   // 검색어가 있는 경우 vs 없는 경우 나눠서 구현
@@ -143,6 +173,7 @@ export default function MainPage() {
   const [searchText, setSearchText] = useState('');
   const apiUrl = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setSearchText(e.target.value);
@@ -151,13 +182,16 @@ export default function MainPage() {
   const handleSearchButtonClick = async (event) => {
     try {
       if (searchText.trim() !== '') {
+        // 로딩 시작 시 로딩 상태 변경
+        setLoading(true);
+
         const response = await axios.post(`${apiUrl}/ai/search`, {
           search: searchText,
         });
 
         console.log("Server response:", response.data);
 
-        if (response.data.isSuccess) {
+        if (response.data.isSuccess && response.data.result !== null) {
           navigate('/search', { state: { searchData: response.data } });
         } else {
           window.location.href = '/nonSearch';
@@ -165,22 +199,39 @@ export default function MainPage() {
       } else {
         window.location.href = '/nonSearch';
       }
+
     } catch (error) {
       if (error.response && error.response.status === 429) {
         window.location.href = '/nonSearch';
       } else {
         window.location.href = '/nonSearch';
       }
+    } finally {
+      // 로딩 완료 시 로딩 상태 변경
+      setLoading(true);
     }
   };
 
-
   return (
-    <>
       <MainContainer>
-        <Title>
-          PROUST
-        </Title>
+        {loading && (
+        <LoaderContainer>
+          <video autoPlay loop muted>
+            <source src={video1} type='video/webm' />
+          </video>
+          <LoaderMessage>
+            Loading 중...
+            <p>
+              조금만 기다려줘!
+            </p>
+          </LoaderMessage>
+        </LoaderContainer>
+      )}
+      {!loading && (
+        <>
+          <Title>
+            PROUST
+          </Title>
         <Image>
         {/* <video autoPlay loop muted>
           <source src={video1} type='video/webm' />
@@ -189,7 +240,7 @@ export default function MainPage() {
         </Image>
         <SubTitle>
         <ColoredText>몰랐던 향수 정보</ColoredText> 찾는데 낭비하는 시간,
-          <p>프루스트가 아껴줄게!</p>
+          <p>프루스트 AI 검색이 아껴줄게!</p>
         </SubTitle>
         <VerticalLine/>
         <Circle/>
@@ -204,7 +255,8 @@ export default function MainPage() {
             <img src={searchImage} alt="SearchImg" />
           </SearchButton>
           </SearchContainer>
+          </>
+      )}
       </MainContainer>
-    </>
   )
 }

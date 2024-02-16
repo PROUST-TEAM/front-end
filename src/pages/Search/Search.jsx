@@ -5,6 +5,7 @@ import searchImage from "../../images/search_img.png";
 import miniTopImg from "../../images/mini_top_img.png";
 import perfume from "../../images/perfume.png";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
+import video1 from "../../images/main_ani.webm";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -210,6 +211,38 @@ const Perfumes = styled.div`
   flex-wrap: wrap;
 `;
 
+const LoaderContainer = styled.div`
+  user-select: none;
+  margin-top: 100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  > video {
+    //width: 803px;
+    height: 500px;  
+    background-color: trnasparent;
+  }
+`;
+
+const LoaderMessage = styled.div`
+  font-family: Pretendard_ExtraBold;
+  font-size: 40px;
+  z-index: 1; //text가 이미지 위로 가게
+  color: #6BFF94;
+  margin-top: -70px;
+
+  >p{
+    margin-top: 10px;
+    font-family: Pretendard_ExtraBold;
+    font-size: 30px;
+    z-index: 1; //text가 이미지 위로 가게
+    color: white;
+  }
+`;
+
 export default function Search() {
   const [isHeartFilled, setHeartFilled] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -217,6 +250,7 @@ export default function Search() {
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [loading, setLoading] = useState(false);
 
   //const [perfumeNames, setPerfumeNames] = useState([]);
 
@@ -254,6 +288,9 @@ export default function Search() {
           setResponse(results);
           console.log(response);
         }
+        else{
+          window.location.href = '/nonSearch';
+        }
       } catch (error) {
         console.error("Error:", error);
       }
@@ -263,18 +300,20 @@ export default function Search() {
     setSearchText('');
   }, [location]);
   
-
+  
   const handleSearchButtonClick = async (event) => {
     try {
+      setLoading(true); // 검색 버튼 클릭 시 로딩 상태를 true로 설정
+  
       if (searchText.trim() !== '') {
         const response = await axios.post(`${apiUrl}/ai/search`, {
           search: searchText,
         });
   
-        console.log("Server response:", response.data);
+        console.log("서버 응답:", response.data);
   
-        if (response.data.isSuccess) {
-          navigate('/search', { state: { searchData: response.data } ,replace: true, forceRefresh: true });
+        if (response.data.isSuccess && response.data.result !== null) {
+          navigate('/search', { state: { searchData: response.data }});
         } else {
           window.location.href = '/nonSearch';
         }
@@ -282,9 +321,11 @@ export default function Search() {
         window.location.href = '/nonSearch';
       }
     } catch (error) {
-      if (error.response && error.response.status === 429) {
+      if ([429, 504].includes(error.response?.status)) {
         window.location.href = '/nonSearch';
-      } 
+      }
+    } finally {
+      setLoading(false); // 검색 작업이 완료되면 로딩 상태를 false로 설정
     }
   };
 
@@ -319,6 +360,22 @@ export default function Search() {
 
   return (
     <RootWrap>
+      {loading && (
+        <LoaderContainer>
+          <video autoPlay loop muted>
+            <source src={video1} type='video/webm' />
+          </video>
+          <LoaderMessage>
+            Loading 중...
+            <p>
+              조금만 기다려줘!
+            </p>
+          </LoaderMessage>
+        </LoaderContainer>
+      )}
+
+    {!loading && (
+      <>
       <SearchWrap>
         <Title>PROUST</Title>
         <Image>
@@ -383,6 +440,8 @@ export default function Search() {
           ))}
       </Perfumes>
       </ListWrap>
+      </>
+    )}
     </RootWrap>
   );
 }
