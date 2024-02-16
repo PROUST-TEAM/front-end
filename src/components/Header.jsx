@@ -16,6 +16,7 @@ import LogoutModal from "./LogOutModal";
 import video1 from "../images/main_ani.webm";
 
 const HeaderContainer = styled.header`
+user-select: none;
   position: fixed;
   background-color: black;
   padding: 10px;
@@ -81,7 +82,7 @@ const HeaderRight = styled.div`
     margin-left: 20px;
     align-items: center;
     justify-content: center;
-    margin-bottom: 4px;
+    margin-bottom: 1px;
   }
 `;
 
@@ -114,7 +115,7 @@ const StyledLink = styled(Link)`
 
   > img {
     margin-left: 5px;
-    margin-bottom: 4px;
+    margin-bottom: 1px;
     width: 20px;
     height: 20px;
   }

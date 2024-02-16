@@ -138,7 +138,7 @@ export default function FifthPage(){
         <Card isCenter={currentSlide === 2}>
           <p>MBTI보러 가자</p>
           <img src={secondSlide} alt="Second Character" />
-          <StyledLink to="/mbtiTest">
+          <StyledLink to="/mbtiMain">
             <button>MBTI 테스트하러 가기</button>
           </StyledLink>
         </Card>

@@ -111,7 +111,24 @@ const LoginMessage = styled.div`
   font-size: 50px;
   color: white;
   font-family: Pretendard_ExtraBold;
-  margin-top: -100px;
+  margin-top: -150px;
+`;
+
+const StartButton = styled.div`
+  border: 2px solid #fefdfc;
+  user-select: none;
+  border-radius: 100px;
+  padding: 15px 70px;
+  margin-top: 80px;
+  display: inline-block;
+  font-size: 30px;
+  color: #fefdfc;
+  font-family: Pretendard_ExtraBold;
+  &:hover {
+    background-color: black;
+    color: #6bff94;
+    border: 2px solid #6bff94;
+  }
 `;
 
 export default function MyList() {
@@ -200,9 +217,16 @@ export default function MyList() {
             )}
           </Filter>
         ) : (
-          <LoginMessage>
-            <p>로그인 후 나만의 리스트를 확인해보세요</p>
-          </LoginMessage>
+          <>
+            <LoginMessage>
+              <p>회원가입 하고 나만의 리스트를 만들어봐!</p>
+            </LoginMessage>
+            <Link to="/join">
+              <StartButton>
+                <div>회원가입 하러 가자</div>
+              </StartButton>
+            </Link>
+          </>
         )}
 
         <Perfumes>
