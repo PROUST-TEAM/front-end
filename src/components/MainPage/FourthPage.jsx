@@ -179,7 +179,8 @@ export default function FourthPage() {
             PROUST PICK
           </Title>
           <BestContainer>
-            <ReceiptContainer to="/detail">
+            {/* AI API 수정중이라 아직 확인 못함 */}
+            {/* <ReceiptContainer to="/detail">
               {console.log('Response:', response.result)}
               {response &&
                 response.result &&
@@ -220,7 +221,31 @@ export default function FourthPage() {
                     </ReceiptBottom>
                   </React.Fragment>
                 ))}
-            </ReceiptContainer>
+            </ReceiptContainer> */}
+            {[...Array(3)].map((_, index) => (
+              <ReceiptContainer key={index}>
+                <ReceiptTop>
+                  <ReceiptTitle>
+                    PROUST
+                    <p>PICK</p>
+                  </ReceiptTitle>
+                  <HorizontalLine />
+                  <img src={perfume} alt="Base Character" />
+                  <ReceiptSubTitle>Eau Duelle</ReceiptSubTitle>
+                  <Explanation>
+                    <p>오듀엘르</p>
+                    <span>#신비로운 바닐라 #스파이스 #달달함 #우디</span>
+                  </Explanation>
+                </ReceiptTop>
+                <ReceiptBottom>
+                  <img
+                    src={barcode}
+                    alt="Base Character"
+                    style={{ margin: '20px 0 20px 0' }}
+                  />
+                </ReceiptBottom>
+              </ReceiptContainer>
+            ))}
           </BestContainer>
         </>
         ) : (
