@@ -81,34 +81,42 @@ const Circle2 = styled.div`
 `;
 
 const VerticalLine2 = styled.div`
-  position: absolute;
-  top: 2046px;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  // position: absolute;
+  // top: 2046px;
+  // left: 50%;
+  // transform: translate(-50%, -50%);
   height: 94px;
   background: linear-gradient(#6bff94, #f1f5f1);
   width: 2px;
+  margin-left: 575px;
+  margin-top: -5px;
 `;
 
 const Circle3 = styled.div`
-  position: absolute;
-  top: 2000px;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  // position: absolute;
+  // top: 210%; /* 20% of the parent's height */
+  // left: 30%;
+  // // top: 2000px;
+  // // left: 50%;
+  // // transform: translate(-50%, -50%);
   background-color: #6bff94;
   border-radius: 50%;
   width: 12px;
   height: 12px;
+  margin-left: 570px;
+  margin-top: -5px;
 `;
 const Circle4 = styled.div`
-  position: absolute;
-  top: 2090px;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  // position: absolute;
+  // top: 2090px;
+  // left: 50%;
+  // transform: translate(-50%, -50%);
   background-color: #f1f5f1;
   border-radius: 50%;
   width: 12px;
   height: 12px;
+  margin-left: 570px;
+  margin-top: -5px;
 `;
 const Detail = styled.div`
   margin-top: -200px;
@@ -148,6 +156,10 @@ const ReceiptBottom = styled.div`
   background-color: #fefdfc;
   width: 526px;
   border-radius: 35.54px 35.54px 17.77px 17.77px;
+`;
+const Wrap = styled.div`
+  position: reletive;
+  width: 100%;
 `;
 
 const lineStyle = {
@@ -281,7 +293,10 @@ export default function PerfumeDetail() {
                     />
                   </div>
                   <Explanation>
-                    <span>{perfume.description}</span>
+                    <span>
+                      {perfume.description}
+                      {/* {perfume.description} */}
+                    </span>
                   </Explanation>
                 </ReceiptTop>
               ))}
@@ -294,10 +309,13 @@ export default function PerfumeDetail() {
             </ReceiptBottom>
           </Receipt>
           <div style={lineStyle2} />
-          <Info>COMMENT</Info>
-          <Circle3 />
-          <VerticalLine2 />
-          <Circle4 />
+          <Wrap>
+            <Info>COMMENT</Info>
+            <Circle3 />
+            <VerticalLine2 />
+            <Circle4 />
+          </Wrap>
+
           {location.state.name && <Comment perfumeName={location.state.name} />}
         </Detail>
       </PerfumeDetailContent>
