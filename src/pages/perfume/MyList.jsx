@@ -75,17 +75,23 @@ const Perfume = styled.div`
   background-color: #ffffff;
   border-radius: 10px;
   min-width: 300px;
-  height: 381px;
+  max-width: 300px;
+  min-height: 381px;
+  max-height: 381px;
   margin: 10px 10px;
   > div > p {
     font-size: 20px;
     color: #282727;
     font-family: Pretendard_ExtraBold;
-    margin-top: 10px;
+    margin-top: -25px;
+    padding: 0 10px 0 10px;
+    margin-bottom: 20px;
   }
 
   > div > img {
-    margin-top: -10px;
+    margin-top: -50px;
+    width: 240px;
+    height: 338px;
   }
 `;
 
@@ -215,11 +221,11 @@ export default function MyList() {
                   </Heart>
                   <div>
                     <img
-                      src={perfume.imageUrl}
+                      src={`https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/${perfume.imageUrl}`}
                       alt={perfume.name}
-                      style={{ width: "200px", height: "250px" }}
                     />
                   </div>
+
                   <div>
                     <p>{perfume.name}</p>
                   </div>

@@ -142,6 +142,7 @@ const Explanation = styled.div`
   color: rgba(0, 0, 0, 0.63);
   text-align: left;
   line-height: 1.4;
+  margin-top: -30px;
 `;
 const ReceiptBottom = styled.div`
   background-color: #fefdfc;
@@ -168,7 +169,7 @@ const textStyle = {
 };
 const titleStyle = {
   fontFamily: "Pretendard_ExtraBold",
-  fontSize: "50px",
+  fontSize: "45px",
   color: "#282727",
   margin: "0px 0 20px 0",
   display: "inline-block",
@@ -178,33 +179,39 @@ export default function PerfumeDetail() {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [response, setResponse] = useState([]);
+  const [perfumeName, setPerfumeName] = useState();
   const location = useLocation();
-  const perfumeName = location.state.name;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${apiUrl}/${perfumeName}/getPerfumes`,
-          {
-            params: {
-              Name: perfumeName,
-            },
-            headers: {
-              Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
-            },
-          }
-        );
+        setPerfumeName(location.state.name);
 
-        console.log("향수 디테일:", response.data.result);
-        setResponse(response.data.result);
+        if (location.state.name) {
+          const response = await axios.get(
+            `${apiUrl}/${location.state.name}/getPerfumes`,
+            {
+              params: {
+                Name: location.state.name,
+              },
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          console.log("향수 디테일:", response.data.result);
+          setResponse(response.data.result);
+        } else {
+          console.log("향수 이름이 없습니다.");
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-    fetchData(); // Fetch data when component mounts
-  }, [perfumeName]);
+    fetchData();
+  }, [location.state.name]);
 
   const onClickHeart = async (perfume) => {
     console.log(perfume.name);
@@ -262,37 +269,21 @@ export default function PerfumeDetail() {
                     #신비로운 바닐라 #스파이스 #달달함 #우디
                   </p>
                   <div style={lineStyle} />
-                  <img
-                    src={perfume.imageUrl}
-                    alt={perfume.name}
-                    style={{ width: "260px", height: "338px" }}
-                  />
+                  <div>
+                    <img
+                      src={`https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/${perfume.imageUrl}`}
+                      alt={perfume.name}
+                      style={{
+                        width: "280px",
+                        height: "450px",
+                        marginTop: "-50px",
+                      }}
+                    />
+                  </div>
                   <Explanation>
                     <span>{perfume.description}</span>
                   </Explanation>
                 </ReceiptTop>
-                // <Perfume>
-                //   <Heart
-                //     onClick={(event) => {
-                //       console.log(response);
-                //       onClickHeart(perfume); // 하트 클릭 시 동작할 함수
-                //       console.log(perfume.name);
-                //       event.preventDefault();
-                //     }}
-                //   >
-                //     {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-                //   </Heart>
-                //   <div>
-                //     <img
-                //       src={perfume.imageUrl}
-                //       alt={perfume.name}
-                //       style={{ width: "200px", height: "250px" }}
-                //     />
-                //   </div>
-                //   <div>
-                //     <p>{perfume.name}</p>
-                //   </div>
-                // </Perfume>
               ))}
             {/* <ReceiptTop>
               <Heart
@@ -338,7 +329,7 @@ export default function PerfumeDetail() {
           <Circle3 />
           <VerticalLine2 />
           <Circle4 />
-          <Comment />
+          {location.state.name && <Comment perfumeName={location.state.name} />}
         </Detail>
       </PerfumeDetailContent>
     </PerfimeDetailWrap>
