@@ -105,10 +105,14 @@ const Heart = styled.div`
     margin-right: -200px;
   }
 `;
-const linkStyle = {
-  textDecoration: "none", // 밑줄 제거
-  color: "inherit", // 기본 색상 사용
-};
+
+const LoginMessage = styled.div`
+  text-align: center;
+  font-size: 50px;
+  color: white;
+  font-family: Pretendard_ExtraBold;
+  margin-top: -100px;
+`;
 
 export default function MyList() {
   const [isHeartFilled, setHeartFilled] = useState(true);
@@ -181,23 +185,25 @@ export default function MyList() {
           <img src={baseImage} alt="Base Character" />
         </BaseImage>
 
-        <Filter>
-          {/* 배열 순회하며 FilterItem 생성 */}
-          {["우디", "시트러스", "프루티", "머스크", "플로럴"].map((filter) => (
-            <FilterItem
-              key={filter} // filter 값 자체를 고유 식별자로 사용
-              // 해당 필터 배열에 존재 -> 필터 삭제
-              // 해당 필터 배열에 존재 X -> 필터 추가
-              onClick={() => onFilterClick(filter)}
-              // 필터 배열에 존재 -> true
-              // 필터 배열에 존재 X -> false
-              active={activeFilters.includes(filter)}
-            >
-              {/* 화면에 보여주는 부분 */}
-              {filter}
-            </FilterItem>
-          ))}
-        </Filter>
+        {token ? (
+          <Filter>
+            {["우디", "시트러스", "프루티", "머스크", "플로럴"].map(
+              (filter) => (
+                <FilterItem
+                  key={filter}
+                  onClick={() => onFilterClick(filter)}
+                  active={activeFilters.includes(filter)}
+                >
+                  {filter}
+                </FilterItem>
+              )
+            )}
+          </Filter>
+        ) : (
+          <LoginMessage>
+            <p>로그인 후 나만의 리스트를 확인해보세요</p>
+          </LoginMessage>
+        )}
 
         <Perfumes>
           {response &&
