@@ -4,11 +4,22 @@ import styled from "styled-components";
 
 const CardContainer = styled(motion.div)`
   /* 슬라이드 카드의 스타일을 정의 */
-  height: 200px;
+  height: 580px;
   width: 750px;
   border-radius: 30px;
-  background-color: #F2F2F2;
+  background-color: #E0E0E0;
   padding: 25px;
+  overflow-y: auto;
+  box-shadow: 3px 3px 20px rgba(0.1, 0.3, 0, 0.3); /* 그림자 추가 */
+
+  &::-webkit-scrollbar {
+    background: none;
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #737373;
+    border-radius: 100px;
+  }
 `;
 
 const Title = styled(motion.h2)`
@@ -34,14 +45,12 @@ const SpacedText = styled.span`
   white-space: pre-line;
 `;
 
-const SlideCard = ({ title, subtitle, onClick }) => {
+const SlideCard = ({ title, subtitle, describe, onClick }) => {
   return (
     <CardContainer>
-      <Title>{title}</Title>
       <Subtitle>
-        <SpacedText>{subtitle}</SpacedText>
+        <SpacedText>{describe}</SpacedText>
       </Subtitle>
-      <motion.button onClick={onClick}>Close</motion.button>
     </CardContainer>
   );
 };
