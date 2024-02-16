@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from 'react-router-dom';
 import perfume from "../../images/perfume.png";
 import barcode from "../../images/barcode.png";
+import axios from "axios";
 
 const FourthContainer = styled.div`
   user-select: none;
@@ -141,18 +142,34 @@ const ReceiptBottom = styled.div`
 export default function FourthPage() {
 
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const [response, setResponse] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    // 로컬 스토리지에서 토큰 불러오기
-    const storedToken = localStorage.getItem('token');
+    const fetchData = async () => {
+      try {
+        const storedToken = localStorage.getItem('token');
+        if (storedToken) {
+          setLoggedIn(true);
+          const response = await axios.get(`${apiUrl}/ai/recommend`, {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+            },
+          });
 
-    // 토큰이 존재하면 로그인 상태를 true로 설정
-    if (storedToken) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
+          console.log('향수 추천:', response.data);
+          setResponse(response.data);
+        } else {
+          setLoggedIn(false);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchData();
   }, []);
+
 
   return (
     <FourthContainer>
@@ -162,205 +179,110 @@ export default function FourthPage() {
             PROUST PICK
           </Title>
           <BestContainer>
-          <ReceiptContainer to="/detail">
-            <ReceiptTop>
-              <ReceiptTitle>
-                  PROUST
-                  <p>PICK</p>
-              </ReceiptTitle>
-              <HorizontalLine/>
-                <img
-                  src={perfume}
-                  alt="Base Character"
-                />
-              <ReceiptSubTitle>
-                  Eau Duelle
-              </ReceiptSubTitle>
-              <Explanation>
-                <p>
-                  오듀엘르 
-                </p>
-                <span>
-                  #신비로운 바닐라 #스파이스 #달달함 #우디
-                </span>
-              </Explanation>
-              </ReceiptTop>
-              <ReceiptBottom>
-                <img
-                  src={barcode}
-                  alt="Base Character"
-                  style={{ margin: "20px 0 20px 0" }}
-                />
-              </ReceiptBottom>
-            </ReceiptContainer>
-            <ReceiptContainer to="/detail">
-            <ReceiptTop>
-              <ReceiptTitle>
-                 PROUST
-                 <p>PICK</p>
-              </ReceiptTitle>
-              <HorizontalLine/>
-              <img
-                src={perfume}
-                alt="Base Character"
-              />
-              <ReceiptSubTitle>
-                 Eau Duelle
-              </ReceiptSubTitle>
-              <Explanation>
-                <p>
-                  오듀엘르 
-                </p>
-                <span>
-                  #신비로운 바닐라 #스파이스 #달달함 #우디
-                </span>
-              </Explanation>
-            </ReceiptTop>
-            <ReceiptBottom>
-              <img
-                src={barcode}
-                alt="Base Character"
-                style={{ margin: "20px 0 20px 0" }}
-              />
-            </ReceiptBottom>
-            </ReceiptContainer>
-            <ReceiptContainer to="/detail">
-            <ReceiptTop>
-              <ReceiptTitle>
-                 PROUST
-                 <p>PICK</p>
-              </ReceiptTitle>
-              <HorizontalLine/>
-              <img
-                src={perfume}
-                alt="Base Character"
-              />
-              <ReceiptSubTitle>
-                 Eau Duelle
-              </ReceiptSubTitle>
-              <Explanation>
-                <p>
-                  오듀엘르 
-                </p>
-                <span>
-                  #신비로운 바닐라 #스파이스 #달달함 #우디
-                </span>
-              </Explanation>
-            </ReceiptTop>
-            <ReceiptBottom>
-              <img
-                src={barcode}
-                alt="Base Character"
-                style={{ margin: "20px 0 20px 0" }}
-              />
-            </ReceiptBottom>
-            </ReceiptContainer>
-        </BestContainer>
-
+            {/* AI API 수정중이라 아직 확인 못함 */}
+            {/* <ReceiptContainer to="/detail">
+              {console.log('Response:', response.result)}
+              {response &&
+                response.result &&
+                response.result.map((perfume, index) => (
+                  <React.Fragment 
+                  key={perfume.PerfumeID}
+                  state={{ name: perfume.Name }}
+                  style={{ textDecoration: "none" }}>
+                    <ReceiptTop>
+                      <ReceiptTitle>
+                        PROUST
+                        <p>PICK</p>
+                      </ReceiptTitle>
+                      <HorizontalLine />
+                      <img
+                        src={`https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/${perfume.imageUrl}`}
+                        alt={perfume.Name}
+                      />
+                      <ReceiptSubTitle>{perfume.Name}</ReceiptSubTitle>
+                      <Explanation>
+                        <p>{perfume.NameKor}</p>
+                        <span>
+                          {perfume.category.map((cat, index) => (
+                            <React.Fragment key={index}>
+                              #{cat}
+                              {index < perfume.category.length - 1 && ' '}
+                            </React.Fragment>
+                          ))}
+                        </span>
+                      </Explanation>
+                    </ReceiptTop>
+                    <ReceiptBottom>
+                      <img
+                        src={barcode}
+                        alt="Base Character"
+                        style={{ margin: '20px 0 20px 0' }}
+                      />
+                    </ReceiptBottom>
+                  </React.Fragment>
+                ))}
+            </ReceiptContainer> */}
+            {[...Array(3)].map((_, index) => (
+              <ReceiptContainer key={index}>
+                <ReceiptTop>
+                  <ReceiptTitle>
+                    PROUST
+                    <p>PICK</p>
+                  </ReceiptTitle>
+                  <HorizontalLine />
+                  <img src={perfume} alt="Base Character" />
+                  <ReceiptSubTitle>Eau Duelle</ReceiptSubTitle>
+                  <Explanation>
+                    <p>오듀엘르</p>
+                    <span>#신비로운 바닐라 #스파이스 #달달함 #우디</span>
+                  </Explanation>
+                </ReceiptTop>
+                <ReceiptBottom>
+                  <img
+                    src={barcode}
+                    alt="Base Character"
+                    style={{ margin: '20px 0 20px 0' }}
+                  />
+                </ReceiptBottom>
+              </ReceiptContainer>
+            ))}
+          </BestContainer>
         </>
         ) : (
           <>
           <Title>
             <ColoredText>회원가입</ColoredText>하고 향수 추천받아봐
         </Title>
-          <BestContainer style={{filter: 'blur(14px)'}}>
-          <ReceiptContainer>
-          <ReceiptTop>
-            <ReceiptTitle>
-                PROUST
-                <p>PICK</p>
-            </ReceiptTitle>
-            <HorizontalLine/>
-              <img
-                src={perfume}
-                alt="Base Character"
-              />
-            <ReceiptSubTitle>
-                Eau Duelle
-            </ReceiptSubTitle>
-            <Explanation>
-              <p>
-                오듀엘르 
-              </p>
-              <span>
-                #신비로운 바닐라 #스파이스 #달달함 #우디
-              </span>
-            </Explanation>
-            </ReceiptTop>
-            <ReceiptBottom>
-              <img
-                src={barcode}
-                alt="Base Character"
-                style={{ margin: "20px 0 20px 0" }}
-              />
-            </ReceiptBottom>
-            </ReceiptContainer>
-            <ReceiptContainer>
-            <ReceiptTop>
-              <ReceiptTitle>
-                 PROUST
-                 <p>PICK</p>
-              </ReceiptTitle>
-              <HorizontalLine/>
-              <img
-                src={perfume}
-                alt="Base Character"
-              />
-              <ReceiptSubTitle>
-                 Eau Duelle
-              </ReceiptSubTitle>
-              <Explanation>
-                <p>
-                  오듀엘르 
-                </p>
-                <span>
-                  #신비로운 바닐라 #스파이스 #달달함 #우디
-                </span>
-              </Explanation>
-            </ReceiptTop>
-            <ReceiptBottom>
-              <img
-                src={barcode}
-                alt="Base Character"
-                style={{ margin: "20px 0 20px 0" }}
-              />
-            </ReceiptBottom>
-            </ReceiptContainer>
-            <ReceiptContainer>
-            <ReceiptTop>
-              <ReceiptTitle>
-                 PROUST
-                 <p>PICK</p>
-              </ReceiptTitle>
-              <HorizontalLine/>
-              <img
-                src={perfume}
-                alt="Base Character"
-              />
-              <ReceiptSubTitle>
-                 Eau Duelle
-              </ReceiptSubTitle>
-              <Explanation>
-                <p>
-                  오듀엘르 
-                </p>
-                <span>
-                  #신비로운 바닐라 #스파이스 #달달함 #우디
-                </span>
-              </Explanation>
-            </ReceiptTop>
-            <ReceiptBottom>
-              <img
-                src={barcode}
-                alt="Base Character"
-                style={{ margin: "20px 0 20px 0" }}
-              />
-            </ReceiptBottom>
-            </ReceiptContainer>
-        </BestContainer>
-        <StyledLink to="/login">
+        <BestContainer style={{ filter: 'blur(14px)' }}>
+            {/* Repeat the default perfume display */}
+            {[...Array(3)].map((_, index) => (
+              <ReceiptContainer key={index}>
+                <ReceiptTop>
+                  <ReceiptTitle>
+                    PROUST
+                    <p>PICK</p>
+                  </ReceiptTitle>
+                  <HorizontalLine />
+                  <img src={perfume} alt="Base Character" />
+                  <ReceiptSubTitle>Eau Duelle</ReceiptSubTitle>
+                  <Explanation>
+                    <p>오듀엘르</p>
+                    <span>#신비로운 바닐라 #스파이스 #달달함 #우디</span>
+                  </Explanation>
+                </ReceiptTop>
+                <ReceiptBottom>
+                  <img
+                    src={barcode}
+                    alt="Base Character"
+                    style={{ margin: '20px 0 20px 0' }}
+                  />
+                </ReceiptBottom>
+              </ReceiptContainer>
+            ))}
+          </BestContainer>
+          <StyledLink to="/login">
             <button>회원가입하러 가기</button>
-        </StyledLink>
+          </StyledLink>
         </>
         )}
     </FourthContainer>
