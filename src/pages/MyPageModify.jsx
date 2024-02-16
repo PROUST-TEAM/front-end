@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import topCharac from '../images/bg_top.png';
 import openImage from '../images/Login-Icons.png';
 import closeImage from '../images/EyeClosed.png';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -68,6 +70,8 @@ const StyledButtonContainer = styled.div`
 `;
 
 const StyledTextButton = styled.button`
+font-family: 'Pretendard_Bold', sans-serif;
+  font-size: 15px;
   width: 80px;
   background-color: transparent;
   color: red;
@@ -78,6 +82,8 @@ const StyledTextButton = styled.button`
 `;
 
 const StyledCompleteButton = styled.button`
+font-family: 'Pretendard_Bold', sans-serif;
+  font-size: 15px;
   width: 60px;
   height: 33px;
   background-color: transparent;
@@ -174,6 +180,12 @@ export default function MyPage() {
   const [userpw, setPassword] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [userData, setUserData] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
+  const navigate = useNavigate();
+
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
@@ -190,15 +202,61 @@ export default function MyPage() {
     setIsModalOpen(true);
   };
 
-  const handleWithdrawConfirm = () => {
-    alert("탈퇴되었습니다.");
-    setIsModalOpen(false);
+  const handleWithdrawConfirm = async () => {
+    try {
+      const response = await axios.delete(`${apiUrl}/user/delete`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        // 삭제가 성공적으로 이루어진 경우의 로직
+        alert('계정이 성공적으로 삭제되었습니다.');
+        // 로컬 스토리지에서 토큰 삭제
+        localStorage.removeItem('token');
+    
+        // 계정탈퇴 후 /home으로 이동
+        navigate('/home');  
+
+        // 강제로 페이지 새로고침
+        window.location.reload();
+        setIsModalOpen(false);
+      } else {
+        // 서버에서 에러 응답이 왔을 때의 처리
+        console.error('계정 삭제에 실패했습니다.', response.statusText);
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      // 네트워크 에러 등 예외가 발생했을 때의 처리
+      console.error('계정 삭제 중 에러가 발생했습니다.', error);
+      setIsModalOpen(false);
+    } finally {
+      setIsModalOpen(false);
+    }
   };
 
   const handleWithdrawCancel = () => {
     setIsModalOpen(false);
   };
-  
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/user/mypage`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserData(response.data.result);
+        console.log(userData);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchUserData(); // 초기 마운트 시에도 데이터를 가져오도록 호출
+  }, []); 
   
   return (
     <StyledContainer>
@@ -208,14 +266,14 @@ export default function MyPage() {
       <StyledRow>
         <StyledWord>Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</StyledWord>
         <StyledInputContainer>
-          <StyledInput id="name-modify" type="text" placeholder="이름" />
+          <StyledInput id="name-modify" type="text" placeholder="이름" defaultValue={userData?.name} />
         </StyledInputContainer>
       </StyledRow>
 
       <StyledRow>
         <StyledWord>Password</StyledWord>
         <StyledInputContainer>
-          <StyledInput id="pw-modify" type={isPasswordVisible ? "password" : "text"} placeholder="비밀번호" defaultValue={userpw} onChange={handlePasswordChange}/>
+          <StyledInput id="pw-modify" type={isPasswordVisible ? "password" : "text"} placeholder="비밀번호" defaultValue={userData?.password} onChange={handlePasswordChange}/>
           <StyledVisibleButton visible={userpw !== ''} onClick={handlePasswordButtonClick}>
             <StyledVisibleIcon
               src={isPasswordVisible ? openImage : closeImage}
@@ -229,7 +287,7 @@ export default function MyPage() {
       <StyledRow>
         <StyledWord>Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</StyledWord>
         <StyledInputContainer>
-          <StyledInput id="mail-modify" type="text" placeholder="이메일" />
+          <StyledInput id="mail-modify" type="text" placeholder="이메일" defaultValue={userData?.userId} />
         </StyledInputContainer>
       </StyledRow>
       
