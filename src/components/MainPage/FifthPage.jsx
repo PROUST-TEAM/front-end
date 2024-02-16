@@ -11,6 +11,7 @@ import thirdSlide from "../../images/third_slide.png";
 import { Link } from 'react-router-dom';
 
 const CarouselContainer = styled.div`
+  user-select: none;
   max-width: 970px;
   margin: 0 auto;
   margin-top: 170px;
