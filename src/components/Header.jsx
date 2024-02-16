@@ -16,6 +16,7 @@ import LogoutModal from "./LogOutModal";
 import video1 from "../images/main_ani.webm";
 
 const HeaderContainer = styled.header`
+user-select: none;
   position: fixed;
   background-color: black;
   padding: 10px;
