@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from 'react-router-dom';
 import perfume from "../../images/perfume.png";
 import barcode from "../../images/barcode.png";
+import axios from "axios";
 
 const FourthContainer = styled.div`
   user-select: none;
@@ -141,6 +142,8 @@ const ReceiptBottom = styled.div`
 export default function FourthPage() {
 
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const [response, setResponse] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     // 로컬 스토리지에서 토큰 불러오기
@@ -149,6 +152,23 @@ export default function FourthPage() {
     // 토큰이 존재하면 로그인 상태를 true로 설정
     if (storedToken) {
       setLoggedIn(true);
+
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`${apiUrl}/ai/recommend`, {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+            },
+          });
+
+          console.log("향수 추천:", response.data.result);
+          setResponse(response.data.result);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+
+      fetchData(); // 초기 마운트 시에도 데이터를 가져오도록 호출
     } else {
       setLoggedIn(false);
     }
@@ -163,58 +183,31 @@ export default function FourthPage() {
           </Title>
           <BestContainer>
           <ReceiptContainer to="/detail">
+            {response && 
+            response.result && response.result.map((perfume,index) => 
+            <>
             <ReceiptTop>
-              <ReceiptTitle>
-                  PROUST
-                  <p>PICK</p>
-              </ReceiptTitle>
-              <HorizontalLine/>
-                <img
-                  src={perfume}
-                  alt="Base Character"
-                />
-              <ReceiptSubTitle>
-                  Eau Duelle
-              </ReceiptSubTitle>
-              <Explanation>
-                <p>
-                  오듀엘르 
-                </p>
-                <span>
-                  #신비로운 바닐라 #스파이스 #달달함 #우디
-                </span>
-              </Explanation>
-              </ReceiptTop>
-              <ReceiptBottom>
-                <img
-                  src={barcode}
-                  alt="Base Character"
-                  style={{ margin: "20px 0 20px 0" }}
-                />
-              </ReceiptBottom>
-            </ReceiptContainer>
-            <ReceiptContainer to="/detail">
-            <ReceiptTop>
-              <ReceiptTitle>
-                 PROUST
-                 <p>PICK</p>
-              </ReceiptTitle>
-              <HorizontalLine/>
+            <ReceiptTitle>
+                PROUST
+                <p>PICK</p>
+            </ReceiptTitle>
+            <HorizontalLine/>
               <img
-                src={perfume}
-                alt="Base Character"
+                src="https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/uploads/1.png"
+                alt={perfume.name}
               />
-              <ReceiptSubTitle>
-                 Eau Duelle
-              </ReceiptSubTitle>
-              <Explanation>
-                <p>
-                  오듀엘르 
-                </p>
-                <span>
-                  #신비로운 바닐라 #스파이스 #달달함 #우디
-                </span>
-              </Explanation>
+            <ReceiptSubTitle>
+              {perfume.name}
+            </ReceiptSubTitle>
+            <Explanation>
+              <p>
+              {perfume.nameKor}
+              </p>
+              <span>
+                {/* #신비로운 바닐라 #스파이스 #달달함 #우디 */}
+                {perfume.category}
+              </span>
+            </Explanation>
             </ReceiptTop>
             <ReceiptBottom>
               <img
@@ -223,40 +216,10 @@ export default function FourthPage() {
                 style={{ margin: "20px 0 20px 0" }}
               />
             </ReceiptBottom>
-            </ReceiptContainer>
-            <ReceiptContainer to="/detail">
-            <ReceiptTop>
-              <ReceiptTitle>
-                 PROUST
-                 <p>PICK</p>
-              </ReceiptTitle>
-              <HorizontalLine/>
-              <img
-                src={perfume}
-                alt="Base Character"
-              />
-              <ReceiptSubTitle>
-                 Eau Duelle
-              </ReceiptSubTitle>
-              <Explanation>
-                <p>
-                  오듀엘르 
-                </p>
-                <span>
-                  #신비로운 바닐라 #스파이스 #달달함 #우디
-                </span>
-              </Explanation>
-            </ReceiptTop>
-            <ReceiptBottom>
-              <img
-                src={barcode}
-                alt="Base Character"
-                style={{ margin: "20px 0 20px 0" }}
-              />
-            </ReceiptBottom>
-            </ReceiptContainer>
+            </>
+            )}
+          </ReceiptContainer>
         </BestContainer>
-
         </>
         ) : (
           <>
