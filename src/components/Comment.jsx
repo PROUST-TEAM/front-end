@@ -88,28 +88,31 @@ export default function Comment(props) {
   const [perfumeName, setPerfumeName] = useState(props.perfumeName);
   const commentListRef = useRef();
 
-  const fetchData = async () => {
-    try {
-      if (perfumeName) {
-        const response = await axios.get(`${apiUrl}/${perfumeName}/readUser`, {
-          params: {
-            Name: perfumeName,
-          },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("댓글 전체 조회:", response.data.result);
-        setResponse(response.data.result);
-      } else {
-        console.log("향수 이름 없음");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (perfumeName) {
+          const response = await axios.get(
+            `${apiUrl}/${perfumeName}/readUser`,
+            {
+              params: {
+                Name: perfumeName,
+              },
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log("댓글 전체 조회:", response.data.result);
+          setResponse(response.data.result);
+        } else {
+          console.log("향수 이름 없음");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     fetchData();
   }, [perfumeName]);
 
@@ -118,7 +121,7 @@ export default function Comment(props) {
     setNewComment(newComment);
   };
 
-  const PostComment = async () => {
+  const postComment = async () => {
     try {
       if (newComment.trim() !== "") {
         // 댓글을 서버에 POST로 전송
@@ -143,6 +146,7 @@ export default function Comment(props) {
             { Content: newComment },
           ],
         }));
+
         // 입력창을 초기화
         setNewComment("");
 
@@ -160,8 +164,32 @@ export default function Comment(props) {
     }
   };
 
-  const CancelComment = () => {
-    setNewComment("");
+  const deleteComment = async (contentToDelete) => {
+    try {
+      // 댓글을 서버에 DELETE로 전송
+      await axios.delete(`${apiUrl}/${perfumeName}/delete/${contentToDelete}`, {
+        params: {
+          Name: perfumeName,
+          Content: contentToDelete,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // 서버 응답에 따라 댓글 업데이트
+      setResponse((prevResponse) => ({
+        ...prevResponse,
+        perfume_comment_contents_userData:
+          prevResponse.perfume_comment_contents_userData.filter(
+            (comment) => comment.Content !== contentToDelete
+          ),
+      }));
+
+      console.log("댓글 삭제 성공");
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
   };
 
   return (
@@ -172,7 +200,7 @@ export default function Comment(props) {
           response.perfume_comment_contents_userData.map((comment, index) => (
             <CommentItem key={index}>
               {comment.Content}
-              <FaRegTrashAlt />
+              <FaRegTrashAlt onClick={() => deleteComment(comment.Content)} />
             </CommentItem>
           ))}
       </CommentList>
@@ -182,8 +210,8 @@ export default function Comment(props) {
         placeholder="댓글을 입력하세요."
       />
       <CommentButtons>
-        <CancelButton onClick={CancelComment}>취소</CancelButton>
-        <PostButton onClick={PostComment}>게시하기</PostButton>
+        <CancelButton onClick={() => setNewComment("")}>취소</CancelButton>
+        <PostButton onClick={postComment}>게시하기</PostButton>
       </CommentButtons>
     </>
   );
