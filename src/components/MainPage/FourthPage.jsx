@@ -205,7 +205,14 @@ export default function FourthPage() {
               </p>
               <span>
                 {/* #신비로운 바닐라 #스파이스 #달달함 #우디 */}
-                {perfume.category}
+                {/* {perfume.category} */}
+                {perfume.category.map((cat, index) => (
+                  // Display each category as a hashtag
+                  <React.Fragment key={index}>
+                    #{cat}
+                    {index < perfume.category.length - 1 && ' '}
+                  </React.Fragment>
+                ))}
               </span>
             </Explanation>
             </ReceiptTop>
