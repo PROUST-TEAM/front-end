@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -65,6 +66,21 @@ const Title = styled.div`
 `
 
 const LogOutModal = ({ onClose, handleLogout }) => {
+  const navigate = useNavigate();
+  const handleLogoutClick = () => {
+    // 로컬 스토리지에서 토큰 삭제
+    localStorage.removeItem('token');
+    
+    // 로그아웃 후 /home으로 이동
+    navigate('/home');  
+
+    // 강제로 페이지 새로고침
+    window.location.reload();
+
+    // 모달 닫기
+    onClose();
+  };
+
     return (
      <ModalOverlay>
         <ModalContent>
@@ -74,7 +90,7 @@ const LogOutModal = ({ onClose, handleLogout }) => {
         <button className="cancel" onClick={onClose}>
               취소
         </button>
-        <button className="logout" onClick={handleLogout}>
+        <button className="logout" onClick={handleLogoutClick}>
             로그아웃
         </button>
         </ModalContent>

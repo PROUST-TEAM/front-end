@@ -1,21 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import topImage from '../images/top_charac.png'
-import clearImage from '../images/clear_Icon.png'
-import openImage from '../images/Login-Icons.png'
-import closeImage from '../images/EyeClosed.png'
-import pointImage from '../images/point.png'
-import googleImage from '../images/google.png'
-import kakaoImage from '../images/kakao.png'
-import naverImage from '../images/naver.png'
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import topImage from "../images/top_charac.png";
+import clearImage from "../images/clear_Icon.png";
+import openImage from "../images/Login-Icons.png";
+import closeImage from "../images/EyeClosed.png";
+import pointImage from "../images/point.png";
+import googleImage from "../images/google.png";
+import kakaoImage from "../images/kakao.png";
+import naverImage from "../images/naver.png";
+import axios from "axios";
 
 const StyledContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: white;
-  margin-top: 70px;
+  margin-top: 58px;
 `;
 
 const StyledParagraph = styled.p`
@@ -36,7 +37,7 @@ const StyledContent = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: white;
-  margin-bottom: 140px;
+  margin-bottom: 100px;
 `;
 
 const StyledWord = styled.div`
@@ -73,7 +74,7 @@ const StyledClearButton = styled.div`
   top: 38%;
   transform: translateY(-50%);
   cursor: pointer;
-  opacity: ${({ visible }) => (visible ? '1' : '0')};
+  opacity: ${({ visible }) => (visible ? "1" : "0")};
   transition: opacity 0.3s ease-in-out;
 `;
 
@@ -105,8 +106,8 @@ const StyledSlider = styled.div`
   background-color: white;
   border: 2px solid black;
   transition: left 250ms linear;
-  background-color: ${({ isClicked }) => (isClicked ? '#6BFF94' : 'white')};
-  left: ${({ isClicked }) => (isClicked ? 'calc(100% - 1.3em)' : '0')}; 
+  background-color: ${({ isClicked }) => (isClicked ? "#6BFF94" : "white")};
+  left: ${({ isClicked }) => (isClicked ? "calc(100% - 1.3em)" : "0")};
 `;
 
 const StyledSwitchLabel = styled.label`
@@ -164,27 +165,27 @@ const StyledTextButton = styled(Link)`
 const StyledFooter = styled.div`
   margin-top: 20px;
   margin-bottom: 10px;
-  display: flex;  
+  display: flex;
 `;
 
 const StyledText = styled.span`
   font-size: 14px;
   color: black;
   font-family: Pretendard_Medium;
-  margin: 0 5px; 
+  margin: 0 5px;
 `;
 
 const StyledpwButton = styled.div`
   transform: translateY(-50%);
   cursor: pointer;
-`
+`;
 
 const StyledPwIcon = styled.img`
   position: absolute;
   width: 28px;
   height: 28px;
   right: -269px;
-  top: -75px;
+  top: -73px;
   cursor: pointer;
 `;
 
@@ -192,41 +193,125 @@ const StyledLoginButtonContainer = styled.div`
   display: flex;
   gap: 15px;
   margin-top: 15px;
-  margin-bottom: 58px;
+  margin-bottom: 70px;
   cursor: pointer;
 `;
 
 export default function Login() {
   const [isClicked, setIsClicked] = useState(false);
-  const [usermail, setUsermail] = useState('');
+  const [usermail, setUsermail] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
-  const [userpw, setPassword] = useState('');
+  const [userpw, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const navigate = useNavigate();
+
+  const onClickLogin = async (event) => {
+    try {
+      const response = await axios.post(`${apiUrl}/user/login`, {
+        id: usermail,
+        password: userpw,
+      });
+
+      // 서버 응답 확인
+      console.log("Server response:", response.data);
+
+      // 로그인 토큰 저장
+      localStorage.setItem("token", response.data.result.token);
+
+      // 로그인 성공 후 페이지 이동
+      navigate("/home");
+      // 강제로 페이지 새로고침
+      window.location.reload();
+      
+    } catch (error) {
+      console.error("Error during API call:", error);
+      alert("존재하지 않는 이메일입니다.");
+    }
+  };
+
+  const handleLogin = () => {
+    const usermailInput = document.getElementById("usermail-input");
+    const passwordInput = document.getElementById("password-input");
+
+    if (!usermail) {
+      usermailInput.placeholder = "*이메일을 입력하세요.";
+      usermailInput.style.color = "black";
+      usermailInput.style.fontFamily = "Pretendard_Light";
+      usermailInput.style.border = "3px solid #B3261E";
+      usermailInput.classList.add("placeholder-red");
+    } else {
+      usermailInput.placeholder = "이메일을 입력하세요.";
+      usermailInput.style.color = "initial";
+      usermailInput.style.fontFamily = "Pretendard_Light";
+      usermailInput.style.border = "none";
+      usermailInput.classList.remove("placeholder-red");
+    }
+
+    if (!userpw || (userpw === "" && isPasswordVisible)) {
+      passwordInput.placeholder = "*비밀번호를 입력하세요.";
+      passwordInput.style.color = "black";
+      passwordInput.style.fontFamily = "Pretendard_Light";
+      passwordInput.style.border = "3px solid #B3261E";
+      passwordInput.classList.add("placeholder-red");
+    } else {
+      passwordInput.placeholder = "비밀번호를 입력하세요.";
+      passwordInput.style.color = "initial";
+      passwordInput.style.fontFamily = "Pretendard_Light";
+      passwordInput.style.border = "none";
+      passwordInput.classList.remove("placeholder-red");
+    }
+
+    setIsLoggedIn(true);
+
+    if (isClicked) {
+      setUsermail("");
+      const storedPassword = localStorage.getItem("savedPassword");
+      if (storedPassword) {
+        setPassword(storedPassword);
+      }
+      if (userpw !== storedPassword) {
+        localStorage.setItem("savedPassword", userpw);
+      }
+    }
+  };
+
+  // 두 함수를 호출하는 함수
+  const handleClick = () => {
+    handleLogin();
+    onClickLogin();
+  };
 
   useEffect(() => {
-    const storedPassword = localStorage.getItem('savedPassword');
+    const storedPassword = localStorage.getItem("savedPassword");
     const isPasswordSaved = storedPassword ? true : false;
     setIsClicked(isPasswordSaved);
-    setIsPasswordVisible(true); 
+    setIsPasswordVisible(true);
     if (storedPassword) {
       setPassword(storedPassword);
     }
   }, []);
-  
 
   const handleSwitchClick = () => {
     setIsClicked(!isClicked);
-  
-    if (!isClicked && userpw.trim() !== '') {
-      localStorage.setItem('savedPassword', userpw);
+
+    if (!isClicked && userpw.trim() !== "") {
+      localStorage.setItem("savedPassword", userpw);
     } else {
-      localStorage.removeItem('savedPassword');
+      localStorage.removeItem("savedPassword");
     }
   };
 
+  const handleInputChange = (event) => {
+    setUsermail(event.target.value);
+  };
+
   const handleClearButtonClick = () => {
-    setUsermail('');
-    handleInputValidation("usermail-input", '');
+    setUsermail("");
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
   };
 
   const handlePasswordVisibility = () => {
@@ -235,84 +320,47 @@ export default function Login() {
 
   const handlePasswordButtonClick = () => {
     const currentPassword = userpw;
-    setPassword(''); 
-    setTimeout(() => setPassword(currentPassword), 0); 
-  };
-
-  const handleLogin = () => {
-    const usermailInput = document.getElementById("usermail-input");
-    const passwordInput = document.getElementById("password-input");
-
-    if (!usermail) {
-      handleInputValidation("usermail-input", usermail);
-    }
-  
-    if (!userpw || (userpw === '' && isPasswordVisible)) {
-      handleInputValidation("password-input", userpw);
-    }
-  
-    setIsLoggedIn(true);
-
-    if (isClicked) {
-      setUsermail('');
-      const storedPassword = localStorage.getItem('savedPassword');
-      if (storedPassword) {
-        setPassword(storedPassword);
-      }
-      if (userpw !== storedPassword) {
-        localStorage.setItem('savedPassword', userpw);
-      }
-    }
-  };
-
-  const handleInputChange = (event) => {
-    setUsermail(event.target.value);
-    handleInputValidation("usermail-input", event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-    handleInputValidation("password-input", event.target.value);
-  };
-
-  const handleInputValidation = (inputId, inputValue) => {
-    const inputElement = document.getElementById(inputId);
-    const placeholderText = inputElement.getAttribute("data-placeholder");
-  
-    if (inputValue === '') {
-      inputElement.placeholder = `*${placeholderText}`;
-      inputElement.style.color = "black";
-      inputElement.style.fontFamily = "Pretendard_Light";
-      inputElement.style.border = "3px solid #B3261E";
-      inputElement.classList.add('placeholder-red');
-    } else {
-      inputElement.placeholder = placeholderText;
-      inputElement.style.color = "initial";
-      inputElement.style.fontFamily = "Pretendard_Light";
-      inputElement.style.border = "none";
-      inputElement.classList.remove('placeholder-red');
-    }
+    setPassword("");
+    setTimeout(() => setPassword(currentPassword), 0);
   };
 
   return (
     <>
-    <StyledContent>
-      <StyledContainer>
-        <StyledParagraph>
-          <p>
-            로그인하고 더 편하게<br />
-            프루스트를 이용해 보세요.
-          </p>
-        </StyledParagraph>
-        <StyledImage src={topImage} alt="Top Character" width="330" height="189" />
-      </StyledContainer>
-      <div style={{ position: 'absolute', transform: 'translate(440%, 1024%)', zIndex: 2 }}>
-          {(isLoggedIn && !usermail) && (
+      <StyledContent>
+        <StyledContainer>
+          <StyledParagraph>
+            <p>
+              로그인하고 더 편하게
+              <br />
+              프루스트를 이용해 보세요.
+            </p>
+          </StyledParagraph>
+          <StyledImage
+            src={topImage}
+            alt="Top Character"
+            width="330"
+            height="189"
+          />
+        </StyledContainer>
+        <div
+          style={{
+            position: "absolute",
+            transform: "translate(440%, 820%)",
+            zIndex: 2,
+          }}
+        >
+          {isLoggedIn && !usermail && (
             <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
           )}
         </div>
-        <div style={{ position: 'absolute', transform: 'translate(440%, 1390%)', zIndex: 2 }}>
-          {(isLoggedIn && (!userpw || userpw === '')) && (
+        <div
+          style={{
+            position: "absolute",
+            transform: "translate(440%, 1190%)",
+            zIndex: 2,
+          }}
+        >
+          {isLoggedIn && (!userpw || userpw === "") && (
             <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
           )}
         </div>
@@ -322,32 +370,42 @@ export default function Login() {
         <StyledInputContainer>
           <StyledInput
             id="usermail-input"
-            type="text" 
-            placeholder="이메일을 입력하세요." 
-            data-placeholder="이메일을 입력하세요."
+            type="text"
+            placeholder="이메일을 입력하세요."
             value={usermail}
             onChange={handleInputChange}
+          />
+          <StyledClearButton
+            visible={usermail !== ""}
+            onClick={handleClearButtonClick}
+          >
+            {" "}
+            <img
+              src={clearImage}
+              alt="Clear"
+              style={{ width: "32px", height: "32px" }}
             />
-          <StyledClearButton visible={usermail !== ''} 
-            onClick = {handleClearButtonClick}> <img src={clearImage} 
-          alt="Clear" style={{ width: '32px', height: '32px' }} />
           </StyledClearButton>
         </StyledInputContainer>
         <StyledWord>
           <p>비밀번호</p>
         </StyledWord>
-        <StyledInput 
+        <StyledInput
           id="password-input"
-          type={isPasswordVisible ? "password" : "text"} placeholder="비밀번호를 입력하세요."  
-          data-placeholder="비밀번호를 입력하세요."
+          type={isPasswordVisible ? "password" : "text"}
+          placeholder="비밀번호를 입력하세요."
           defaultValue={userpw}
-          onChange={handlePasswordChange}/>
-        <StyledpwButton visible={userpw !== ''} onClick={handlePasswordButtonClick}>
+          onChange={handlePasswordChange}
+        />
+        <StyledpwButton
+          visible={userpw !== ""}
+          onClick={handlePasswordButtonClick}
+        >
           <StyledPwIcon
-            src={isPasswordVisible ? closeImage : openImage}
+            src={isPasswordVisible ? openImage : closeImage}
             alt={isPasswordVisible ? "Show Password" : "Hide Password"}
             onClick={handlePasswordVisibility}
-          />  
+          />
         </StyledpwButton>
         <StyledSwitchContainer>
           <StyledSwitchLabel>
@@ -357,23 +415,35 @@ export default function Login() {
             <StyledSwitchSpan>비밀번호 기억하기</StyledSwitchSpan>
           </StyledSwitchLabel>
         </StyledSwitchContainer>
-        <StyledButton onClick={handleLogin}>로그인</StyledButton>
+        <StyledButton onClick={handleClick}>로그인</StyledButton>
         <StyledButtonContainer>
           <StyledTextButton to="/find-pw">비밀번호 찾기</StyledTextButton>
           <StyledTextButton>|</StyledTextButton>
           <StyledTextButton to="/join">회원가입 하기</StyledTextButton>
-          </StyledButtonContainer>
+        </StyledButtonContainer>
         <StyledFooter>
           <StyledText>─────────────────</StyledText>
           <StyledText>또는</StyledText>
           <StyledText>─────────────────</StyledText>
         </StyledFooter>
-  <StyledLoginButtonContainer>
-    <img src={googleImage} alt="Google" style={{ width: '90px', height: '90px' }} />
-    <img src={kakaoImage} alt="Kakao" style={{ width: '90px', height: '90px' }} />
-    <img src={naverImage} alt="Naver" style={{ width: '90px', height: '90px' }} />
-  </StyledLoginButtonContainer>
-  </StyledContent>
+        <StyledLoginButtonContainer>
+          <img
+            src={googleImage}
+            alt="Google"
+            style={{ width: "90px", height: "90px" }}
+          />
+          <img
+            src={kakaoImage}
+            alt="Kakao"
+            style={{ width: "90px", height: "90px" }}
+          />
+          <img
+            src={naverImage}
+            alt="Naver"
+            style={{ width: "90px", height: "90px" }}
+          />
+        </StyledLoginButtonContainer>
+      </StyledContent>
     </>
   );
-} 
+}

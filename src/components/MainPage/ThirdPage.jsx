@@ -5,6 +5,7 @@ import backImage from "../../images/test_back_img.png";
 import { Link } from "react-router-dom";
 
 const PerfumeTestContainer = styled.div`
+  user-select: none;
   display: flex;
   height: 830px;
   align-items: center;

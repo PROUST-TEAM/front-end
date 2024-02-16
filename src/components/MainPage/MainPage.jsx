@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 import topImage from "../../images/top_charac.png";
 import searchImage from "../../images/search_img.png";
-import video1 from "../../images/main_ani.webm";
+//import video1 from "../../images/main_ani.webm";
 import { Link } from 'react-scroll';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const MainContainer = styled.article`
+  user-select: none;
   width: 100%;
   display: flex;
   align-items: center;
@@ -138,18 +141,39 @@ export default function MainPage() {
   // 검색어가 있는 경우 vs 없는 경우 나눠서 구현
   // API 연결 후에 변경될 예정
   const [searchText, setSearchText] = useState('');
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setSearchText(e.target.value);
   };
 
-  const handleSearchButtonClick = () => {
-    if (searchText.trim() !== '') {
-      window.location.href = `/search`;
-    } else {
-      window.location.href = '/nonSearch';
+  const handleSearchButtonClick = async (event) => {
+    try {
+      if (searchText.trim() !== '') {
+        const response = await axios.post(`${apiUrl}/ai/search`, {
+          search: searchText,
+        });
+
+        console.log("Server response:", response.data);
+
+        if (response.data.isSuccess) {
+          navigate('/search', { state: { searchData: response.data } });
+        } else {
+          window.location.href = '/nonSearch';
+        }
+      } else {
+        window.location.href = '/nonSearch';
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 429) {
+        window.location.href = '/nonSearch';
+      } else {
+        window.location.href = '/nonSearch';
+      }
     }
   };
+
 
   return (
     <>
