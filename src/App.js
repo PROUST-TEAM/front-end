@@ -23,11 +23,13 @@ import JoinSecond from "./pages/JoinSecond";
 import MyPage from "./pages/MyPage";
 import MyPageModify from "./pages/MyPageModify";
 import Character from "./pages/Character";
+import ScrollToTop from "./ScrollToTop";
 
 function App() {
   return (
     <div className="root-wrap">
       <BrowserRouter>
+        <ScrollToTop />
         <Header />
         <Routes>
           <Route path="/home" element={<Home />} />
