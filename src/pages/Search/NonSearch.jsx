@@ -149,8 +149,6 @@ export default function NonSearch() {
   useEffect(() => {
     const searchData = location.state && location.state.searchData;
     console.log("Search Data:", searchData);
-
-    setSearchText(null);
   }, [location]);
 
   const handleSearchButtonClick = async (event) => {
@@ -173,9 +171,7 @@ export default function NonSearch() {
     } catch (error) {
       if (error.response && error.response.status === 429) {
         window.location.href = '/nonSearch';
-      } else {
-        window.location.href = '/errorPage';
-      }
+      } 
     }
   };
 

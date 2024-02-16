@@ -163,24 +163,27 @@ export const SearchContainer2 = styled.div`
 
 const ListWrap = styled.div`
   position: relative;
+  margin-left: 20px;
   top: 300px;
   display: flex;
   justify-content: center;
-  margin-top: 10px;
   text-align: center;
 `;
 
 const Perfume = styled.div`
   background-color: #ffffff;
   border-radius: 10px;
-  min-width: 300px;
-  height: 331px;
+  max-width: 280px;
+  min-width: 280px;
+  height: 390px;
   margin: 10px 10px;
   > div > p {
-    font-size: 35px;
+    font-size: 20px;
+    padding: 15px;
     color: #282727;
     font-family: Pretendard_ExtraBold;
     margin-top: 10px;
+    margin-bottom: 20px;
   }
 
   > div > img {
@@ -199,11 +202,22 @@ const Heart = styled.div`
   }
 `;
 
+const Perfumes = styled.div`
+  display: flex;
+  justify-content: start;
+  margin-bottom: 40px;
+  width: 960px;
+  flex-wrap: wrap;
+`;
+
 export default function Search() {
   const [isHeartFilled, setHeartFilled] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [response, setResponse] = useState([]);
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
+
+  //const [perfumeNames, setPerfumeNames] = useState([]);
 
   const handleInputChange = (e) => {
     setSearchText(e.target.value);
@@ -214,10 +228,31 @@ export default function Search() {
   useEffect(() => {
     const searchData = location.state && location.state.searchData;
     console.log("Search Data:", searchData);
-
+  
+    const fetchData = async () => {
+      try {
+        if (searchData && searchData.result) {
+          const requests = searchData.result.map(async (item) => {
+            console.log("Current item name:", item.name);
+            const response = await axios.get(`${apiUrl}/${item.name}/getPerfumes`);
+            return response.data.result;
+          });
+    
+          const results = await Promise.all(requests);
+          console.log("향수 리스트:", results);
+          setResponse(results);
+          console.log(response);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchData(); // 초기 마운트 시에도 데이터를 가져오도록 호출
     setSearchText('');
   }, [location]);
   
+
   const handleSearchButtonClick = async (event) => {
     try {
       if (searchText.trim() !== '') {
@@ -228,7 +263,7 @@ export default function Search() {
         console.log("Server response:", response.data);
   
         if (response.data.isSuccess) {
-          navigate('/search', { state: { searchData: response.data } });
+          navigate('/search', { state: { searchData: response.data } ,replace: true, forceRefresh: true });
         } else {
           window.location.href = '/nonSearch';
         }
@@ -238,13 +273,11 @@ export default function Search() {
     } catch (error) {
       if (error.response && error.response.status === 429) {
         window.location.href = '/nonSearch';
-      } else {
-        window.location.href = '/errorPage';
-      }
+      } 
     }
   };
 
-  
+
   return (
     <RootWrap>
       <SearchWrap>
@@ -272,51 +305,44 @@ export default function Search() {
         </SearchContainer2>
       </SearchWrap>
       <ListWrap>
-        <Perfume>
-          <Heart
-            onClick={(event) => {
-              setHeartFilled(!isHeartFilled); // 하트 채워지게
-              event.preventDefault(); // Link to 방지
-            }}
+      <Perfumes>
+  {response &&
+    response.map((perfumeGroup, index) => (
+      <React.Fragment key={index}>
+        {perfumeGroup.perfume_contentsData.map((perfume, perfumeIndex) => (
+          <Link
+            to="/detail"
+            state={{ name: perfume.name }}
+            style={{ textDecoration: "none" }}
+            key={perfumeIndex}
           >
-            {/* 지금은 state가 연결되어있어서 하나 누르면 싹다 눌립니다.
-                나중에 서버에서 상태 받아와서 바꾸는 코드로 변경하겠습니다 */}
-            {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-          </Heart>
-          <div>
-            <img src={perfume} alt="Base Character" />
-          </div>
-        </Perfume>
-        <Perfume>
-          <Heart
-            onClick={(event) => {
-              setHeartFilled(!isHeartFilled); // 하트 채워지게
-              event.preventDefault(); // Link to 방지
-            }}
-          >
-            {/* 지금은 state가 연결되어있어서 하나 누르면 싹다 눌립니다.
-                나중에 서버에서 상태 받아와서 바꾸는 코드로 변경하겠습니다 */}
-            {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-          </Heart>
-          <div>
-            <img src={perfume} alt="Base Character" />
-          </div>
-        </Perfume>
-        <Perfume>
-          <Heart
-            onClick={(event) => {
-              setHeartFilled(!isHeartFilled); // 하트 채워지게
-              event.preventDefault(); // Link to 방지
-            }}
-          >
-            {/* 지금은 state가 연결되어있어서 하나 누르면 싹다 눌립니다.
-                나중에 서버에서 상태 받아와서 바꾸는 코드로 변경하겠습니다 */}
-            {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-          </Heart>
-          <div>
-            <img src={perfume} alt="Base Character" />
-          </div>
-        </Perfume>
+            <Perfume>
+              <Heart
+                onClick={(event) => {
+                  console.log(response);
+                  // onClickHeart(perfume); // 하트 클릭 시 동작할 함수
+                  console.log(perfume.name);
+                  event.preventDefault();
+                }}
+              >
+                {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
+              </Heart>
+              <div>
+                <img
+                  src={`https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/${perfume.imageUrl}`}
+                  alt={perfume.name}
+                  style={{ width: "200px", height: "250px" }}
+                />
+              </div>
+              <div>
+                <p>{perfume.name}</p>
+              </div>
+            </Perfume>
+          </Link>
+        ))}
+      </React.Fragment>
+    ))}
+</Perfumes>
       </ListWrap>
     </RootWrap>
   );

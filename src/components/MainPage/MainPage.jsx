@@ -160,16 +160,16 @@ export default function MainPage() {
         if (response.data.isSuccess) {
           navigate('/search', { state: { searchData: response.data } });
         } else {
-          navigate('/nonSearch');
+          window.location.href = '/nonSearch';
         }
       } else {
-        navigate('/nonsearch');
+        window.location.href = '/nonSearch';
       }
     } catch (error) {
       if (error.response && error.response.status === 429) {
-        navigate('/nonSearch');
+        window.location.href = '/nonSearch';
       } else {
-        navigate('/errorPage');
+        window.location.href = '/nonSearch';
       }
     }
   };
