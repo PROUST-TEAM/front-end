@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import bigTop from "../images/first_big.png";
 import bigSecond from "../images/second_big.png";
 import bigThird from "../images/third_big.png";
+import video1 from "../images/character/top_move.mp4";
+import video2 from "../images/character/middle_move.mp4";
+import video3 from "../images/character/base_move.mp4";
 
 const CharacterContainer = styled.div`
     display: flex;
@@ -59,6 +62,12 @@ const Character1 = styled.div`
         margin-top: 20px;
         margin-bottom: 30px;
     }
+
+    > video {
+        height: 461px;  
+        z-index: 1; //이미지가 Title 위로 가도록
+        background-color: trnasparent;
+    }
 `;
 
 const Name = styled.div`
@@ -93,21 +102,29 @@ export default function Character() {
                 <Name>
                     TOP
                 </Name>
-                <img src={bigTop} alt="bigTopImg" />
+                <video autoPlay loop muted>
+                    <source src={video1} type='video/mp4' />
+                </video>
                 <p>" 나는 향의 가장 윗부분을 "<br/> 담당하는 <StyledSpan>맏형 TOP</StyledSpan></p>
             </Character1>
             <Character1>
                 <Name>
                     MIDDLE
                 </Name>
-                <img src={bigSecond} alt="bigSecondImg" />
+                {/* <img src={bigSecond} alt="bigSecondImg" /> */}
+                <video autoPlay loop muted>
+                    <source src={video2} type='video/mp4' />
+                </video>
                 <p>" 나는 향의 중간부분을 "<br/> 담당하는 <StyledSpan>둘째 MIDDLE</StyledSpan></p>
             </Character1>
             <Character1>
                 <Name>
                     BASE
                 </Name>
-                <img src={bigThird} alt="bigThirdImg" />
+                {/* <img src={bigThird} alt="bigThirdImg" /> */}
+                <video autoPlay loop muted>
+                    <source src={video3} type='video/mp4' />
+                </video>
                 <p>" 나는 향의 가장 아랫부분을 "<br/> 담당하는 <StyledSpan>막내 BASE</StyledSpan></p>
             </Character1>
         </CharacterList>

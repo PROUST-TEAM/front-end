@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import topImage from "../../images/top_charac.png";
 import searchImage from "../../images/search_img.png";
 import miniTopImg from "../../images/mini_top_img.png";
 import perfume from "../../images/perfume.png";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const RootWrap = styled.div`
   margin-top: 50px;
@@ -162,24 +163,27 @@ export const SearchContainer2 = styled.div`
 
 const ListWrap = styled.div`
   position: relative;
+  margin-left: 20px;
   top: 300px;
   display: flex;
   justify-content: center;
-  margin-top: 10px;
   text-align: center;
 `;
 
 const Perfume = styled.div`
   background-color: #ffffff;
   border-radius: 10px;
-  min-width: 300px;
-  height: 331px;
+  max-width: 280px;
+  min-width: 280px;
+  height: 390px;
   margin: 10px 10px;
   > div > p {
-    font-size: 35px;
+    font-size: 20px;
+    padding: 15px;
     color: #282727;
     font-family: Pretendard_ExtraBold;
     margin-top: 10px;
+    margin-bottom: 20px;
   }
 
   > div > img {
@@ -198,25 +202,118 @@ const Heart = styled.div`
   }
 `;
 
+const Perfumes = styled.div`
+  display: flex;
+  justify-content: start;
+  margin-bottom: 40px;
+  width: 960px;
+  flex-wrap: wrap;
+`;
+
 export default function Search() {
   const [isHeartFilled, setHeartFilled] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [response, setResponse] = useState([]);
+  const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
+  //const [perfumeNames, setPerfumeNames] = useState([]);
 
   const handleInputChange = (e) => {
     setSearchText(e.target.value);
   };
 
-  const handleSearchButtonClick = () => {
-    // 검색어가 비어있지 않은 경우에만 링크로 이동
-    if (searchText.trim() !== "") {
-      // 검색 결과 페이지로 이동
-      // 예시로 "/search" 경로를 사용했습니다.
-      // 실제 사용하고자 하는 경로로 변경해주세요.
-      window.location.href = `/search`;
+  const location = useLocation();
+
+  // 특정 기호를 16진수로 변환하는 함수
+  const convertToHex = (str) => {
+    return Array.from(str).map(char => char.charCodeAt(0).toString(16)).join('');
+  };
+
+  useEffect(() => {
+    const searchData = location.state && location.state.searchData;
+    console.log("Search Data:", searchData);
+  
+    const fetchData = async () => {
+      try {
+        if (searchData && searchData.result) {
+          const requests = searchData.result.map(async (item) => {
+            console.log("Current item name:", item.name);
+
+            // 기호가 포함되어 있다면 16진수로 변환
+          const sanitizedName = item.name.includes('/') ? convertToHex(item.name) : item.name;
+
+          const response = await axios.get(`${apiUrl}/${sanitizedName}/getPerfumes`);
+
+            return response.data.result;
+          });
+    
+          const results = await Promise.all(requests);
+          console.log("향수 리스트:", results);
+          setResponse(results);
+          console.log(response);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchData(); // 초기 마운트 시에도 데이터를 가져오도록 호출
+    setSearchText('');
+  }, [location]);
+  
+
+  const handleSearchButtonClick = async (event) => {
+    try {
+      if (searchText.trim() !== '') {
+        const response = await axios.post(`${apiUrl}/ai/search`, {
+          search: searchText,
+        });
+  
+        console.log("Server response:", response.data);
+  
+        if (response.data.isSuccess) {
+          navigate('/search', { state: { searchData: response.data } ,replace: true, forceRefresh: true });
+        } else {
+          window.location.href = '/nonSearch';
+        }
+      } else {
+        window.location.href = '/nonSearch';
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 429) {
+        window.location.href = '/nonSearch';
+      } 
+    }
+  };
+
+  const onClickHeart = async (perfume, index) => {
+    if (token) {
+      // 토큰이 있는 경우에만 찜 기능을 사용
+      try {
+        const response = await axios.patch(
+          `${apiUrl}/${perfume.name}/likePerfumes`,
+          {
+            params: {
+              Name: perfume.name,
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+  
+        // 서버 응답 확인
+        console.log("향수 찜: ", response.data.result);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     } else {
-      // 검색어가 비어있는 경우 다른 페이지로 이동하거나, 필요에 따라 아무 작업도 수행하지 않을 수 있습니다.
-      // 여기서는 예시로 "/other" 경로로 이동하도록 설정했습니다.
-      window.location.href = "/nonSearch";
+      // 토큰이 없는 경우에는 로그인 페이지로 이동
+      navigate('/login');
     }
   };
 
@@ -247,51 +344,44 @@ export default function Search() {
         </SearchContainer2>
       </SearchWrap>
       <ListWrap>
-        <Perfume>
-          <Heart
-            onClick={(event) => {
-              setHeartFilled(!isHeartFilled); // 하트 채워지게
-              event.preventDefault(); // Link to 방지
-            }}
-          >
-            {/* 지금은 state가 연결되어있어서 하나 누르면 싹다 눌립니다.
-                나중에 서버에서 상태 받아와서 바꾸는 코드로 변경하겠습니다 */}
-            {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-          </Heart>
-          <div>
-            <img src={perfume} alt="Base Character" />
-          </div>
-        </Perfume>
-        <Perfume>
-          <Heart
-            onClick={(event) => {
-              setHeartFilled(!isHeartFilled); // 하트 채워지게
-              event.preventDefault(); // Link to 방지
-            }}
-          >
-            {/* 지금은 state가 연결되어있어서 하나 누르면 싹다 눌립니다.
-                나중에 서버에서 상태 받아와서 바꾸는 코드로 변경하겠습니다 */}
-            {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-          </Heart>
-          <div>
-            <img src={perfume} alt="Base Character" />
-          </div>
-        </Perfume>
-        <Perfume>
-          <Heart
-            onClick={(event) => {
-              setHeartFilled(!isHeartFilled); // 하트 채워지게
-              event.preventDefault(); // Link to 방지
-            }}
-          >
-            {/* 지금은 state가 연결되어있어서 하나 누르면 싹다 눌립니다.
-                나중에 서버에서 상태 받아와서 바꾸는 코드로 변경하겠습니다 */}
-            {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-          </Heart>
-          <div>
-            <img src={perfume} alt="Base Character" />
-          </div>
-        </Perfume>
+      <Perfumes>
+        {response &&
+          response.map((perfumeGroup, index) => (
+            <React.Fragment key={index}>
+              {perfumeGroup.perfume_contentsData.map((perfume, perfumeIndex) => (
+                <Link
+                  to="/detail"
+                  state={{ name: perfume.name }}
+                  style={{ textDecoration: "none" }}
+                  key={perfumeIndex}
+                >
+                  <Perfume>
+                    <Heart
+                      onClick={(event) => {
+                        console.log(response);
+                        onClickHeart(perfume); // 하트 클릭 시 동작할 함수
+                        console.log(perfume.name);
+                        event.preventDefault();
+                      }}
+                    >
+                      {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
+                    </Heart>
+                    <div>
+                      <img
+                        src={`https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/${perfume.imageUrl}`}
+                        alt={perfume.name}
+                        style={{ width: "200px", height: "250px" }}
+                      />
+                    </div>
+                    <div>
+                      <p>{perfume.name}</p>
+                    </div>
+                  </Perfume>
+                </Link>
+              ))}
+            </React.Fragment>
+          ))}
+      </Perfumes>
       </ListWrap>
     </RootWrap>
   );
