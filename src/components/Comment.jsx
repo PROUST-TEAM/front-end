@@ -22,7 +22,7 @@ const CommentItem = styled.div`
 `;
 
 const CommentList = styled.div`
-  margin: 120px -45px 30px 0;
+  margin: 50px -45px 30px 0;
   max-height: 400px;
   overflow-y: scroll;
   background: none;
@@ -75,7 +75,7 @@ const PostButton = styled.button`
   margin: 25px 0px 0px 30px;
 
   &:hover {
-    color: black; // Change text color on hover
+    color: black;
   }
 `;
 
