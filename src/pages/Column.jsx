@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import secondImage from "../images/sec_charac.png";
 import { motion, AnimatePresence, AnimateSharedLayout } from "framer-motion";
+import SlideCard from "../components/SlideCard";
 
 const ColumnContainer = styled.div`
   margin-top: 120px;
@@ -161,8 +162,11 @@ export default function Column() {
       key="overlay"
       className="overlay"
       initial={{ opacity: 0, scale: 0}}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0, transition: { duration: 3.0 } }}
+      animate={{ opacity: 1, scale: 1 ,transition: { type: "tween", duration: 0.5 }, }}
+      exit={{
+        opacity: 0,
+        scale: 0,
+      }}
       layoutId={selectedId}
       style={{
         position: "fixed",
@@ -184,15 +188,23 @@ export default function Column() {
           backgroundColor: "#FFFFFF", 
         }}
       >
-        <motion.h2 style={motionTextStyle}>
-          {items.find((item) => item.id === selectedId)?.title}
-        </motion.h2>
-        <motion.h5 style={motionTextStyle2}>
-          <SpacedText>{items.find((item) => item.id === selectedId)?.subtitle}</SpacedText>
-        </motion.h5>
-        <motion.button
-          onClick={() => setSelectedId(null)}
-        >Close</motion.button>
+        <motion.h2 
+        style={{
+          marginTop: "20px",
+          marginBottom: "20px",
+          fontFamily: "Pretendard_ExtraBold",
+          fontSize: "30px",
+          color: "black",
+          textAlign: "center",  // 가운데 정렬을 위한 스타일
+        }}>
+        {items.find((item) => item.id === selectedId)?.title}
+      </motion.h2>
+        <SlideCard
+            //title={items.find((item) => item.id === selectedId)?.title}
+            //subtitle={items.find((item) => item.id === selectedId)?.subtitle}
+            onClick={() => setSelectedId(null)}
+        />
+        
       </motion.div>
     </motion.div>
   ) : (
@@ -200,8 +212,13 @@ export default function Column() {
       key="overlay"
       className="overlay"
       initial={{ opacity: 0, scale: 0}}
-      animate={{ opacity: 0, scale: 0 }}
-      exit={{ opacity: 0, scale: 0, transition: { duration: 3.0 } }}
+      animate={{ opacity: 1, scale: 0,
+        transition: { type: "tween", duration: 0.5 },
+      }}
+      exit={{ 
+        opacity: 0,
+        scale: 0,
+      }}
       layoutId={selectedId}
       style={{
         position: "fixed",
@@ -216,24 +233,24 @@ export default function Column() {
         zIndex: 3, // 선택된 div가 다른 요소 위에 띄워지도록 z-index 설정
       }}
     >
-      <motion.div
+    <motion.div
         style={{
           ...animateDivStyle,
           ...getItemStyle(selectedId),
           backgroundColor: "#FFFFFF", 
         }}
-      >
-        <motion.h2 style={motionTextStyle}>
-          {items.find((item) => item.id === selectedId)?.title}
-        </motion.h2>
-        <motion.h5 style={motionTextStyle2}>
-          <SpacedText>{items.find((item) => item.id === selectedId)?.subtitle}</SpacedText>
-        </motion.h5>
-        <motion.button
-          onClick={() => setSelectedId(null)}
-        >Close</motion.button>
-      </motion.div>
+    >
+      <motion.h2 style={motionTextStyle}>
+        {items.find((item) => item.id === selectedId)?.title}
+      </motion.h2>
+      <motion.h5 style={motionTextStyle2}>
+        <SpacedText>{items.find((item) => item.id === selectedId)?.subtitle}</SpacedText>
+      </motion.h5>
+      <motion.button
+        onClick={() => setSelectedId(null)}
+      >Close</motion.button>
     </motion.div>
+  </motion.div>
   )}
 </AnimatePresence>
 
