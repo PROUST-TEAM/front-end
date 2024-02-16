@@ -13,6 +13,7 @@ import GearImage from "../images/GearSix.png";
 import SignOutImage from "../images/signout.png";
 
 import LogoutModal from "./LogOutModal";
+import video1 from "../images/main_ani.webm";
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -252,6 +253,42 @@ const DropdownItem = styled.div`
   }
 `;
 
+const LoaderContainer = styled.div`
+  user-select: none;
+  background-color: black;
+  z-index: 2;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  //position: relative;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  > video {
+    //width: 803px;
+    height: 500px;  
+    background-color: trnasparent;
+  }
+`;
+
+const LoaderMessage = styled.div`
+  font-family: Pretendard_ExtraBold;
+  font-size: 40px;
+  z-index: 1; //text가 이미지 위로 가게
+  color: #6BFF94;
+  margin-top: -70px;
+
+  >p{
+    margin-top: 10px;
+    font-family: Pretendard_ExtraBold;
+    font-size: 30px;
+    z-index: 1; //text가 이미지 위로 가게
+    color: white;
+  }
+`;
+
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -264,7 +301,7 @@ export default function Header() {
   const isTest = location.pathname === '/mbtiTest';
   const isLogin = location.pathname === "/login";
   const isMyPage = location.pathname === "/myPage";
-
+  const [loading, setLoading] = useState(false);
   const [isSearchPanelVisible, setSearchPanelVisible] = useState(false);
 
   useEffect(() => {
@@ -286,9 +323,11 @@ export default function Header() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [isSearchPanelVisible]);
+
   const openSearchPanel = () => {
     setSearchPanelVisible(true);
   };
+
 
   const closeSearchPanel = () => {
     setSearchPanelVisible(false);
@@ -316,18 +355,22 @@ export default function Header() {
 
     setSearchText('');
   }, [location]);
-  
+
+
   const handleSearchButtonClick = async (event) => {
-    try {
+    try {  
+      setLoading(true);
+      closeSearchPanel();
+
       if (searchText.trim() !== '') {
         const response = await axios.post(`${apiUrl}/ai/search`, {
           search: searchText,
         });
   
-        console.log("Server response:", response.data);
+        console.log("서버 응답:", response.data);
   
-        if (response.data.isSuccess) {
-          navigate('/search', { state: { searchData: response.data } });
+        if (response.data.isSuccess && response.data.result !== null) {
+          navigate('/search', { state: { searchData: response.data }});
         } else {
           window.location.href = '/nonSearch';
         }
@@ -335,15 +378,15 @@ export default function Header() {
         window.location.href = '/nonSearch';
       }
     } catch (error) {
-      if (error.response && error.response.status === 429) {
+      if ([429, 504].includes(error.response?.status)) {
         window.location.href = '/nonSearch';
-      } else {
-        window.location.href = '/errorPage';
       }
     } finally {
       closeSearchPanel(); // 검색 버튼 클릭 시 패널을 닫도록 추가
+      setLoading(false);
     }
   };
+
   // 드롭다운 관련 코드_추후에 API 연결하면 달라질 예정
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
@@ -396,6 +439,31 @@ export default function Header() {
   const handleCloseModal = () => {
     setLogoutModalVisible(false); // 모달 닫기
   };
+
+  useEffect(() => {
+    // 로딩 중일 때 스크롤을 막기
+    let initialLoading = loading;
+
+    // 로딩 상태가 변경될 때만 스크롤을 처리하는 함수
+  const handleScroll = () => {
+    if (initialLoading) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  };
+
+  // 최초 렌더링 시 한 번 호출
+  handleScroll();
+
+  // 이벤트 리스너 등록
+  window.addEventListener('scroll', handleScroll);
+
+  // 컴포넌트가 언마운트되거나 로딩이 해제될 때 이벤트 리스너 제거
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+    };
+  }, [loading]);
   
   return (
     <>
@@ -545,6 +613,20 @@ export default function Header() {
           </SearchButton>
         </SearchContainer>
       </SearchPanel>
+
+      {loading && (
+        <LoaderContainer>
+          <video autoPlay loop muted>
+            <source src={video1} type='video/webm' />
+          </video>
+          <LoaderMessage>
+            Loading 중...
+            <p>
+              조금만 기다려줘!
+            </p>
+          </LoaderMessage>
+        </LoaderContainer>
+      )}
     </>
   );
 }
