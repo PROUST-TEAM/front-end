@@ -19,6 +19,7 @@ import NonSearch from "./pages/search/NonSearch";
 import FindPassword from "./pages/FindPassword";
 import FindPasswordSecond from "./pages/FindPasswordSecond";
 import Join from "./pages/Join";
+import JoinSecond from "./pages/JoinSecond";
 import MyPage from "./pages/MyPage";
 import MyPageModify from "./pages/MyPageModify";
 import Character from "./pages/Character";
@@ -49,6 +50,7 @@ function App() {
           <Route path="/find-pw" element={<FindPassword />} />
           <Route path="/find-pw-second" element={<FindPasswordSecond />} />
           <Route path="/join" element={<Join />} />
+          <Route path="/join-second" element={<JoinSecond />} />
           <Route path="/myPage" element={<MyPage />} />
           <Route path="/myPageModify" element={<MyPageModify />} />
           <Route path="/character" element={<Character />} />

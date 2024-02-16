@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Image from '../images/third_charac.png';
 import clearImage from '../images/clear_Icon.png'
 import arrowImage from '../images/arrow-left.png'
-import openImage from '../images/Login-Icons.png';
-import closeImage from '../images/EyeClosed.png'
 import pointImage from '../images/point.png';
 import { Link } from 'react-router-dom';
 
@@ -20,6 +18,7 @@ const StyledContent = styled.div`
   position: relative;
   text-align: center;
   color: black;
+  margin-top: 75px;
 `;
 
 const StyledParagraph = styled.p`
@@ -145,66 +144,184 @@ const StyledTogglePasswordButton = styled.img`
   width: 28px;
 `;
 
+const StyledErrorMessage = styled.div`
+  color: #B3261E;
+  font-size: 16px;
+  margin-top: -20px;
+  margin-left: 250px;
+  font-family: Pretendard;
+`;
+
+const StyledSendButton = styled.button`
+  width: 120px;
+  height: 32px;
+  padding: 7px;
+  margin-top: 7px;
+  margin-left: 445px;
+  margin-bottom: 4px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: Pretendard_Bold;
+  font-size: 14px;
+  position: relative;
+`;
+
+const StyledTimer = styled.div`
+  position: absolute;
+  left: -58px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: Pretendard_Bold;
+  font-size: 18px;
+  color: #7C0000;
+`;
 
 const Join = () => {
   const navigate = useNavigate();
-  const [isClicked, setIsClicked] = useState(false);
-  const [usermail, setUsermail] = useState('');
+  const [isEmailClearButtonVisible, setIsEmailClearButtonVisible] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+  const [username, setUsername] = useState('');
+  const [usermail, setUsermail] = useState('');
+  const [authenticationcode, setAuthenticationcode] = useState('');
   const [isNexted, setIsNexted] = useState(false);
-
-  const handleTogglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
-  };
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isAuthenticationEmailSent, setIsAuthenticationEmailSent] = useState(false);
+  const [timer, setTimer] = useState(300);
+  const [timerInterval, setTimerInterval] = useState(null);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
 
   const handleBackToLogin = () => {
-    navigate('/login');
+    navigate('/home');
+  };
+
+  const handleNameChange = (event) => {
+    setUsername(event.target.value);
   };
 
   const handleInputChange = (event) => {
     setUsermail(event.target.value);
+    handleInputValidation("mail-input", event.target.value);
+
+    const enteredEmail = event.target.value;
+    setUsermail(enteredEmail);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValid = emailRegex.test(enteredEmail) && enteredEmail.length <= 320;
+
+    setIsEmailValid(isValid);
   };
 
+  const handleAuthenticationCodeChange = (event) => {
+    setAuthenticationcode(event.target.value);
+  };
+
+  const authenticationcodeInput = document.getElementById("authenticationcode-input");
+  
   const handleClearButtonClick = () => {
+    setUsername('');
+    handleInputValidation("name-input", '');
+
     setUsermail('');
+    handleInputValidation("mail-input", '');
+  };
+
+  useEffect(() => {
+    if (isAuthenticationEmailSent) {
+      startTimer();
+    } else {
+      resetTimer();
+    }
+
+    return () => {
+      clearInterval(timerInterval);
+    };
+  }, [isAuthenticationEmailSent]);
+
+  const handleSendClick = () => {
+    console.log('인증 이메일 전송 로직');
+    setIsAuthenticationEmailSent(true);
+  };
+
+  const sendButtonText = isAuthenticationEmailSent ? "인증메일 재발급" : "인증메일 보내기";
+
+  const startTimer = () => {
+    setIsTimerRunning(true);
+
+    setTimer(300);
+    const interval = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer === 0) {
+          clearInterval(interval);
+          setIsAuthenticationEmailSent(false);
+          return 0;
+        }
+        return prevTimer - 1;
+      });
+    }, 1000);
+
+    setTimerInterval(interval);
+  };
+
+  const resetTimer = () => {
+    setIsTimerRunning(false);
+    clearInterval(timerInterval);
+    setTimer(300);
   };
 
   const handleNextClick = () => {
-    console.log('Next email logic');
-  
-    const usermailInput = document.getElementById("usermail-input");
-    const passwordInput = document.getElementById("password-input");
-    const confirmPasswordInput = document.getElementById("confirmpassword-input");
-  
-    handleInputValidation(usermailInput, "이메일을 입력하세요.", usermail);
-    handleInputValidation(passwordInput, "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요.", password);
-    handleInputValidation(confirmPasswordInput, "비밀번호를 입력해 주세요.", confirmPassword);
+    const usernameInput = document.getElementById("name-input");
+    const usermailInput = document.getElementById("mail-input");
+    const authenticationcodeInput = document.getElementById("authenticationcode-input")
+    
+    if (!username) {
+      handleInputValidation("name-input", username);
+    }
+
+    if (!usermail) {
+      handleInputValidation("mail-input", usermail);
+    }
+
+    if (!authenticationcode) {
+      handleInputValidation("authenticationcode-input", authenticationcode);
+    }
   
     setIsNexted(true);
-  };
+
+    if (username && usermail && authenticationcode) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isValid = emailRegex.test(usermail) && usermail.length <= 320;
+
+      if (isValid) {
+        navigate('/join-second', { state: { userEmail: usermail } });
+  }
+}
+  };  
+
+const handleInputValidation = (inputId, inputValue) => {
+  const inputElement = document.getElementById(inputId);
   
-  const handleInputValidation = (inputElement, placeholderText, inputValue) => {
-    console.log('Input Validation:', inputElement, placeholderText, inputValue);
+    if (inputElement) {
+      const placeholderText = inputElement.getAttribute("data-placeholder");
   
-    if (inputElement && inputValue === '') {
-      console.log('Setting styles for empty input...');
-      inputElement.placeholder = `*${placeholderText}`;
-      inputElement.style.color = "black";
-      inputElement.style.fontFamily = "Pretendard_Light"; 
-      inputElement.style.border = "3px solid #B3261E";
-      inputElement.classList.add('placeholder-red'); 
-    } else if (inputElement) {
-      console.log('Resetting styles...');
-      inputElement.placeholder = placeholderText;
-      inputElement.style.color = "initial";
-      inputElement.style.fontFamily = "Pretendard_Light"; 
-      inputElement.style.border = "none";
-      inputElement.classList.remove('placeholder-red');
+      if (inputValue === '' || !isEmailValid) {
+        inputElement.placeholder = `*${placeholderText}`;
+        inputElement.style.color = "black";
+        inputElement.style.fontFamily = "Pretendard_Light";
+        inputElement.style.border = "3px solid #B3261E";
+        inputElement.classList.add('placeholder-red');
+      } else {
+        inputElement.placeholder = placeholderText;
+        inputElement.style.color = "initial";
+        inputElement.style.fontFamily = "Pretendard_Light";
+        inputElement.style.border = "none";
+        inputElement.classList.remove('placeholder-red');
+      }
     }
   };
-  
   
   return (
     <StyledContainer>
@@ -216,11 +333,43 @@ const Join = () => {
           이미 가입된 계정이 있으신가요?{' '}
           <StyledLoginLink to="/login"> 로그인</StyledLoginLink>
         </StyledExplain>
+        <div style={{ position: 'absolute', transform: 'translate(942%, 138%)', zIndex: 2 }}>
+          {(isNexted && !username) && (
+            <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
+          )}
+        </div>
+        <div style={{ position: 'absolute', transform: 'translate(942%, 510.5%)', zIndex: 2 }}>
+          {(isNexted && !usermail) && (
+            <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
+          )}
+        </div>
+        <div style={{ position: 'absolute', transform: 'translate(942%, 910.5%)', zIndex: 2 }}>
+          {(isNexted && !authenticationcode) && (
+            <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
+          )}
+        </div>
+        <StyledWord>
+          <p>이름</p>
+        </StyledWord>
+        <StyledInputContainer>
+          <StyledInput
+            id="name-input"
+            type="text"
+            placeholder="이름을 입력하세요."
+            data-placeholder="이름을 입력하세요."
+            value={username}
+            onChange={handleNameChange}
+          />
+          <StyledClearButton visible={username !== ''} onClick={handleClearButtonClick}>
+            <img src={clearImage} alt="Clear" style={{ width: '32px', height: '32px' }} />
+          </StyledClearButton>
+        </StyledInputContainer>        
         <StyledWord>
           <p>이메일</p>
         </StyledWord>
         <StyledInputContainer>
           <StyledInput
+            id="mail-input"
             type="text"
             placeholder="이메일을 입력하세요."
             data-placeholder="이메일을 입력하세요."
@@ -231,51 +380,24 @@ const Join = () => {
             <img src={clearImage} alt="Clear" style={{ width: '32px', height: '32px' }} />
           </StyledClearButton>
         </StyledInputContainer>
-        <div style={{ position: 'absolute', transform: 'translate(942%, 138%)', zIndex: 2 }}>
-          {(isNexted && !password) && (
-            <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
-          )}
-        </div>
-        <div style={{ position: 'absolute', transform: 'translate(942%, 500.5%)', zIndex: 2 }}>
-          {(isNexted && !confirmPassword) && (
-            <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
-          )}
-        </div>
-        <StyledWord>
-          <p>비밀번호</p>
-        </StyledWord>
+        {usermail !== '' && !isEmailValid && (
+          <StyledErrorMessage>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;유효하지 않은 이메일입니다.</StyledErrorMessage> 
+        )}
+        <StyledSendButton onClick={handleSendClick}>
+          {sendButtonText}
+          {isTimerRunning && <StyledTimer>{Math.floor(timer / 60)}:{timer % 60}</StyledTimer>}
+        </StyledSendButton>
         <StyledPasswordContainer>
-          <StyledPasswordInput
-          type={isPasswordVisible ? "text" : "password"} 
-            placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요."
-            data-placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요."
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <StyledTogglePasswordButton
-            src={isPasswordVisible ? closeImage : openImage}
-            alt="Toggle Password Visibility"
-            onClick={handleTogglePasswordVisibility}
-          />
-        </StyledPasswordContainer>
-        <StyledWord>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;비밀번호 확인</p>
-        </StyledWord>
-        <StyledPasswordContainer>
-          <StyledPasswordInput
-          type={isPasswordVisible ? "text" : "password"} 
-            placeholder="비밀번호를 입력해 주세요."
-            data-placeholder="비밀번호를 입력해 주세요."
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          <StyledTogglePasswordButton
-            src={isPasswordVisible ? closeImage : openImage}
-            alt="Toggle Password Visibility"
-            onClick={handleTogglePasswordVisibility}
-          />
-          </StyledPasswordContainer>
-        <StyledNextButton onClick={handleNextClick}>  
+      <StyledPasswordInput
+        id="authenticationcode-input"
+        text="type"
+        placeholder="인증번호를 입력하세요."
+        data-placeholder="인증번호가 맞지 않습니다."
+        value={authenticationcode}
+        onChange={handleAuthenticationCodeChange}
+      />
+    </StyledPasswordContainer>
+        <StyledNextButton onClick={handleNextClick}>
           다음
         </StyledNextButton>
       </StyledContent>
