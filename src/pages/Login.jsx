@@ -89,7 +89,7 @@ const StyledSwitch = styled.div`
   position: relative;
   width: 2.4em;
   height: 1.25em;
-  border: 2px solid black;
+  border: 3px solid black;
   border-radius: 10em;
   overflow: hidden;
   cursor: pointer;
@@ -99,7 +99,7 @@ const StyledSwitch = styled.div`
 
 const StyledSlider = styled.div`
   position: absolute;
-  top: -0.1em;
+  top: -0.025em;
   width: 1.2em;
   height: 1.2em;
   border-radius: 50%;

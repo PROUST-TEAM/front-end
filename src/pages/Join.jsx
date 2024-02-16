@@ -195,7 +195,7 @@ const Join = () => {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
   const handleBackToLogin = () => {
-    navigate('/home');
+    navigate('/login');
   };
 
   const handleNameChange = (event) => {
