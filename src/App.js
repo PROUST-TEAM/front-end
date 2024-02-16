@@ -23,11 +23,13 @@ import JoinSecond from "./pages/JoinSecond";
 import MyPage from "./pages/MyPage";
 import MyPageModify from "./pages/MyPageModify";
 import Character from "./pages/Character";
+import ScrollToTop from "./ScrollToTop";
 
 function App() {
   return (
     <div className="root-wrap">
       <BrowserRouter>
+        <ScrollToTop />
         <Header />
         <Routes>
           <Route path="/home" element={<Home />} />
@@ -43,7 +45,7 @@ function App() {
           <Route path="/mbtiMain" element={<MbtiMain />} />
           <Route path="/mbtiTest" element={<MbtiTest />} />
           <Route path="/mbtiResult" element={<MbtiResult />} />
-          <Route path="/mbti" element={<Mbti/>} />
+          <Route path="/mbti" element={<Mbti />} />
           <Route path="/login" element={<Login />} />
           <Route path="/search" element={<Search />} />
           <Route path="/nonSearch" element={<NonSearch />} />
