@@ -51,7 +51,7 @@ const Info = styled.div`
 `;
 const VerticalLine = styled.div`
   position: absolute;
-  top: 762px;
+  top: 725px;
   left: 50%;
   transform: translate(-50%, -50%);
   height: 171px;
@@ -61,7 +61,7 @@ const VerticalLine = styled.div`
 
 const Circle = styled.div`
   position: absolute;
-  top: 678px;
+  top: 638px;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #6bff94;
@@ -71,7 +71,7 @@ const Circle = styled.div`
 `;
 const Circle2 = styled.div`
   position: absolute;
-  top: 850px;
+  top: 815px;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #ecf5ef;
@@ -142,6 +142,7 @@ const Explanation = styled.div`
   color: rgba(0, 0, 0, 0.63);
   text-align: left;
   line-height: 1.4;
+  margin-top: -30px;
 `;
 const ReceiptBottom = styled.div`
   background-color: #fefdfc;
@@ -168,43 +169,69 @@ const textStyle = {
 };
 const titleStyle = {
   fontFamily: "Pretendard_ExtraBold",
-  fontSize: "50px",
+  fontSize: "45px",
   color: "#282727",
   margin: "0px 0 20px 0",
   display: "inline-block",
 };
 export default function PerfumeDetail() {
-  const [isHeartFilled, setHeartFilled] = useState(false);
+  const [isHeartFilled, setHeartFilled] = useState(true);
   const apiUrl = process.env.REACT_APP_API_URL;
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [response, setResponse] = useState([]);
+  const [perfumeName, setPerfumeName] = useState();
   const location = useLocation();
-  const perfumeName = location.state.name;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${apiUrl}/${perfumeName}/getPerfumes`,
-          {
-            params: {
-              Name: perfumeName,
-            },
-            headers: {
-              Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
-            },
-          }
-        );
+        setPerfumeName(location.state.name);
 
-        console.log("향수 디테일:", response.data.result);
-        setResponse(response.data.result);
+        if (location.state.name) {
+          const response = await axios.get(
+            `${apiUrl}/${location.state.name}/getPerfumes`,
+            {
+              params: {
+                Name: location.state.name,
+              },
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          console.log("향수 디테일:", response.data.result);
+          setResponse(response.data.result);
+        } else {
+          console.log("향수 이름이 없습니다.");
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-    fetchData(); // Fetch data when component mounts
-  }, [perfumeName]);
+    fetchData();
+  }, [location.state.name]);
+
+  const onClickHeart = async (perfume) => {
+    console.log(perfume.name);
+    axios
+      .patch(`${apiUrl}/${perfume.name}/likePerfumes`, {
+        params: {
+          Name: perfume.name,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
+        },
+      })
+      .then((response) => {
+        // 서버 응답 확인
+        console.log("향수 찜: ", response.data.result);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
   return (
     <PerfimeDetailWrap>
@@ -221,31 +248,43 @@ export default function PerfumeDetail() {
           <VerticalLine />
           <Circle2 />
           <Receipt>
-            <ReceiptTop>
-              <Heart onClick={() => setHeartFilled(!isHeartFilled)}>
-                {/* 나중에 서버 연결하면, 상태 받아와서 검사 후 연결하는 코드로 전환 */}
-                {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-              </Heart>
-              <br />
-              <p style={titleStyle}>Eau Duelle</p>
-              <p style={textStyle}>오 듀엘르</p>
-              <p style={textStyle}>#신비로운 바닐라 #스파이스 #달달함 #우디</p>
-              <div style={lineStyle} />
-              <img
-                src={perfume}
-                alt="Base Character"
-                style={{ width: "260px", height: "338px" }}
-              />
-              <Explanation>
-                <span>
-                  오 듀엘르는 바닐라 깍지가 고아, 카르타고, 베니스, 바빌론 등의
-                  향신료 항로를 따라 가는, 상상 속의 여행을 표현한 향입니다.전
-                  설적인 기항지를 거치면서 향에 새로운 맛들이 베어들게 됩니다.
-                  시간과 국경을 초월하는 여행을 통해 마다가스카르의 부르봉
-                  바닐라는 빛과 그림자를 표현합니다.
-                </span>
-              </Explanation>
-            </ReceiptTop>
+            {response &&
+              response.perfume_contentsData &&
+              response.perfume_contentsData.map((perfume, index) => (
+                <ReceiptTop>
+                  <Heart
+                    onClick={(event) => {
+                      console.log(response);
+                      onClickHeart(perfume); // 하트 클릭 시 동작할 함수
+                      console.log(perfume.name);
+                      event.preventDefault();
+                    }}
+                  >
+                    {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
+                  </Heart>
+                  <br />
+                  <p style={titleStyle}>{perfume.name}</p>
+                  <p style={textStyle}>{perfume.nameKor}</p>
+                  <p style={textStyle}>
+                    #신비로운 바닐라 #스파이스 #달달함 #우디
+                  </p>
+                  <div style={lineStyle} />
+                  <div>
+                    <img
+                      src={`https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/${perfume.imageUrl}`}
+                      alt={perfume.name}
+                      style={{
+                        width: "280px",
+                        height: "450px",
+                        marginTop: "-50px",
+                      }}
+                    />
+                  </div>
+                  <Explanation>
+                    <span>{perfume.description}</span>
+                  </Explanation>
+                </ReceiptTop>
+              ))}
             <ReceiptBottom>
               <img
                 src={barcode}
@@ -259,7 +298,7 @@ export default function PerfumeDetail() {
           <Circle3 />
           <VerticalLine2 />
           <Circle4 />
-          <Comment />
+          {location.state.name && <Comment perfumeName={location.state.name} />}
         </Detail>
       </PerfumeDetailContent>
     </PerfimeDetailWrap>

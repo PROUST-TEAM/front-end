@@ -75,7 +75,7 @@ const HeaderRight = styled.div`
     font-size: 20px;
   }
 
-  > img{
+  > img {
     width: 24px;
     height: 24px;
     margin-left: 20px;
@@ -142,10 +142,10 @@ const SearchPanel = styled.div`
     height: 187px;
     z-index: 2;
   }
-`; 
+`;
 
 const CloseButton = styled.div`
-  > img{
+  > img {
     position: absolute;
     margin-right: 15px;
     width: 20px;
@@ -214,7 +214,7 @@ const DropdownContainer = styled.div`
   width: 150px;
   top: 175%;
   right: 0;
-  display: ${(props) => (props.isVisible ? 'flex' : 'none')};
+  display: ${(props) => (props.isVisible ? "flex" : "none")};
   flex-direction: column;
   background-color: white;
   border-radius: 10px;
@@ -224,20 +224,20 @@ const DropdownContainer = styled.div`
 const DropdownItem = styled.div`
   height: 45px;
   color: #282727;
-  font-family: 'Pretendard_SemiBold', sans-serif;
+  font-family: "Pretendard_SemiBold", sans-serif;
   font-size: 15px;
   cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
   &:hover {
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     // border-radius: 10px;
   }
-  >img{
+  > img {
     width: 24px;
     height: 24px;
-    margin-right:5px; 
+    margin-right: 5px;
     margin-left: 15px;
   }
   &:first-child {
@@ -294,11 +294,11 @@ export default function Header() {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
-  const isHome = location.pathname === '/home';
-  const isList = location.pathname === '/myList';
-  const isColumn = location.pathname === '/column';
-  const isLocation = location.pathname === '/location';
-  const isTest = location.pathname === '/mbtiTest';
+  const isHome = location.pathname === "/home";
+  const isList = location.pathname === "/myList";
+  const isColumn = location.pathname === "/column";
+  const isLocation = location.pathname === "/location";
+  const isTest = location.pathname === "/mbtiTest";
   const isLogin = location.pathname === "/login";
   const isMyPage = location.pathname === "/myPage";
   const [loading, setLoading] = useState(false);
@@ -312,7 +312,10 @@ export default function Header() {
   useEffect(() => {
     const handleClickOutside = (event) => {
       // 검색 패널이 열려있고, 클릭된 요소가 검색 패널 외부인 경우에만 검색 패널 닫기
-      if (isSearchPanelVisible && !searchPanelRef.current.contains(event.target)) {
+      if (
+        isSearchPanelVisible &&
+        !searchPanelRef.current.contains(event.target)
+      ) {
         closeSearchPanel();
       }
     };
@@ -341,7 +344,7 @@ export default function Header() {
     navigate(path);
   };
 
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
 
   const handleInputChange = (e) => {
     setSearchText(e.target.value);
@@ -351,10 +354,11 @@ export default function Header() {
 
   useEffect(() => {
     const searchData = location.state && location.state.searchData;
-    console.log("Search Data:", searchData);
+    //console.log("Search Data:", searchData);
 
-    setSearchText('');
+    setSearchText("");
   }, [location]);
+
 
 
   const handleSearchButtonClick = async (event) => {
@@ -372,10 +376,10 @@ export default function Header() {
         if (response.data.isSuccess && response.data.result !== null) {
           navigate('/search', { state: { searchData: response.data }});
         } else {
-          window.location.href = '/nonSearch';
+          window.location.href = "/nonSearch";
         }
       } else {
-        window.location.href = '/nonSearch';
+        window.location.href = "/nonSearch";
       }
     } catch (error) {
       if ([429, 504].includes(error.response?.status)) {
@@ -418,7 +422,7 @@ export default function Header() {
 
   useEffect(() => {
     // 로컬 스토리지에서 토큰 불러오기
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem("token");
 
     // 토큰이 존재하면 로그인 상태를 true로 설정
     if (storedToken) {
@@ -519,79 +523,100 @@ export default function Header() {
         </HeaderLeft>
         <HeaderRight>
           <SearchButton onClick={openSearchPanel}>
-            <img src= {searchBtnImage} alt= "SearchImagee"/>
+            <img src={searchBtnImage} alt="SearchImagee" />
           </SearchButton>
 
           {/* 로그인이 되었을 때의 Header  */}
           {isLoggedIn ? (
             <>
-          <StyledLink
-            className={`header-nav-item ${isMyPage ? "active" : ""}`}
-            to="/myPage"
-            onClick={() => handleNavLinkClick("/myPage")}
-          >
-            MY PAGE
-            <img src={loginImage} alt="LoginImage" />
-          </StyledLink>
-          
-          <div onClick={handleMenuClick} style={{ position: 'relative' }} ref={dropdownRef}>
-          <img
-            style={{width:"24px", height: "24px", marginLeft: "20px"}}
-            src={menuImage}
-            alt="MenuImage"
-          />
-          {isDropdownVisible && (
-            <DropdownContainer isVisible={isDropdownVisible}>
-              <DropdownItem
-                to='/character'
-                onClick={() => handleNavLinkClick('/character')}>
-                <img src={smileImage} alt= "Smile"/>
-                캐릭터 설명
-              </DropdownItem>
-              <DropdownItem>
-                <img src={GearImage} alt= "Gear"/>
-                설정
-              </DropdownItem>
-              <DropdownItem onClick={handleLogout}>
-                <img style={{marginLeft:"20px",width: "16.5px", height:"18px"}} src={SignOutImage} alt= "SignOut"/>  
-                로그아웃
-                
-              </DropdownItem>
-            </DropdownContainer>
-          )}
-          </div>
-          {isLogoutModalVisible && (
-        <LogoutModal onClose={handleCloseModal} handleLogout={handleLogout} />
-      )}
-          </>
+              <StyledLink
+                className={`header-nav-item ${isMyPage ? "active" : ""}`}
+                to="/myPage"
+                onClick={() => handleNavLinkClick("/myPage")}
+              >
+                MY PAGE
+                <img src={loginImage} alt="LoginImage" />
+              </StyledLink>
+
+              <div
+                onClick={handleMenuClick}
+                style={{ position: "relative" }}
+                ref={dropdownRef}
+              >
+                <img
+                  style={{ width: "24px", height: "24px", marginLeft: "20px" }}
+                  src={menuImage}
+                  alt="MenuImage"
+                />
+                {isDropdownVisible && (
+                  <DropdownContainer isVisible={isDropdownVisible}>
+                    <DropdownItem
+                      to="/character"
+                      onClick={() => handleNavLinkClick("/character")}
+                    >
+                      <img src={smileImage} alt="Smile" />
+                      캐릭터 설명
+                    </DropdownItem>
+                    <DropdownItem>
+                      <img src={GearImage} alt="Gear" />
+                      설정
+                    </DropdownItem>
+                    <DropdownItem onClick={handleLogout}>
+                      <img
+                        style={{
+                          marginLeft: "20px",
+                          width: "16.5px",
+                          height: "18px",
+                        }}
+                        src={SignOutImage}
+                        alt="SignOut"
+                      />
+                      로그아웃
+                    </DropdownItem>
+                  </DropdownContainer>
+                )}
+              </div>
+              {isLogoutModalVisible && (
+                <LogoutModal
+                  onClose={handleCloseModal}
+                  handleLogout={handleLogout}
+                />
+              )}
+            </>
           ) : (
-            // 로그인이 되지 않았을 때의 Header 
+            // 로그인이 되지 않았을 때의 Header
             <>
-          <StyledLink
-            className={`header-nav-item ${isLogin ? "active" : ""}`}
-            to="/login"
-            onClick={() => handleNavLinkClick("/login")}
-          >
-            LOGIN
-            <img src={loginImage} alt="LoginImage" />
-          </StyledLink>
-          <div onClick={handleMenuClick} style={{ position: 'relative' }} ref={dropdownRef}>
-          <img
-            style={{width:"24px", height: "24px", marginLeft: "20px"}}
-            src={menuImage}
-            alt="MenuImage"
-          />
-          {isDropdownVisible && (
-            <DropdownContainer isVisible={isDropdownVisible}>
-              <DropdownItem to='/character'
-                  onClick={() => handleNavLinkClick('/character')}>
-                <img src={smileImage} alt= "Smile"/>
-                캐릭터 설명
-              </DropdownItem>
-            </DropdownContainer>
-          )}
-          </div>
-          </>
+              <StyledLink
+                className={`header-nav-item ${isLogin ? "active" : ""}`}
+                to="/login"
+                onClick={() => handleNavLinkClick("/login")}
+              >
+                LOGIN
+                <img src={loginImage} alt="LoginImage" />
+              </StyledLink>
+              <div
+                onClick={handleMenuClick}
+                style={{ position: "relative" }}
+                ref={dropdownRef}
+              >
+                <img
+                  style={{ width: "24px", height: "24px", marginLeft: "20px" }}
+                  src={menuImage}
+                  alt="MenuImage"
+                />
+                {isDropdownVisible && (
+                  <DropdownContainer isVisible={isDropdownVisible}>
+                    <DropdownItem
+                      to="/character"
+                      onClick={() => handleNavLinkClick("/character")}
+                    >
+                      <img src={smileImage} alt="Smile" />
+                      캐릭터 설명
+                    </DropdownItem>
+                  </DropdownContainer>
+                )}
+              </div>
+            </>
           )}
         </HeaderRight>
       </HeaderContainer>
@@ -608,7 +633,11 @@ export default function Header() {
             value={searchText}
             onChange={handleInputChange}
           />
-          <SearchButton to="#" onClick={handleSearchButtonClick} style={{marginRight:"20px"}}>
+          <SearchButton
+            to="#"
+            onClick={handleSearchButtonClick}
+            style={{ marginRight: "20px" }}
+          >
             <img src={searchBtnImage} alt="SearchImg" />
           </SearchButton>
         </SearchContainer>
