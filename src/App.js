@@ -8,6 +8,8 @@ import LocationDetail2 from "./pages/locations/LocationDetail2";
 import LocationDetail3 from "./pages/locations/LocationDetail3";
 import LocationDetail4 from "./pages/locations/LocationDetail4";
 import Login from "./pages/Login";
+import Search from "./pages/search/Search";
+import NonSearch from "./pages/search/NonSearch";
 import MbtiMain from "./pages/mbti/MbtiMain";
 import MbtiResult from "./pages/mbti/MbtiResult";
 import MbtiTest from "./pages/mbti/MbtiTest";
@@ -22,8 +24,6 @@ import MyPage from "./pages/MyPage";
 import MyPageModify from "./pages/MyPageModify";
 import Character from "./pages/Character";
 import ScrollToTop from "./ScrollToTop";
-import Search from "./pages/search/Search";
-import NonSearch from "./pages/search/NonSearch";
 
 function App() {
   return (

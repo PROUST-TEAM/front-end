@@ -81,7 +81,6 @@ const PostButton = styled.button`
 
 export default function Comment(props) {
   const [newComment, setNewComment] = useState("");
-  const [comments, setComments] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [response, setResponse] = useState([]);
@@ -105,7 +104,7 @@ export default function Comment(props) {
                 },
               }
             );
-            console.log("댓글 전체 조회:", response.data.result);
+            console.log("댓글 전체 조회:", response);
             setResponse(response.data.result);
           } else {
             const response = await axios.get(`${apiUrl}/${perfumeName}/read`, {
@@ -141,14 +140,13 @@ export default function Comment(props) {
         if (newComment.trim() !== "") {
           // 댓글을 서버에 POST로 전송
           await axios.post(
-            `${apiUrl}/${perfumeName}/write`, // 앤드포인트 직접 여기에 추가
+            `${apiUrl}/${perfumeName}/write`,
             {
-              Content: newComment, // 서버에서 요구하는 댓글 내용에 따라 필드명을 조절해주세요.
+              Content: newComment,
             },
             {
               headers: {
                 Authorization: `Bearer ${token}`,
-                // 필요에 따라 추가적인 헤더를 여기에 포함시킬 수 있습니다.
               },
             }
           );
@@ -156,8 +154,8 @@ export default function Comment(props) {
           // 서버 응답에 포함된 새 댓글을 사용하여 댓글 업데이트
           setResponse((prevResponse) => ({
             ...prevResponse,
-            perfume_comment_contents_userData: [
-              ...prevResponse.perfume_comment_contents_userData,
+            perfume_comment_contentsData: [
+              ...prevResponse.perfume_comment_contentsData,
               { Content: newComment },
             ],
           }));
@@ -178,33 +176,39 @@ export default function Comment(props) {
       }
     } catch (error) {
       console.error("Error posting comment:", error);
-      // 에러가 발생한 경우에 대한 처리를 추가할 수 있습니다.
     }
   };
 
   const deleteComment = async (contentToDelete) => {
     try {
-      // 댓글을 서버에 DELETE로 전송
-      await axios.delete(`${apiUrl}/${perfumeName}/delete/${contentToDelete}`, {
-        params: {
-          Name: perfumeName,
-          Content: contentToDelete,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      if (token) {
+        // 댓글을 서버에 DELETE로 전송
+        await axios.delete(
+          `${apiUrl}/${perfumeName}/delete/${contentToDelete}`,
+          {
+            params: {
+              Name: perfumeName,
+              Content: contentToDelete,
+            },
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      // 서버 응답에 따라 댓글 업데이트
-      setResponse((prevResponse) => ({
-        ...prevResponse,
-        perfume_comment_contents_userData:
-          prevResponse.perfume_comment_contents_userData.filter(
-            (comment) => comment.Content !== contentToDelete
-          ),
-      }));
+        // 서버 응답에 따라 댓글 업데이트
+        setResponse((prevResponse) => ({
+          ...prevResponse,
+          perfume_comment_contentsData:
+            prevResponse.perfume_comment_contentsData.filter(
+              (comment) => comment.Content !== contentToDelete
+            ),
+        }));
 
-      console.log("댓글 삭제 성공");
+        console.log("댓글 삭제 성공");
+      } else {
+        alert("로그인 후 댓글 삭제가 가능합니다");
+      }
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
@@ -214,8 +218,8 @@ export default function Comment(props) {
     <>
       <CommentList ref={commentListRef}>
         {response &&
-          response.perfume_comment_contents_userData &&
-          response.perfume_comment_contents_userData.map((comment, index) => (
+          response.perfume_comment_contentsData &&
+          response.perfume_comment_contentsData.map((comment, index) => (
             <CommentItem key={index}>
               {comment.Content}
               <FaRegTrashAlt onClick={() => deleteComment(comment.Content)} />

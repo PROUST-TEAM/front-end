@@ -96,7 +96,7 @@ const Perfume = styled.div`
 `;
 
 const Heart = styled.div`
-  display: inline;
+  //display: inline;
   > svg {
     color: #282727;
     width: 31px;
@@ -137,6 +137,7 @@ export default function MyList() {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [response, setResponse] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -145,14 +146,13 @@ export default function MyList() {
         const response = await axios.get(`${apiUrl}/perfumeList`, {
           params: {
             Keyword: activeFilters,
-            // 필요에 따라 다른 쿼리 매개변수를 추가할 수 있습니다.
           },
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        console.log("향수 리스트:", response.data.result);
+        console.log("향수 리스트:", response);
         setResponse(response.data.result);
       } catch (error) {
         console.error("Error:", error);
@@ -160,7 +160,30 @@ export default function MyList() {
     };
 
     fetchData(); // 초기 마운트 시에도 데이터를 가져오도록 호출
-  }, [activeFilters]); // activeFilters나 token이 변경될 때마다 실행
+  }, [activeFilters]);
+
+  const onClickHeart = async (name) => {
+    //console.log(perfumeName);
+    //console.log(perfume.name);
+    const encodedName = encodeURIComponent(name);
+    const requestUrl = `https://dev.proust.store/${encodedName}/likePerfumes`;
+
+    console.log(name);
+    try {
+      const response = await axios.patch(requestUrl, {
+        params: {
+          Name: name,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("찜 설정:", response.data.result);
+      //setResponse(response.data.result);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const onFilterClick = (filter) => {
     if (activeFilters.includes(filter)) {
@@ -170,26 +193,6 @@ export default function MyList() {
       setActiveFilters([...activeFilters, filter]);
       console.log([...activeFilters, filter]);
     }
-  };
-
-  const onClickHeart = async (perfume) => {
-    console.log(perfume.name);
-    axios
-      .patch(`${apiUrl}/${perfume.name}/likePerfumes`, {
-        params: {
-          Name: perfume.name,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
-        },
-      })
-      .then((response) => {
-        // 서버 응답 확인
-        console.log("향수 찜: ", response.data.result);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
   };
 
   return (
@@ -238,18 +241,20 @@ export default function MyList() {
                 state={{ name: perfume.name }}
                 style={{ textDecoration: "none" }}
               >
-                <Perfume>
+                <Perfume key={index}>
                   <Heart
                     onClick={(event) => {
-                      console.log(response);
-                      onClickHeart(perfume); // 하트 클릭 시 동작할 함수
-                      console.log(perfume.name);
                       event.preventDefault();
+                      // console.log(perfumeName);
+                      //console.log(perfume.name);
+                      onClickHeart(perfume.name); // 하트 클릭 시 동작할 함수
+                      //console.log(response);
+                      //console.log(perfume.name);
                     }}
                   >
                     {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
                   </Heart>
-                  <div>
+                  <div style={{ overflow: "hidden" }}>
                     <img
                       src={`https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/${perfume.imageUrl}`}
                       alt={perfume.name}
