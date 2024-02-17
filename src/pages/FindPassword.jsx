@@ -11,13 +11,13 @@ const StyledContainer = styled.div`
   justify-content: center;
   height: 100vh;
   background-color: white;
+  margin-top: 90px;
 `;
 
 const StyledContent = styled.div`
   position: relative;
   text-align: center;
-  color: black;
-  margin-top: 75px;
+  color: black;  margin-bottom: 1000px;
 `;
 
 const StyledParagraph = styled.p`
@@ -64,7 +64,7 @@ const StyledInput = styled.input`
   padding: 6px;
   margin-top: 5px;
   margin-bottom: 30px;
-  border: none;
+  border: 3px solid #f0f0f0;
   background-color: #f0f0f0;
   border-radius: 6px;
   font-family: Pretendard_Light;
@@ -204,12 +204,12 @@ const FindPassword = () => {
         inputElement.placeholder = placeholderText;
         inputElement.style.color = "initial";
         inputElement.style.fontFamily = "Pretendard_Light"; 
-        inputElement.style.border = "none";
+        inputElement.style.border = "3px solid #f0f0f0";
         inputElement.classList.remove('placeholder-red');
       }
     }
   };
-  
+
 
   const startTimer = () => {
     setIsTimerRunning(true);

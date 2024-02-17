@@ -9,6 +9,8 @@ import pointImage from "../images/point.png";
 import googleImage from "../images/google.png";
 import kakaoImage from "../images/kakao.png";
 import naverImage from "../images/naver.png";
+import { GoogleLogin } from 'react-google-login';
+import KakaoLogin from 'react-kakao-login';
 import axios from "axios";
 
 const StyledContainer = styled.div`
@@ -193,11 +195,12 @@ const StyledLoginButtonContainer = styled.div`
   display: flex;
   gap: 15px;
   margin-top: 15px;
-  margin-bottom: 78px;
+  margin-bottom: 70px;
   cursor: pointer;
 `;
 
 export default function Login() {
+  const [isImageChanging, setIsImageChanging] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [usermail, setUsermail] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
@@ -316,7 +319,12 @@ export default function Login() {
   };
 
   const handlePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
+    setIsImageChanging(true);
+  
+    setTimeout(() => {
+      setIsPasswordVisible(!isPasswordVisible);
+      setIsImageChanging(false); 
+    }, 300);
   };
 
   const handlePasswordButtonClick = () => {
@@ -324,6 +332,66 @@ export default function Login() {
     setPassword("");
     setTimeout(() => setPassword(currentPassword), 0);
   };
+
+  const responseGoogle = async (response) => {
+    try {
+      const googleResponse = await axios.post(`${apiUrl}/user/google-login`, {
+        googleToken: response.tokenId,
+      });
+
+      if (googleResponse.status === 200 && googleResponse.data.isSuccess) {
+        console.log("Google Login Success");
+
+    } else {
+      console.error("Google Login Error:", googleResponse.data);
+      if (googleResponse.status === 400) {
+        alert(googleResponse.data.message);
+      } else if (googleResponse.status === 500) {
+        alert("서버 에러, 관리자에게 문의 바랍니다.");
+      }
+    }
+  } catch (error) {
+    console.error("Error during Google Sign-In API call:", error);
+    }
+  };
+
+const handleGoogleLoginClick = () => {
+  return (
+    <GoogleLogin
+      clientId="28057228880-lk5chrh5rfqphkhfb5ckvocvt1vkcooh.apps.googleusercontent.com"
+      onSuccess={responseGoogle}
+      onFailure={responseGoogle}
+      cookiePolicy={'single_host_origin'}
+    />
+  );
+};
+
+const handleKakaoLoginClick = () => {
+  const redirectUri = `${window.location.origin}/user/kakao/callback`;
+  window.location.href = `${apiUrl}/user/kakao?redirectUri=${encodeURIComponent(redirectUri)}`;
+};
+
+const responseKakao = (response) => {
+  axios.post(`${apiUrl}/user/kakao/callback`, {
+    code: response.code,
+  })
+  .then((kakaoResponse) => {
+    if (kakaoResponse.status === 200 && kakaoResponse.data.isSuccess) {
+      console.log("Kakao Login Success");
+    } else {
+      console.error("Kakao Login Error:", kakaoResponse.data);
+      if (kakaoResponse.status === 400) {
+        alert(kakaoResponse.data.message);
+      } else if (kakaoResponse.status === 500) {
+        alert("서버 에러, 관리자에게 문의 바랍니다.");
+      }
+    }
+  })
+  .catch((error) => {
+    console.error("Error during Kakao Sign-In API call:", error);
+    // 에러 처리 로직을 추가
+  });
+};
 
   return (
     <>
@@ -348,6 +416,7 @@ export default function Login() {
             position: "absolute",
             transform: "translate(440%, 960%)",
             zIndex: 2,
+            visibility: isImageChanging ? "hidden" : "visible",
           }}
         >
           {isLoggedIn && !usermail && (
@@ -357,11 +426,12 @@ export default function Login() {
         <div
           style={{
             position: "absolute",
-            transform: "translate(440%, 1330%)",
+            transform: "translate(440%, 1329%)",
             zIndex: 2,
+            visibility: isImageChanging ? "hidden" : "visible",
           }}
         >
-          {isLoggedIn && (!userpw || userpw === "") && (
+          {isLoggedIn && userpw.trim() === "" && (
             <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
           )}
         </div>
@@ -403,7 +473,7 @@ export default function Login() {
           onClick={handlePasswordButtonClick}
         >
           <StyledPwIcon
-            src={isPasswordVisible ? openImage : closeImage}
+            src={isPasswordVisible ? closeImage : openImage}
             alt={isPasswordVisible ? "Show Password" : "Hide Password"}
             onClick={handlePasswordVisibility}
           />
@@ -428,21 +498,38 @@ export default function Login() {
           <StyledText>─────────────────</StyledText>
         </StyledFooter>
         <StyledLoginButtonContainer>
-          <img
-            src={googleImage}
-            alt="Google"
-            style={{ width: "90px", height: "90px" }}
+        <div onClick={handleGoogleLoginClick}>
+          <GoogleLogin
+            clientId="275366161123-it85kl8s9rsulusbbtsk7icfc09n0hba.apps.googleusercontent.com"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={'single_host_origin'}
+            render={renderProps => (
+              <img
+                src={googleImage}
+                alt="Google"
+                style={{ width: "90px", height: "90px", cursor: "pointer" }}
+                onClick={renderProps.onClick}
+              />
+            )}
           />
-          <img
-            src={kakaoImage}
-            alt="Kakao"
-            style={{ width: "90px", height: "90px" }}
-          />
-          <img
-            src={naverImage}
-            alt="Naver"
-            style={{ width: "90px", height: "90px" }}
-          />
+        </div>
+        <KakaoLogin
+        token="aceaf7ca176ee32a2d617f4efacf4849"
+        onSuccess={responseKakao}
+        onFail={(error) => console.error('Kakao Login Error:', error)}
+        >
+        <img
+          src={kakaoImage}
+          alt="Kakao"
+          style={{ width: "90px", height: "90px", cursor: "pointer" }}
+        />
+        </KakaoLogin>
+        <img
+          src={naverImage}
+          alt="naver"
+          style={{ width: "90px", height: "90px", cursor: "pointer" }}
+        />
         </StyledLoginButtonContainer>
       </StyledContent>
     </>
