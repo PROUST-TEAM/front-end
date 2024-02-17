@@ -276,7 +276,7 @@ export default function Search() {
       try {
         if (searchData && searchData.result) {
           const requests = searchData.result.map(async (item) => {
-            console.log("Current item name:", item.name);
+            // console.log("Current item name:", item.name);
 
             // 기호가 포함되어 있다면 16진수로 변환
           const sanitizedName = item.name.includes('/') ? convertToHex(item.name) : item.name;
@@ -287,17 +287,16 @@ export default function Search() {
             const isLiked = token ? await checkPerfumeLiked(item.name) : false;
             return { ...response.data.result, isLiked };
           }
+          else{
+            const response = await axios.get(`${apiUrl}/${sanitizedName}/getPerfumes`);
+            return response.data.result;
+          }
+          });
 
           const results = await Promise.all(requests);
           console.log("향수 리스트:", results);
           setResponse(results);
-          // return{...response.data.result};
-          });
-    
-          // const results = await Promise.all(requests);
-          // console.log("향수 리스트:", results);
-          // setResponse(results);
-          // //console.log(response);
+          //console.log(response);
         }
         else{
           window.location.href = '/nonSearch';
