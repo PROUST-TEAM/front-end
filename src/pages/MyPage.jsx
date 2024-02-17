@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const StyledContainer = styled.div`
   user-select: none;
+  white-space: nowrap;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,6 +31,7 @@ const StyledImage = styled.img`
 `;
 
 const StyledRow = styled.div`
+white-space: nowrap;
   display: flex;
   align-items: center;
   margin-top: 15px;
@@ -37,6 +39,7 @@ const StyledRow = styled.div`
 `;
 
 const StyledWord = styled.div`
+  white-space: nowrap;  
   margin-left: -5px;
   margin-right: 75px;
   font-size: 26px;
@@ -46,12 +49,14 @@ const StyledWord = styled.div`
 `;
 
 const StyledInputContainer = styled.div`
+  white-space: nowrap;
   display: flex;
   align-items: center;
   user-select: none;
 `;
 
 const StyledInput = styled.input`
+white-space: nowrap;
 user-drag: none;
   user-select: none;
   width: 600px;
@@ -68,6 +73,7 @@ user-drag: none;
 `;
 
 const StyledButtonContainer = styled.div`
+  white-space: nowrap;
   user-select: none;
   display: flex;
   margin-top: 20px;
