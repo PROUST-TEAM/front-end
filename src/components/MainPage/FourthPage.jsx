@@ -192,7 +192,7 @@ export default function FourthPage() {
             {/* AI API 수정중이라 아직 확인 못함 */}
             <ReceiptContainer
              style={{ width: "100%", display: "flex", flexDirection:"row"}}>
-              {console.log('Response:', response.result)}
+              //{console.log('Response:', response.result)}
               {response &&
                 response.result &&
                 response.result.map((perfume, index) => (

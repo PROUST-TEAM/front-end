@@ -10,7 +10,7 @@ const CardContainer = styled(motion.div)`
   background-color: #E0E0E0;
   padding: 25px;
   overflow-y: auto;
-  box-shadow: 3px 3px 20px rgba(0.1, 0.3, 0, 0.3); /* 그림자 추가 */
+  box-shadow: 3px 3px 10px rgba(0.1, 0.3, 0, 0.3); /* 그림자 추가 */
 
   &::-webkit-scrollbar {
     background: none;
