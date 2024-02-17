@@ -124,6 +124,7 @@ const SearchContainer2 = styled.div`
   top: 150%;
   left: 50%;
   transform: translate(-50%, -50%);
+
   > p {
     width: 100%;
     color: #6bff94;
