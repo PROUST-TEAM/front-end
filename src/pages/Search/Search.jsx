@@ -247,6 +247,9 @@ export default function Search() {
   const [isHeartFilled, setHeartFilled] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [response, setResponse] = useState([]);
+  const [isLiked,setLiked] = useState([]);
+
+  //const [hresponse, sethResponse] = useState([]);
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -278,15 +281,18 @@ export default function Search() {
             // 기호가 포함되어 있다면 16진수로 변환
           const sanitizedName = item.name.includes('/') ? convertToHex(item.name) : item.name;
 
-          const response = await axios.get(`${apiUrl}/${sanitizedName}/getPerfumes`);
-
-            return response.data.result;
+          if(token){
+            const response = await axios.get(`${apiUrl}/${sanitizedName}/getPerfumes`);
+            // 찜 여부 확인하기 (토큰이 있는 경우에만)
+            const isLiked = token ? await checkPerfumeLiked(item.name) : false;
+            return { ...response.data.result, isLiked };
+          }
           });
     
           const results = await Promise.all(requests);
           console.log("향수 리스트:", results);
           setResponse(results);
-          console.log(response);
+          //console.log(response);
         }
         else{
           window.location.href = '/nonSearch';
@@ -299,8 +305,28 @@ export default function Search() {
     fetchData(); // 초기 마운트 시에도 데이터를 가져오도록 호출
     setSearchText('');
   }, [location]);
+
+  const checkPerfumeLiked = async (perfumeName) => {
+    try {
+      const sanitizedName = perfumeName.includes('/') ? convertToHex(perfumeName) : perfumeName;
   
+      const hresponse = await axios.get(`${apiUrl}/${encodeURIComponent(sanitizedName)}/likePerfumes`, {
+        params: {
+          Name: encodeURIComponent(sanitizedName),
+        },
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
+        },
+      });
   
+      return hresponse.data.result.status === "A";
+    } catch (error) {
+      console.error("Error checking perfume liked status:", error);
+      return false;
+    }
+  };
+
+    
   const handleSearchButtonClick = async (event) => {
     try {
       setLoading(true); // 검색 버튼 클릭 시 로딩 상태를 true로 설정
@@ -311,7 +337,7 @@ export default function Search() {
         });
   
         console.log("서버 응답:", response.data);
-  
+
         if (response.data.isSuccess && response.data.result !== null) {
           navigate('/search', { state: { searchData: response.data }});
         } else {
@@ -328,32 +354,41 @@ export default function Search() {
       setLoading(false); // 검색 작업이 완료되면 로딩 상태를 false로 설정
     }
   };
-
+  
+  
   const onClickHeart = async (perfume, index) => {
+    console.log(perfume.name);
     if (token) {
-      // 토큰이 있는 경우에만 찜 기능을 사용
       try {
-        const response = await axios.patch(
-          `${apiUrl}/${perfume.name}/likePerfumes`,
-          {
-            params: {
-              Name: perfume.name,
-            },
-          },
+        const sanitizedName = perfume.name.includes('/') ? convertToHex(perfume.name) : perfume.name;
+
+        const hresponse = await axios.patch(
+          `${apiUrl}/${sanitizedName}/likePerfumes`,
+          { Name: perfume.name },
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-  
-        // 서버 응답 확인
-        console.log("향수 찜: ", response.data.result);
+
+        // 해당 향수에 대한 찜 여부 확인
+        const isLiked = hresponse.data.result.status === "A";
+
+        // response 배열을 복제하고 변경된 향수에 대한 isLiked 상태를 업데이트
+        setResponse((prevResponse) =>
+          prevResponse.map((item, i) =>
+            i === index ? { ...item, isLiked } : item
+          )
+        );
       } catch (error) {
         console.error("Error:", error);
       }
     } else {
-      // 토큰이 없는 경우에는 로그인 페이지로 이동
+      // 토큰이 없는 경우에는 모든 향수에 대한 isLiked를 false로 설정
+      setResponse((prevResponse) =>
+      prevResponse.map((item) => ({ ...item, isLiked: false }))
+      );
       navigate('/login');
     }
   };
@@ -413,16 +448,14 @@ export default function Search() {
                   key={perfumeIndex}
                 >
                   <Perfume>
-                    <Heart
-                      onClick={(event) => {
-                        console.log(response);
-                        onClickHeart(perfume); // 하트 클릭 시 동작할 함수
-                        console.log(perfume.name);
-                        event.preventDefault();
-                      }}
-                    >
-                      {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-                    </Heart>
+                      <Heart
+                          onClick={(event) => {
+                          onClickHeart(convertToHex(perfume.name), perfumeIndex);
+                          event.preventDefault();
+                        }}
+                      >
+                      {perfume.isLiked ? <FaHeart /> : <FaRegHeart />}
+                          </Heart>
                     <div>
                       <img
                         src={`https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/${perfume.imageUrl}`}
