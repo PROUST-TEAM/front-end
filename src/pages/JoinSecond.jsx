@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-import Image from '../images/third_charac.png';
-import arrowImage from '../images/arrow-left.png'
-import openImage from '../images/Login-Icons.png';
-import closeImage from '../images/EyeClosed.png'
-import pointImage from '../images/point.png';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import styled from "styled-components";
+import Image from "../images/third_charac.png";
+import arrowImage from "../images/arrow-left.png";
+import openImage from "../images/Login-Icons.png";
+import closeImage from "../images/EyeClosed.png";
+import pointImage from "../images/point.png";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ const StyledParagraph = styled.p`
 `;
 
 const StyledExplain = styled.p`
-  color: #7D7D7D;
+  color: #7d7d7d;
   margin-top: 20px;
   font-size: 24px;
   font-family: Pretendard_Bold;
@@ -84,7 +85,7 @@ const StyledNextButton = styled.button`
   width: 572px;
   height: 50px;
   padding: 6px;
-  margin-top: 50px; 
+  margin-top: 50px;
   background-color: black;
   color: white;
   border: none;
@@ -95,14 +96,14 @@ const StyledNextButton = styled.button`
 `;
 
 const StyledLoginLink = styled(Link)`
-  color: #4AA2F3;
-  text-decoration: none; 
+  color: #4aa2f3;
+  text-decoration: none;
   cursor: pointer;
   margin-left: 8px;
 
   &:hover {
     cursor: pointer;
-    text-decoration: none; 
+    text-decoration: none;
   }
 `;
 
@@ -112,7 +113,7 @@ const StyledClearButton = styled.div`
   top: 38%;
   transform: translateY(-50%);
   cursor: pointer;
-  opacity: ${({ visible }) => (visible ? '1' : '0')};
+  opacity: ${({ visible }) => (visible ? "1" : "0")};
   transition: opacity 0.3s ease-in-out;
 `;
 
@@ -147,7 +148,7 @@ const StyledTogglePasswordButton = styled.img`
 `;
 
 const StyledErrorMessage = styled.div`
-  color: #B3261E;
+  color: #b3261e;
   font-size: 16px;
   margin-top: -20px;
   margin-left: 250px;
@@ -157,43 +158,53 @@ const StyledErrorMessage = styled.div`
 const JoinSecond = () => {
   const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isPasswordMatch, setIsPasswordMatch] = useState(false);
   const [isLengthValid, setIsLengthValid] = useState(true);
   const [containsNumber, setContainsNumber] = useState(true);
-  const [additionalPasswordMessage, setAdditionalPasswordMessage] = useState("");
-  const [additionalConfirmPasswordMessage, setAdditionalConfirmPasswordMessage] = useState("");
+  const [additionalPasswordMessage, setAdditionalPasswordMessage] =
+    useState("");
+  const [
+    additionalConfirmPasswordMessage,
+    setAdditionalConfirmPasswordMessage,
+  ] = useState("");
 
   const { state } = useLocation();
-  const userEmailFromPreviousPage = state?.userEmail || '';  
+  const userEmailFromPreviousPage = state?.userEmail || "";
+  const userName = state?.userName || "";
+  const authenticationCode = state?.authenticationCode || "";
+
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [response, setResponse] = useState([]);
 
   const handleTogglePasswordVisibility = (inputType) => {
-    if (inputType === 'password') {
+    if (inputType === "password") {
       setIsPasswordVisible(!isPasswordVisible);
-    } else if (inputType === 'confirmPassword') {
+    } else if (inputType === "confirmPassword") {
       setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
     }
   };
 
   const handleBackToLogin = () => {
-    navigate('/join');
+    navigate("/join");
   };
 
   const handlePasswordChange = (event) => {
     const enteredPassword = event.target.value;
     setPassword(enteredPassword);
-  
+
     let isLengthValid = false;
     let containsNumber = false;
-  
+
     if (enteredPassword.trim() === "") {
       setAdditionalPasswordMessage("");
     } else {
       isLengthValid = enteredPassword.length >= 8;
       containsNumber = /\d/.test(enteredPassword);
-  
+
       if (!isLengthValid) {
         setAdditionalPasswordMessage("비밀번호는 최소 8자 이상이어야 합니다.");
       } else if (!containsNumber) {
@@ -202,24 +213,24 @@ const JoinSecond = () => {
         setAdditionalPasswordMessage("");
       }
     }
-  
+
     setIsLengthValid(isLengthValid);
     setContainsNumber(containsNumber);
-  
+
     const isPasswordMatch = confirmPassword === enteredPassword;
     setIsPasswordMatch(isPasswordMatch);
-  
+
     handleInputValidation("password-input", enteredPassword);
-  }; 
+  };
 
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
     handleInputValidation("confirmPassword-input", event.target.value);
-  
+
     const isPasswordMatch = event.target.value === password;
     setIsPasswordMatch(isPasswordMatch);
-  
-    if (event.target.value !== '') {
+
+    if (event.target.value !== "") {
       if (!isPasswordMatch) {
         setAdditionalConfirmPasswordMessage("비밀번호가 일치하지 않습니다.");
       } else {
@@ -232,62 +243,93 @@ const JoinSecond = () => {
 
   const handleButtonClick = () => {
     const passwordInput = document.getElementById("password-input");
-    const confirmPasswordInput = document.getElementById("confirmPassword-input");
-    
-    if (!password || (password === '' && isPasswordVisible)) {
+    const confirmPasswordInput = document.getElementById(
+      "confirmPassword-input"
+    );
+
+    if (!password || (password === "" && isPasswordVisible)) {
       handleInputValidation("password-input", password);
     }
-  
-    if (!confirmPassword || (confirmPassword === '' && isConfirmPasswordVisible)) {
+
+    if (
+      !confirmPassword ||
+      (confirmPassword === "" && isConfirmPasswordVisible)
+    ) {
       handleInputValidation("confirmPassword-input", confirmPassword);
     }
-  };  
+
+    const joinConnect = async () => {
+      try {
+        console.log(authenticationCode);
+        const response = await axios.post(`${apiUrl}/user/signup/confirm`, {
+          id: userEmailFromPreviousPage,
+          password: password,
+          name: userName,
+          confirmPassword: confirmPassword,
+          UserAgree: 1,
+          userInputCode: authenticationCode,
+        });
+
+        console.log(response);
+        setResponse(response.data.result);
+      } catch (error) {
+        console.error("Error signup request:", error);
+      }
+    };
+
+    joinConnect();
+  };
 
   const handleInputValidation = (inputId, inputValue) => {
     const inputElement = document.getElementById(inputId);
-  
+
     if (inputElement) {
       const placeholderText = inputElement.getAttribute("data-placeholder");
-  
-      if (inputValue === '' || (!isLengthValid || !containsNumber)) {
+
+      if (inputValue === "" || !isLengthValid || !containsNumber) {
         inputElement.placeholder = `*${placeholderText}`;
         inputElement.style.color = "black";
         inputElement.style.fontFamily = "Pretendard_Light";
         inputElement.style.border = "3px solid #B3261E";
-        inputElement.classList.add('placeholder-red');
+        inputElement.classList.add("placeholder-red");
       } else if (inputId === "confirmPassword-input") {
         if (isPasswordMatch) {
           inputElement.placeholder = `*${placeholderText}`;
           inputElement.style.color = "black";
           inputElement.style.fontFamily = "Pretendard_Light";
           inputElement.style.border = "3px solid #22851A";
-          inputElement.classList.remove('placeholder-red');
+          inputElement.classList.remove("placeholder-red");
         } else {
           inputElement.placeholder = `*${placeholderText}`;
           inputElement.style.color = "black";
           inputElement.style.fontFamily = "Pretendard_Light";
           inputElement.style.border = "3px solid #B3261E";
-          inputElement.classList.add('placeholder-red');
+          inputElement.classList.add("placeholder-red");
         }
       } else {
         inputElement.placeholder = placeholderText;
         inputElement.style.color = "initial";
         inputElement.style.fontFamily = "Pretendard_Light";
         inputElement.style.border = "none";
-        inputElement.classList.remove('placeholder-red');
+        inputElement.classList.remove("placeholder-red");
       }
     }
   };
-  
-  
+
   return (
     <StyledContainer>
       <StyledContent>
-      <StyledArrow src={arrowImage}  onClick={handleBackToLogin} alt="Arrow Image" width="32" height="32" ></StyledArrow>
+        <StyledArrow
+          src={arrowImage}
+          onClick={handleBackToLogin}
+          alt="Arrow Image"
+          width="32"
+          height="32"
+        ></StyledArrow>
         <StyledImage src={Image} alt="Top Character" width="330" height="189" />
         <StyledParagraph>회원가입</StyledParagraph>
         <StyledExplain>
-          이미 가입된 계정이 있으신가요?{' '}
+          이미 가입된 계정이 있으신가요?{" "}
           <StyledLoginLink to="/login"> 로그인</StyledLoginLink>
         </StyledExplain>
         <StyledWord>
@@ -307,44 +349,46 @@ const JoinSecond = () => {
           <p>비밀번호</p>
         </StyledWord>
         <StyledPasswordContainer>
-      <StyledPasswordInput
-        id="password-input"
-        type={isPasswordVisible ? "text" : "password"}
-        placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요."
-        data-placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요."
-        value={password}
-        onChange={handlePasswordChange}
-      />
-      <StyledTogglePasswordButton
-        src={isPasswordVisible ? openImage : closeImage}
-        alt="Toggle Password Visibility"
-        onClick={() => handleTogglePasswordVisibility('password')}
-      />
-    </StyledPasswordContainer>
-    {additionalPasswordMessage && (
-      <StyledErrorMessage>{additionalPasswordMessage}</StyledErrorMessage>
-    )}
-    <StyledWord>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;비밀번호 확인</p>
-    </StyledWord>
-    <StyledPasswordContainer>
-      <StyledPasswordInput
-        id="confirmPassword-input"
-        type={isConfirmPasswordVisible ? "text" : "password"}
-        placeholder="비밀번호를 입력해 주세요."
-        data-placeholder="비밀번호를 입력해 주세요."
-        value={confirmPassword}
-        onChange={handleConfirmPasswordChange}
-      />
-      <StyledTogglePasswordButton
-        src={isConfirmPasswordVisible ? openImage : closeImage}
-        alt="Toggle Password Visibility"
-        onClick={() => handleTogglePasswordVisibility('confirmPassword')}
-      />
-    </StyledPasswordContainer>
-    {additionalConfirmPasswordMessage && (
-      <StyledErrorMessage>{additionalConfirmPasswordMessage}</StyledErrorMessage>
-    )}
+          <StyledPasswordInput
+            id="password-input"
+            type={isPasswordVisible ? "text" : "password"}
+            placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요."
+            data-placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요."
+            value={password}
+            onChange={handlePasswordChange}
+          />
+          <StyledTogglePasswordButton
+            src={isPasswordVisible ? openImage : closeImage}
+            alt="Toggle Password Visibility"
+            onClick={() => handleTogglePasswordVisibility("password")}
+          />
+        </StyledPasswordContainer>
+        {additionalPasswordMessage && (
+          <StyledErrorMessage>{additionalPasswordMessage}</StyledErrorMessage>
+        )}
+        <StyledWord>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;비밀번호 확인</p>
+        </StyledWord>
+        <StyledPasswordContainer>
+          <StyledPasswordInput
+            id="confirmPassword-input"
+            type={isConfirmPasswordVisible ? "text" : "password"}
+            placeholder="비밀번호를 입력해 주세요."
+            data-placeholder="비밀번호를 입력해 주세요."
+            value={confirmPassword}
+            onChange={handleConfirmPasswordChange}
+          />
+          <StyledTogglePasswordButton
+            src={isConfirmPasswordVisible ? openImage : closeImage}
+            alt="Toggle Password Visibility"
+            onClick={() => handleTogglePasswordVisibility("confirmPassword")}
+          />
+        </StyledPasswordContainer>
+        {additionalConfirmPasswordMessage && (
+          <StyledErrorMessage>
+            {additionalConfirmPasswordMessage}
+          </StyledErrorMessage>
+        )}
         <StyledNextButton onClick={handleButtonClick}>
           가입하기
         </StyledNextButton>

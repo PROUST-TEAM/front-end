@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import perfume from "../../images/perfume.png";
 import barcode from "../../images/barcode.png";
 import axios from "axios";
@@ -21,13 +21,13 @@ const FourthContainer = styled.div`
 const Title = styled.div`
   color: white;
 
-  font-family: 'Pretendard_ExtraBold', sans-serif;
+  font-family: "Pretendard_ExtraBold", sans-serif;
   font-size: 40px;
   white-space: nowrap;
 `;
 
 const ColoredText = styled.span`
-  color: #6BFF94 ; 
+  color: #6bff94;
   white-space: nowrap;
 `;
 
@@ -37,7 +37,7 @@ const BestContainer = styled.div`
   justify-content: center;
   flex-direction: row;
 
-  > img{
+  > img {
     margin-top: 20px;
     height: 650px;
     width: auto;
@@ -52,7 +52,7 @@ const StyledLink = styled(Link)`
     white-space: nowrap;
     background-color: black;
     color: white;
-    font-family: 'Pretendard_ExtraBold', sans-serif;
+    font-family: "Pretendard_ExtraBold", sans-serif;
     font-size: 25px;
     border: 2px solid white;
     border-radius: 100px;
@@ -62,12 +62,11 @@ const StyledLink = styled(Link)`
 
   > button:hover {
     background-color: black;
-    color: #6BFF94;
+    color: #6bff94;
 
-    border: 2px solid #6BFF94;
+    border: 2px solid #6bff94;
   }
 `;
-
 
 const ReceiptContainer = styled(Link)`
   display: flex;
@@ -84,7 +83,7 @@ const ReceiptTop = styled.div`
   width: 296px;
   border-radius: 10px 10px 20px 20px;
 
-  > img{
+  > img {
     margin-top: 15px;
     width: 133px;
     height: 190px;
@@ -95,13 +94,13 @@ const ReceiptTitle = styled.div`
   color: black;
   margin-top: 25px;
 
-  font-family: 'Pretendard_ExtraBold', sans-serif;
+  font-family: "Pretendard_ExtraBold", sans-serif;
   font-size: 38px;
 `;
 
 const HorizontalLine = styled.div`
   width: 262px;
-  border-top: 1px solid #D9D9D9 ; 
+  border-top: 1px solid #d9d9d9;
 
   position: relative;
   margin-left: 15px;
@@ -112,19 +111,19 @@ const ReceiptSubTitle = styled.div`
   color: #555353;
   margin-top: 10px;
 
-  font-family: 'Pretendard_Bold', sans-serif;
+  font-family: "Pretendard_Bold", sans-serif;
   font-size: 25px;
 `;
 
 const Explanation = styled.div`
-  font-family: 'Pretendard_SemiBold', sans-serif;
+  font-family: "Pretendard_SemiBold", sans-serif;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.63);
   text-align: center;
   line-height: 1.4;
   margin-bottom: 18px;
 
-  >p{
+  > p {
     margin-top: 15px;
   }
 `;
@@ -134,13 +133,12 @@ const ReceiptBottom = styled.div`
   width: 296px;
   border-radius: 20px 20px 10px 10px;
 
-  > img{
+  > img {
     width: 241px;
   }
 `;
 
 export default function FourthPage() {
-
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [response, setResponse] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -148,7 +146,7 @@ export default function FourthPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const storedToken = localStorage.getItem('token');
+        const storedToken = localStorage.getItem("token");
         if (storedToken) {
           setLoggedIn(true);
           const response = await axios.get(`${apiUrl}/ai/recommend`, {
@@ -157,27 +155,24 @@ export default function FourthPage() {
             },
           });
 
-          console.log('향수 추천:', response.data);
+          //console.log('향수 추천:', response.data);
           setResponse(response.data);
         } else {
           setLoggedIn(false);
         }
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     };
 
     fetchData();
   }, []);
 
-
   return (
     <FourthContainer>
-        {isLoggedIn ? (
-          <>
-          <Title style={{fontSize: "60px" }}>
-            PROUST PICK
-          </Title>
+      {isLoggedIn ? (
+        <>
+          <Title style={{ fontSize: "60px" }}>PROUST PICK</Title>
           <BestContainer>
             {/* AI API 수정중이라 아직 확인 못함 */}
             {/* <ReceiptContainer to="/detail">
@@ -241,19 +236,19 @@ export default function FourthPage() {
                   <img
                     src={barcode}
                     alt="Base Character"
-                    style={{ margin: '20px 0 20px 0' }}
+                    style={{ margin: "20px 0 20px 0" }}
                   />
                 </ReceiptBottom>
               </ReceiptContainer>
             ))}
           </BestContainer>
         </>
-        ) : (
-          <>
+      ) : (
+        <>
           <Title>
             <ColoredText>회원가입</ColoredText>하고 향수 추천받아봐
-        </Title>
-        <BestContainer style={{ filter: 'blur(14px)' }}>
+          </Title>
+          <BestContainer style={{ filter: "blur(14px)" }}>
             {/* Repeat the default perfume display */}
             {[...Array(3)].map((_, index) => (
               <ReceiptContainer key={index}>
@@ -274,7 +269,7 @@ export default function FourthPage() {
                   <img
                     src={barcode}
                     alt="Base Character"
-                    style={{ margin: '20px 0 20px 0' }}
+                    style={{ margin: "20px 0 20px 0" }}
                   />
                 </ReceiptBottom>
               </ReceiptContainer>
@@ -284,7 +279,7 @@ export default function FourthPage() {
             <button>회원가입하러 가기</button>
           </StyledLink>
         </>
-        )}
+      )}
     </FourthContainer>
-  )
+  );
 }

@@ -14,7 +14,7 @@ import MbtiTest from "./pages/mbti/MbtiTest";
 import Mbti from "./pages/mbti/Mbti";
 import MyList from "./pages/perfume/MyList";
 import MyPerfumeDetail from "./pages/perfume/PerfumeDetail";
-import Search from "./pages/search/Search"
+import Search from "./pages/search/Search";
 import NonSearch from "./pages/search/NonSearch";
 import FindPassword from "./pages/FindPassword";
 import FindPasswordSecond from "./pages/FindPasswordSecond";
