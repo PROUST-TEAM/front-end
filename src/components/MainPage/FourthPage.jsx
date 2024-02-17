@@ -80,6 +80,10 @@ const ReceiptContainer = styled(Link)`
 
 `;
 
+const Div= styled(Link)`
+
+`;
+
 const ReceiptTop = styled.div`
   background-color: #fefdfc;
   width: 296px;
@@ -186,17 +190,18 @@ export default function FourthPage() {
           </Title>
           <BestContainer>
             {/* AI API 수정중이라 아직 확인 못함 */}
-            <ReceiptContainer to="/detail"
+            <ReceiptContainer
              style={{ width: "100%", display: "flex", flexDirection:"row"}}>
               {console.log('Response:', response.result)}
               {response &&
                 response.result &&
                 response.result.map((perfume, index) => (
-                  <React.Fragment 
-                  key={perfume.perfumeId}
-                  state={{ name: perfume.name }}
-                  >
-                    <div style={{ width: "100%", display: "flex", flexDirection:"column" ,padding:"0px 20px 0px 20px"}}>
+                  <React.Fragment>
+                    <Div
+                    to="/detail"
+                    key={perfume.perfumeId}
+                    state={{ name: perfume.name }} 
+                    style={{ textDecoration: "none", width: "100%", display: "flex", flexDirection:"column" ,padding:"0px 20px 0px 20px"}}>
                     <ReceiptTop>
                       <ReceiptTitle>
                         PROUST
@@ -228,7 +233,7 @@ export default function FourthPage() {
                         style={{ margin: '20px 0 20px 0' }}
                       />
                     </ReceiptBottom>
-                    </div>
+                    </Div>
                   </React.Fragment>
                 ))}
             </ReceiptContainer>
