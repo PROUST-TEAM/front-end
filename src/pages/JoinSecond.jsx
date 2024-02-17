@@ -178,7 +178,7 @@ const JoinSecond = () => {
   };
 
   const handleBackToLogin = () => {
-    navigate('/login');
+    navigate('/join');
   };
 
   const handlePasswordChange = (event) => {
