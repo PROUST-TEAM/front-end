@@ -282,17 +282,22 @@ export default function Search() {
           const sanitizedName = item.name.includes('/') ? convertToHex(item.name) : item.name;
 
           if(token){
-            const response = await axios.get(`${apiUrl}/${sanitizedName}/getPerfumes`);
+            const response = await axios.get(`${apiUrl}/${encodeURIComponent(sanitizedName)}/getPerfumes`);
             // 찜 여부 확인하기 (토큰이 있는 경우에만)
             const isLiked = token ? await checkPerfumeLiked(item.name) : false;
             return { ...response.data.result, isLiked };
           }
-          });
-    
+
           const results = await Promise.all(requests);
           console.log("향수 리스트:", results);
           setResponse(results);
-          //console.log(response);
+          // return{...response.data.result};
+          });
+    
+          // const results = await Promise.all(requests);
+          // console.log("향수 리스트:", results);
+          // setResponse(results);
+          // //console.log(response);
         }
         else{
           window.location.href = '/nonSearch';
@@ -310,9 +315,9 @@ export default function Search() {
     try {
       const sanitizedName = perfumeName.includes('/') ? convertToHex(perfumeName) : perfumeName;
   
-      const hresponse = await axios.get(`${apiUrl}/${encodeURIComponent(sanitizedName)}/likePerfumes`, {
-        params: {
-          Name: encodeURIComponent(sanitizedName),
+      const hresponse = await axios.get(`${apiUrl}/${sanitizedName}/likePerfumes`, {
+        params:{
+          Name: sanitizedName,
         },
         headers: {
           Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
@@ -364,8 +369,9 @@ export default function Search() {
 
         const hresponse = await axios.patch(
           `${apiUrl}/${sanitizedName}/likePerfumes`,
-          { Name: perfume.name },
-          {
+          {params:{
+              Name: sanitizedName,
+            },
             headers: {
               Authorization: `Bearer ${token}`,
             },
