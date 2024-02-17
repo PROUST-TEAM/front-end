@@ -274,7 +274,7 @@ export default function MyPage() {
       <StyledParagraph>MY PAGE</StyledParagraph>
  
       <StyledRow>
-        <StyledWord>Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</StyledWord>
+        <StyledWord style={{marginRight :"150px"}}>이름</StyledWord>
         <StyledInputContainer>
           <StyledInput id="name-modify"
           readOnly 
@@ -284,24 +284,8 @@ export default function MyPage() {
         </StyledInputContainer>
       </StyledRow>
 
-      {/* <StyledRow>
-        <StyledWord>Password</StyledWord>
-        <StyledInputContainer>
-          <StyledInput id="pw-modify" type={isPasswordVisible ? "password" : "text"} value={userData?.password}
-  readOnly onChange={handlePasswordChange}
-  onDragStart={(e) => e.preventDefault()}/>
-          <StyledVisibleButton visible={userpw !== ''} onClick={handlePasswordButtonClick}>
-            <StyledVisibleIcon
-              src={isPasswordVisible ? openImage : closeImage}
-              alt={isPasswordVisible ? "Show Password" : "Hide Password"}
-              onClick={handlePasswordVisibility}
-            />
-          </StyledVisibleButton>
-        </StyledInputContainer>
-      </StyledRow> */}
-
       <StyledRow>
-        <StyledWord>Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</StyledWord>
+        <StyledWord style={{ width: "80px",marginRight :"115px"}}>이메일</StyledWord>
         <StyledInputContainer>
           <StyledInput id="mail-modify" type="text" readOnly value={userData?.userId}/>
         </StyledInputContainer>
