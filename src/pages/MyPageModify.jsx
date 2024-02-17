@@ -211,11 +211,11 @@ export default function MyPage() {
   };
 
   const handlePasswordButtonClick = () => {
-    setPassword('');
+    //setPassword('');
   };
 
   const handleCkPasswordButtonClick = () => {
-    setCkPassword('');
+    //setCkPassword('');
   };
 
   const handleWithdrawal = () => {
