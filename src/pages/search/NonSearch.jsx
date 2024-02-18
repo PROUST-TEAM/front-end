@@ -212,6 +212,12 @@ export default function NonSearch() {
     }
   };
 
+  const handleInputKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchButtonClick();
+    }
+  };
+
   return (
     <SearchWrap>
       {loading && (
@@ -238,6 +244,7 @@ export default function NonSearch() {
               placeholder="향수? 나에게 다 물어봐"
               value={searchText}
               onChange={handleInputChange}
+              onKeyDown={handleInputKeyDown}
             />
             <SearchButton to="#" onClick={handleSearchButtonClick}>
               <img src={searchImage} alt="SearchImg" />
