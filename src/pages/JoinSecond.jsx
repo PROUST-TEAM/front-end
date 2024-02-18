@@ -151,7 +151,9 @@ const StyledErrorMessage = styled.div`
   color: #b3261e;
   font-size: 16px;
   margin-top: -20px;
-  margin-left: 250px;
+  margin-right: 35px;
+  margin-bottom: 15px;
+  text-align: right;
   font-family: Pretendard;
 `;
 
@@ -267,7 +269,6 @@ const JoinSecond = () => {
           name: userName,
           confirmPassword: confirmPassword,
           UserAgree: 1,
-          userInputCode: authenticationCode,
         });
 
         console.log(response);
