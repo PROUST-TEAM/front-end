@@ -72,7 +72,7 @@ const StyledInput = styled.input`
   padding: 6px;
   margin-top: 5px;
   margin-bottom: 30px;
-  border: none;
+  border: 3px solid #f0f0f0;
   background-color: #f0f0f0;
   border-radius: 6px;
   font-family: Pretendard_Light;
@@ -85,7 +85,11 @@ const StyledNextButton = styled.button`
   height: 50px;
   padding: 6px;
   margin-top: 30px;
+<<<<<<< HEAD
+  margin-left: 14px;
+=======
   margin-left: 15px;
+>>>>>>> ade3bead313a0f71a241bd5fce8f96d5aed26859
   background-color: black;
   color: white;
   border: none;
@@ -109,7 +113,7 @@ const StyledLoginLink = styled(Link)`
 
 const StyledClearButton = styled.div`
   position: absolute;
-  right: 37px;
+  right: 20px;
   top: 38%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -161,7 +165,7 @@ const StyledSendButton = styled.button`
   height: 32px;
   padding: 7px;
   margin-top: -5px;
-  margin-left: 445px;
+  margin-left: 460px;
   margin-bottom: 10px;
   background-color: black;
   color: white;
@@ -187,6 +191,7 @@ const Join = () => {
   const navigate = useNavigate();
   const [isEmailClearButtonVisible, setIsEmailClearButtonVisible] =
     useState(false);
+  const [isNameClearButtonVisible, setIsNameClearButtonVisible] = useState(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
@@ -210,11 +215,13 @@ const Join = () => {
 
   const handleNameChange = (event) => {
     setUsername(event.target.value);
+    setIsNameClearButtonVisible(event.target.value !== "");
   };
 
   const handleInputChange = (event) => {
     setUsermail(event.target.value);
     handleInputValidation("mail-input", event.target.value);
+    setIsEmailClearButtonVisible(event.target.value !== "");
 
     const enteredEmail = event.target.value;
     setUsermail(enteredEmail);
@@ -231,12 +238,16 @@ const Join = () => {
   //   "authenticationcode-input"
   // );
 
-  const handleClearButtonClick = () => {
-    setUsername("");
-    handleInputValidation("name-input", "");
-
-    setUsermail("");
-    handleInputValidation("mail-input", "");
+  const handleClearButtonClick = (field) => {
+    if (field === 'name') {
+      setUsername("");
+      setIsNameClearButtonVisible(false);
+      handleInputValidation("name-input", "");
+    } else if (field === 'email') {
+      setUsermail("");
+      setIsEmailClearButtonVisible(false);
+      handleInputValidation("mail-input", "");
+    }
   };
 
   useEffect(() => {
@@ -439,8 +450,8 @@ const Join = () => {
             onChange={handleNameChange}
           />
           <StyledClearButton
-            visible={username !== ""}
-            onClick={handleClearButtonClick}
+            visible={isNameClearButtonVisible}
+            onClick={() => handleClearButtonClick('name')}
           >
             <img
               src={clearImage}
@@ -462,8 +473,8 @@ const Join = () => {
             onChange={handleInputChange}
           />
           <StyledClearButton
-            visible={usermail !== ""}
-            onClick={handleClearButtonClick}
+            visible={isEmailClearButtonVisible}
+            onClick={() => handleClearButtonClick('email')}
           >
             <img
               src={clearImage}

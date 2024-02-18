@@ -24,6 +24,8 @@ import MyPage from "./pages/MyPage";
 import MyPageModify from "./pages/MyPageModify";
 import Character from "./pages/Character";
 import ScrollToTop from "./ScrollToTop";
+import KakaoButton from "./KakaoButton";
+import KakaoCallback from "./KakaoCallback";
 
 function App() {
   return (
@@ -56,8 +58,11 @@ function App() {
           <Route path="/myPage" element={<MyPage />} />
           <Route path="/myPageModify" element={<MyPageModify />} />
           <Route path="/character" element={<Character />} />
+          <Route path="/user/kakao" element={<KakaoButton />} />
+          <Route path="/user/kakao/callback" element={<KakaoCallback />} />
         </Routes>
       </BrowserRouter>
+      
     </div>
   );
 }
