@@ -247,7 +247,7 @@ export default function Search() {
   const [isHeartFilled, setHeartFilled] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [response, setResponse] = useState([]);
-  // const [isLiked,setLiked] = useState([]);
+  const [likedPerfumes, setLikedPerfumes] = useState({});
   const [num, setNum] = useState(0);
 
   //const [hresponse, sethResponse] = useState([]);
@@ -277,60 +277,62 @@ export default function Search() {
       try {
         if (searchData && searchData.result) {
           const requests = searchData.result.map(async (item) => {
-            // console.log("Current item name:", item.name);
+            const sanitizedName = item.name.includes('/') ? convertToHex(item.name) : item.name;
+            console.log("sanitizedName fetch", sanitizedName);
 
-            // 기호가 포함되어 있다면 16진수로 변환
-          const sanitizedName = item.name.includes('/') ? convertToHex(item.name) : item.name;
+            if (token) {
+              const response = await axios.get(`${apiUrl}/${encodeURIComponent(sanitizedName)}/getPerfumes`);
+              const isLiked = token ? await checkPerfumeLiked(sanitizedName) : false;
 
-          if(token){
-            const response = await axios.get(`${apiUrl}/${encodeURIComponent(sanitizedName)}/getPerfumes`);
-            // 찜 여부 확인하기 (토큰이 있는 경우에만)
-            const isLiked = token ? await checkPerfumeLiked(item.name) : false;
-            setHeartFilled(isLiked);
-            return { ...response.data.result, isLiked };
-          }
-          else{
-            const response = await axios.get(`${apiUrl}/${sanitizedName}/getPerfumes`);
-            return response.data.result;
-          }
+              // Use the perfume name as the key to track liked state
+              setLikedPerfumes((prevLikedPerfumes) => ({
+                ...prevLikedPerfumes,
+                [sanitizedName]: isLiked,
+              }));
+
+              return { ...response.data.result, isLiked };
+            } else {
+              const response = await axios.get(`${apiUrl}/${sanitizedName}/getPerfumes`);
+              return response.data.result;
+            }
           });
           const results = await Promise.all(requests);
           console.log("향수 리스트:", results);
           setResponse(results);
-          
-          //console.log(response);
-        }
-        else{
+        } else {
           window.location.href = '/nonSearch';
         }
       } catch (error) {
         console.error("Error:", error);
       }
     };
-  
-    fetchData(); // 초기 마운트 시에도 데이터를 가져오도록 호출
+
+    fetchData();
     setSearchText('');
-    console.log('num 여부',num)
+    console.log('num 여부', num);
   }, [location.pathname, num]);
 
+
   const checkPerfumeLiked = async (perfumeName) => {
+    console.log("checkPerfumeLiked:", perfumeName);
     try {
-      const sanitizedName = perfumeName.includes('/') ? convertToHex(perfumeName) : perfumeName;
-  
-      const hresponse = await axios.patch(`${apiUrl}/${sanitizedName}/likePerfumes`, {
-        params:{
-          Name: sanitizedName,
+      const hresponse = await axios.get(`${apiUrl}/${encodeURIComponent(perfumeName)}/getLikes`, {
+        params: {
+          Name: perfumeName,
         },
         headers: {
-          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
+          Authorization: `Bearer ${token}`,
         },
       });
-  
-      if(hresponse.data.result.status === "A"){
-        
-      }
 
-      return hresponse.data.result.status === "A";
+      const likeContentsData = hresponse.data.result.like_contentsData;
+      console.log("likeConetentsData", likeContentsData);
+
+      if (likeContentsData.length === 0 || likeContentsData.status === "D") {
+        return false;
+      } else {
+        return true;
+      }
     } catch (error) {
       console.error("Error checking perfume liked status:", error);
       return false;
@@ -370,18 +372,15 @@ export default function Search() {
     }
   };
 
-
-  
-  
-  const onClickHeart = async (perfume, index) => {
+  const onClickHeart = async (name) => {
+    console.log(name);
     if (token) {
-      // 토큰이 있는 경우에만 찜 기능을 사용
       try {
         const response = await axios.patch(
-          `${apiUrl}/${perfume.name}/likePerfumes`,
+          `${apiUrl}/${name}/likePerfumes`,
           {
             params: {
-              Name: perfume.name,
+              Name: name,
             },
           },
           {
@@ -390,24 +389,23 @@ export default function Search() {
             },
           }
         );
-  
-        // 서버 응답 확인
-        console.log("향수 찜: ", response.data.result);
 
-        if(response.data.result.status === "A"){
-          setHeartFilled(true);
-        }
-        else{
-          setHeartFilled(false);
-        }
+        console.log("향수 찜: ", response.data.result);
+        const updatedLikedPerfumes = { ...likedPerfumes };
+        updatedLikedPerfumes[name] = response.data.result.status === "A";
+
+        setLikedPerfumes(updatedLikedPerfumes);
       } catch (error) {
         console.error("Error:", error);
       }
     } else {
-      // 토큰이 없는 경우에는 로그인 페이지로 이동
       navigate('/login');
     }
   };
+
+  useEffect(() => {
+    setLikedPerfumes({});
+  }, []);
 
   return (
     <RootWrap>
@@ -464,14 +462,15 @@ export default function Search() {
                   key={perfumeIndex}
                 >
                   <Perfume>
-                      <Heart
-                          onClick={(event) => {
-                          onClickHeart(convertToHex(perfume.name), perfumeIndex);
-                          event.preventDefault();
-                        }}
-                      >
-                      {perfume.isLiked ? <FaHeart /> : <FaRegHeart />}
-                          </Heart>
+                  <Heart
+                      isLiked={likedPerfumes[decodeURIComponent(perfume.name)]}
+                      onClick={(event) => {
+                        onClickHeart(decodeURIComponent(perfume.name));
+                        event.preventDefault();
+                      }}
+                    >
+                      {likedPerfumes[decodeURIComponent(perfume.name)] ? <FaHeart /> : <FaRegHeart />}
+                    </Heart>
                     <div>
                       <img
                         src={`https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/${perfume.imageUrl}`}
