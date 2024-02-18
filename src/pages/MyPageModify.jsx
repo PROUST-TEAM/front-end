@@ -223,39 +223,38 @@ export default function MyPage() {
   };
 
   const handleWithdrawConfirm = async () => {
-    setIsModalOpen(false);
-    alert('계정이 성공적으로 삭제되었습니다.');
-    // try {
-    //   const response = await axios.delete(`${apiUrl}/user/delete`, {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   });
+    try {
+      const response = await axios.delete(`${apiUrl}/user/delete`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    //   if (response.status === 200) {
-    //     // 삭제가 성공적으로 이루어진 경우의 로직
-    //     alert('계정이 성공적으로 삭제되었습니다.');
-    //     // 로컬 스토리지에서 토큰 삭제
-    //     localStorage.removeItem('token');
+      if (response.status === 200) {
+        setIsModalOpen(false);
+        // 삭제가 성공적으로 이루어진 경우의 로직
+        alert('계정이 성공적으로 삭제되었습니다.');
+        // 로컬 스토리지에서 토큰 삭제
+        localStorage.removeItem('token');
+        //localStorage.removeItem('savedEmail');
     
-    //     // 계정탈퇴 후 /home으로 이동
-    //     navigate('/home');  
+        // 계정탈퇴 후 /home으로 이동
+        navigate('/home');  
 
-    //     // 강제로 페이지 새로고침
-    //     window.location.reload();
-    //     setIsModalOpen(false);
-    //   } else {
-    //     // 서버에서 에러 응답이 왔을 때의 처리
-    //     console.error('계정 삭제에 실패했습니다.', response.statusText);
-    //     setIsModalOpen(false);
-    //   }
-    // } catch (error) {
-    //   // 네트워크 에러 등 예외가 발생했을 때의 처리
-    //   console.error('계정 삭제 중 에러가 발생했습니다.', error);
-    //   setIsModalOpen(false);
-    // } finally {
-    //   setIsModalOpen(false);
-    // }
+        // 강제로 페이지 새로고침
+        window.location.reload();
+      } else {
+        // 서버에서 에러 응답이 왔을 때의 처리
+        console.error('계정 삭제에 실패했습니다.', response.statusText);
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      // 네트워크 에러 등 예외가 발생했을 때의 처리
+      console.error('계정 삭제 중 에러가 발생했습니다.', error);
+      setIsModalOpen(false);
+    } finally {
+      setIsModalOpen(false);
+    }
   };
 
   const handleCompleteClick = async (event) => {

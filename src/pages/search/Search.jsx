@@ -310,7 +310,7 @@ export default function Search() {
     fetchData();
     setSearchText('');
     console.log('num 여부', num);
-  }, [location, num]);
+  }, [location.pathname, num]);
 
 
   const checkPerfumeLiked = async (perfumeName) => {
@@ -354,7 +354,6 @@ export default function Search() {
         if (response.data.isSuccess && response.data.result !== null) {
           navigate('/search', { state: { searchData: response.data }});
           setNum((prevNum) => prevNum + 1)
-          
         } else {
           navigate('/nonSearch'); // 경로 수정
           // setNum((prevNum) => prevNum + 1)
@@ -492,4 +491,4 @@ export default function Search() {
     )}
     </RootWrap>
   );
-                    }
+}
