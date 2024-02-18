@@ -132,53 +132,52 @@ const StartButton = styled.div`
 `;
 
 export default function MyList() {
-  const [isHeartFilled, setHeartFilled] = useState(true);
   const [activeFilters, setActiveFilters] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [response, setResponse] = useState([]);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/perfumeList`, {
-          params: {
-            Keyword: activeFilters,
-          },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        console.log("향수 리스트:", response);
-        setResponse(response.data.result);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    fetchData(); // 초기 마운트 시에도 데이터를 가져오도록 호출
-  }, [activeFilters]);
-
-  const onClickHeart = async (name) => {
-    //console.log(perfumeName);
-    //console.log(perfume.name);
-    const encodedName = encodeURIComponent(name);
-    const requestUrl = `https://dev.proust.store/${encodedName}/likePerfumes`;
-
-    console.log(name);
+  const fetchData = async () => {
     try {
-      const response = await axios.patch(requestUrl, {
+      const response = await axios.get(`${apiUrl}/perfumeList`, {
         params: {
-          Name: name,
+          Keyword: activeFilters,
         },
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      console.log("향수 리스트:", response.data.result);
+      setResponse(response.data.result);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(); // 초기 마운트 시에도 데이터를 가져오도록 호출
+  }, [activeFilters]);
+
+  const onClickHeart = async (name) => {
+    console.log(name);
+    try {
+      const response = await axios.patch(
+        `${apiUrl}/${name}/likePerfumes`,
+        {
+          params: {
+            Name: name,
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log("찜 설정:", response.data.result);
+      fetchData();
       //setResponse(response.data.result);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -252,7 +251,7 @@ export default function MyList() {
                       //console.log(perfume.name);
                     }}
                   >
-                    {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
+                    <FaHeart />
                   </Heart>
                   <div style={{ overflow: "hidden" }}>
                     <img
