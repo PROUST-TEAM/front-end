@@ -11,6 +11,7 @@ import kakaoImage from "../images/kakao.png";
 import naverImage from "../images/naver.png";
 import { GoogleLogin } from 'react-google-login';
 import KakaoLogin from 'react-kakao-login';
+import NaverLogin from 'react-naver-login';
 import axios from "axios";
 
 const StyledContainer = styled.div`
@@ -195,7 +196,7 @@ const StyledLoginButtonContainer = styled.div`
   display: flex;
   gap: 15px;
   margin-top: 15px;
-  margin-bottom: 70px;
+  margin-bottom: 68px;
   cursor: pointer;
 `;
 
@@ -358,7 +359,7 @@ export default function Login() {
 const handleGoogleLoginClick = () => {
   return (
     <GoogleLogin
-      clientId="28057228880-lk5chrh5rfqphkhfb5ckvocvt1vkcooh.apps.googleusercontent.com"
+      clientId="259951048619-egde61ikrbnm93stvus1rblp43l2v1nc.apps.googleusercontent.com"
       onSuccess={responseGoogle}
       onFailure={responseGoogle}
       cookiePolicy={'single_host_origin'}
@@ -391,6 +392,36 @@ const responseKakao = (response) => {
     console.error("Error during Kakao Sign-In API call:", error);
     // 에러 처리 로직을 추가
   });
+};
+
+const handleNaverLoginClick = () => {
+  const naverLoginButton = document.getElementById('naver-login-button');
+  
+  if (naverLoginButton) {
+    naverLoginButton.click();
+  } else {
+    console.error("네이버 로그인 버튼이 존재하지 않습니다.");
+  }
+};
+
+const handleNaverLoginButtonClick = () => {
+  return (
+    <>
+      <NaverLogin
+        clientId="1psM85IFXmJsYgUpmoLs"
+        callbackUrl="http://localhost:3000/user/naver/callback"
+        render={({ onClick }) => (
+          <div id="naver-login-button" onClick={onClick}></div>
+        )}
+      />
+      <img
+        src={naverImage}
+        alt="Naver"
+        style={{ width: "90px", height: "90px", cursor: "pointer" }}
+        onClick={handleNaverLoginClick}
+      />
+    </>
+  );
 };
 
   return (
@@ -500,7 +531,7 @@ const responseKakao = (response) => {
         <StyledLoginButtonContainer>
         <div onClick={handleGoogleLoginClick}>
           <GoogleLogin
-            clientId="275366161123-it85kl8s9rsulusbbtsk7icfc09n0hba.apps.googleusercontent.com"
+            clientId="259951048619-egde61ikrbnm93stvus1rblp43l2v1nc.apps.googleusercontent.com"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
             cookiePolicy={'single_host_origin'}
@@ -525,11 +556,22 @@ const responseKakao = (response) => {
           style={{ width: "90px", height: "90px", cursor: "pointer" }}
         />
         </KakaoLogin>
-        <img
-          src={naverImage}
-          alt="naver"
-          style={{ width: "90px", height: "90px", cursor: "pointer" }}
-        />
+        <div onClick={handleNaverLoginClick}>
+    <NaverLogin
+      clientId="1psM85IFXmJsYgUpmoLs"
+      callbackUrl="http://localhost:3000/user/naver/callback"
+      render={({ onClick }) => (
+        <div>
+          <div onClick={onClick}></div>
+        </div>
+      )}
+    />
+    <img
+      src={naverImage}
+      alt="Naver"
+      style={{ width: "90px", height: "90px", cursor: "pointer" }}
+    />
+  </div>
         </StyledLoginButtonContainer>
       </StyledContent>
     </>
