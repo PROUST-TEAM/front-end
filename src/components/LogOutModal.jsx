@@ -72,7 +72,7 @@ const LogOutModal = ({ onClose, handleLogout }) => {
     localStorage.removeItem('token');
     
     // 로그아웃 후 /home으로 이동
-    navigate('/home');  
+    navigate('/login');  
 
     // 강제로 페이지 새로고침
     window.location.reload();
@@ -85,7 +85,7 @@ const LogOutModal = ({ onClose, handleLogout }) => {
      <ModalOverlay>
         <ModalContent>
         <Title>로그아웃</Title>
-        <p>로그아웃을 하시면 메인 화면으로 돌아갑니다</p>
+        <p>로그아웃을 하시면 로그인 화면으로 돌아갑니다</p>
         <p>정말로 로그아웃하시겠습니까?</p>
         <button className="cancel" onClick={onClose}>
               취소
