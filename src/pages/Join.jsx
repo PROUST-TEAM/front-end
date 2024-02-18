@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Image from "../images/third_charac.png";
 import clearImage from "../images/clear_Icon.png";
@@ -67,7 +67,7 @@ const StyledInputContainer = styled.div`
 `;
 
 const StyledInput = styled.input`
-width: 560px;
+  width: 560px;
   height: 48px;
   padding: 6px;
   margin-top: 5px;
@@ -199,19 +199,15 @@ const StyledClauseMessage = styled.p`
   color: black;
 `;
 
-const StyledClauseLink = styled(Link)`
-  color: #4aa2f3;;
-  text-decoration: underline;
-`;
-
 const StyledCheckbox = styled.input`
   margin-left: 10px;
   width: 20px;
-  Height:20px;
+  height: 20px;
 `;
 
 const Join = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isEmailClearButtonVisible, setIsEmailClearButtonVisible] =
     useState(false);
   const [isNameClearButtonVisible, setIsNameClearButtonVisible] =
@@ -219,8 +215,8 @@ const Join = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
-  const [username, setUsername] = useState("");
-  const [usermail, setUsermail] = useState("");
+  const [username, setUsername] = useState(location?.state?.Name || ""); // Use the state value if available
+  const [usermail, setUsermail] = useState(location?.state?.Email || "");
   const [authenticationcode, setAuthenticationcode] = useState("");
   const [isNexted, setIsNexted] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(true);
@@ -493,10 +489,7 @@ const Join = () => {
           </StyledClearButton>
         </StyledInputContainer>
         {usermail !== "" && !isEmailValid && (
-          <StyledErrorMessage>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;유효하지
-            않은 이메일입니다.
-          </StyledErrorMessage>
+          <StyledErrorMessage>유효하지 않은 이메일입니다.</StyledErrorMessage>
         )}
         <StyledSendButton onClick={sendMail}>
           {sendButtonText}
@@ -520,10 +513,22 @@ const Join = () => {
           />
         </StyledPasswordContainer>
         <StyledClauseContainer>
-          <StyledClauseMessage><StyledClauseLink to="/clause">이용약관</StyledClauseLink>에 전체 동의합니다.</StyledClauseMessage>
-          <StyledCheckbox
-          type="checkbox"
-        />
+          <StyledClauseMessage>
+            <Link
+              to={{
+                pathname: `/clause`,
+                state: {
+                  Name: username,
+                  Email: usermail,
+                },
+              }}
+              style={{ color: "#4aa2f3", textDecoration: "underline" }}
+            >
+              이용약관
+            </Link>
+            에 전체 동의합니다.
+          </StyledClauseMessage>
+          <StyledCheckbox type="checkbox" />
         </StyledClauseContainer>
         <StyledNextButton onClick={nextClick}>다음</StyledNextButton>
       </StyledContent>
@@ -532,4 +537,3 @@ const Join = () => {
 };
 
 export default Join;
-
