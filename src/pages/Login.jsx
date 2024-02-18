@@ -9,8 +9,6 @@ import pointImage from "../images/point.png";
 import googleImage from "../images/google.png";
 import kakaoImage from "../images/kakao.png";
 import naverImage from "../images/naver.png";
-import { GoogleLogin } from "react-google-login";
-import KakaoLogin from "react-kakao-login";
 import axios from "axios";
 
 const StyledContainer = styled.div`
@@ -82,7 +80,7 @@ const StyledInputPw = styled.input`
   font-family: Pretendard_Light;
   font-size: 16px;
   text-indent: 20px;
-  //border: 2px solid ${({ isValid }) => (isValid ? "#ccc" : "#b3261e;")};
+  border: 2px solid ${({ isValid }) => (isValid ? "#ccc" : "#b3261e;")};
 `;
 
 const StyledClearButton = styled.div`
@@ -248,20 +246,17 @@ export default function Login() {
 
   const handleEmailChange = (event) => {
     const emailValue = event.target.value;
-    //console.log(emailValue);
     setUsermail(emailValue);
     setIsValidEmail(validateEmail(emailValue));
   };
 
   const handlePWChange = (event) => {
     const PWValue = event.target.value;
-    //console.log(PWValue);
     setPassword(PWValue);
     setIsValidPW(validatePW(PWValue));
   };
 
   useEffect(() => {
-    //console.log(isClicked);
     const storedEmail = localStorage.getItem("savedEmail");
     if (storedEmail) {
       setIsClicked(true);
@@ -362,29 +357,39 @@ export default function Login() {
   };
 
   const ClickgoogleLogin = async () => {
+    console.log("구글");
     try {
       const response = await axios.get(`${apiUrl}/user/google`);
       console.log(response);
     } catch (error) {
       console.error("Error google login:", error);
+      console.log(error.config.url);
+      window.location.href = error.config.url;
     }
   };
 
   const ClickkakaoLogin = async () => {
+    console.log("카카오");
     try {
-      const response = await axios.get(`${apiUrl}/user/kakao`);
+      const response = await await axios.get(`${apiUrl}/user/kakao`);
       console.log(response);
+      window.location.href = response.data;
     } catch (error) {
       console.error("Error kakao login:", error);
+      console.log(error.config.url);
+      window.location.href = error.config.url;
     }
   };
 
   const ClicknaverLogin = async () => {
+    console.log("네이버");
     try {
       const response = await axios.get(`${apiUrl}/user/naver`);
       console.log(response);
     } catch (error) {
       console.error("Error naver login:", error);
+      console.log(error.config.url);
+      window.location.href = error.config.url;
     }
   };
 
