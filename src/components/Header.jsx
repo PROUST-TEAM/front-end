@@ -469,6 +469,12 @@ export default function Header() {
     window.removeEventListener('scroll', handleScroll);
     };
   }, [loading]);
+
+  const handleInputKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchButtonClick();
+    }
+  };
   
   return (
     <>
@@ -633,6 +639,7 @@ export default function Header() {
             placeholder="향수? 나에게 다 물어봐"
             value={searchText}
             onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
           />
           <SearchButton
             to="#"

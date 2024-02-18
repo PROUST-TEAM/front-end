@@ -156,7 +156,9 @@ export default function Column() {
                 ...motionDivStyle,
                 ...getItemStyle(item.id),
                 backgroundColor: selectedId === item.id ? "#FFFFFF" : motionDivStyle.background,
+                cursor: "pointer", 
               }}
+              whileHover={{ backgroundColor: "#F0F0F0" }}
             >
               <motion.h2 style={motionTextStyle}>{item.title}</motion.h2>
               <motion.h5 style={motionTextStyle2}>

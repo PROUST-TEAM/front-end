@@ -243,6 +243,7 @@ const LoaderMessage = styled.div`
   }
 `;
 
+
 export default function Search() {
   const [isHeartFilled, setHeartFilled] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -406,6 +407,12 @@ export default function Search() {
     setLikedPerfumes({});
   }, []);
 
+  const handleInputKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchButtonClick();
+    }
+  };
+
   return (
     <RootWrap>
       {loading && (
@@ -435,6 +442,7 @@ export default function Search() {
             placeholder="향수? 나에게 다 물어봐"
             value={searchText}
             onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
           />
           <SearchButton to="#" onClick={handleSearchButtonClick}>
             <img src={searchImage} alt="SearchImg" />
