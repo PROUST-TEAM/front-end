@@ -132,17 +132,6 @@ const ReceiptTop = styled.div`
   border-radius: 17.77px 17.77px 35.54px 35.54px;
 `;
 
-const Heart = styled.div`
-  display: inline;
-  > svg {
-    color: #282727;
-    width: 31px;
-    height: 28px;
-    margin-top: 25px;
-    padding: 0px;
-    margin-right: -430px;
-  }
-`;
 const Explanation = styled.div`
   margin: 25px 50px 40px 50px;
   font-family: Pretendard_Medium;
@@ -185,21 +174,22 @@ const titleStyle = {
   color: "#282727",
   margin: "0px 0 20px 0",
   display: "inline-block",
+  marginTop: "45px",
 };
+
 export default function PerfumeDetail() {
-  const [isHeartFilled, setHeartFilled] = useState(true);
   const apiUrl = process.env.REACT_APP_API_URL;
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [response, setResponse] = useState([]);
-  const [perfumeName, setPerfumeName] = useState();
   const location = useLocation();
+  const [perfumeName, setPerfumeName] = useState(location.state.name);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setPerfumeName(location.state.name);
+        setPerfumeName(perfumeName);
 
-        if (location.state.name) {
+        if (perfumeName) {
           const response = await axios.get(
             `${apiUrl}/${location.state.name}/getPerfumes`,
             {
@@ -225,26 +215,6 @@ export default function PerfumeDetail() {
     fetchData();
   }, [location.state.name]);
 
-  const onClickHeart = async (perfume) => {
-    console.log(perfume.name);
-    axios
-      .patch(`${apiUrl}/${perfume.name}/likePerfumes`, {
-        params: {
-          Name: perfume.name,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
-        },
-      })
-      .then((response) => {
-        // 서버 응답 확인
-        console.log("향수 찜: ", response.data.result);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
   return (
     <PerfimeDetailWrap>
       <PerfumeDetailContent>
@@ -263,23 +233,11 @@ export default function PerfumeDetail() {
             {response &&
               response.perfume_contentsData &&
               response.perfume_contentsData.map((perfume, index) => (
-                <ReceiptTop>
-                  <Heart
-                    onClick={(event) => {
-                      console.log(response);
-                      onClickHeart(perfume); // 하트 클릭 시 동작할 함수
-                      console.log(perfume.name);
-                      event.preventDefault();
-                    }}
-                  >
-                    {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-                  </Heart>
+                <ReceiptTop key={index}>
                   <br />
                   <p style={titleStyle}>{perfume.name}</p>
                   <p style={textStyle}>{perfume.nameKor}</p>
-                  <p style={textStyle}>
-                    #신비로운 바닐라 #스파이스 #달달함 #우디
-                  </p>
+                  <p style={textStyle}>{perfume.hashtag}</p>
                   <div style={lineStyle} />
                   <div>
                     <img
@@ -293,10 +251,7 @@ export default function PerfumeDetail() {
                     />
                   </div>
                   <Explanation>
-                    <span>
-                      {perfume.description}
-                      {/* {perfume.description} */}
-                    </span>
+                    <span>{perfume.description}</span>
                   </Explanation>
                 </ReceiptTop>
               ))}
