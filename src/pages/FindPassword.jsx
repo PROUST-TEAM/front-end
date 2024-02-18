@@ -8,10 +8,10 @@ import pointImage from "../images/point.png";
 import axios from "axios";
 
 const StyledContainer = styled.div`
-display: flex;
-justify-content: center;
-height: 100vh;
-background-color: white;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  background-color: white;
 `;
 
 const StyledContent = styled.div`
@@ -304,10 +304,6 @@ const FindPassword = () => {
             <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
           )}
         </div>
-<<<<<<< HEAD
-        <div style={{ position: 'absolute', transform: 'translate(900%, 541.5%)', zIndex: 2 }}>
-          {(isNexted && !usermail) && (
-=======
         <div
           style={{
             position: "absolute",
@@ -316,7 +312,6 @@ const FindPassword = () => {
           }}
         >
           {isNexted && !usermail && (
->>>>>>> ade3bead313a0f71a241bd5fce8f96d5aed26859
             <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
           )}
         </div>

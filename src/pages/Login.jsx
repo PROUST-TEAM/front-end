@@ -9,14 +9,8 @@ import pointImage from "../images/point.png";
 import googleImage from "../images/google.png";
 import kakaoImage from "../images/kakao.png";
 import naverImage from "../images/naver.png";
-<<<<<<< HEAD
-import { GoogleLogin } from 'react-google-login';
-import KakaoLogin from 'react-kakao-login';
-//import NaverLogin from 'react-naver-login';
-=======
 import { GoogleLogin } from "react-google-login";
 import KakaoLogin from "react-kakao-login";
->>>>>>> ade3bead313a0f71a241bd5fce8f96d5aed26859
 import axios from "axios";
 
 const StyledContainer = styled.div`
@@ -388,51 +382,53 @@ export default function Login() {
     }
   };
 
-const handleGoogleLoginClick = () => {
-  return (
-    <GoogleLogin
-      clientId="259951048619-egde61ikrbnm93stvus1rblp43l2v1nc.apps.googleusercontent.com"
-      onSuccess={responseGoogle}
-      onFailure={responseGoogle}
-      cookiePolicy={'single_host_origin'}
-    />
-  );
-};
+  const handleGoogleLoginClick = () => {
+    return (
+      <GoogleLogin
+        clientId="259951048619-egde61ikrbnm93stvus1rblp43l2v1nc.apps.googleusercontent.com"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={"single_host_origin"}
+      />
+    );
+  };
 
-// const handleNaverLoginClick = () => {
-//   const naverLoginButton = document.getElementById('naver-login-button');
-  
-//   if (naverLoginButton) {
-//     naverLoginButton.click();
-//   } else {
-//     console.error("네이버 로그인 버튼이 존재하지 않습니다.");
-//   }
-// };
+  // const handleNaverLoginClick = () => {
+  //   const naverLoginButton = document.getElementById('naver-login-button');
 
-// const handleNaverLoginButtonClick = () => {
-//   return (
-//     <>
-//       <NaverLogin
-//         clientId="1psM85IFXmJsYgUpmoLs"
-//         callbackUrl="http://localhost:3000/user/naver/callback"
-//         render={({ onClick }) => (
-//           <div id="naver-login-button" onClick={onClick}></div>
-//         )}
-//       />
-//       <img
-//         src={naverImage}
-//         alt="Naver"
-//         style={{ width: "90px", height: "90px", cursor: "pointer" }}
-//         onClick={handleNaverLoginClick}
-//       />
-//     </>
-//   );
-// };
+  //   if (naverLoginButton) {
+  //     naverLoginButton.click();
+  //   } else {
+  //     console.error("네이버 로그인 버튼이 존재하지 않습니다.");
+  //   }
+  // };
 
-const handleKakaoLoginClick = () => {
-  const redirectUri = `${window.location.origin}/user/kakao/callback`;
-  window.location.href = `${apiUrl}/user/kakao?redirectUri=${encodeURIComponent(redirectUri)}`;
-};
+  // const handleNaverLoginButtonClick = () => {
+  //   return (
+  //     <>
+  //       <NaverLogin
+  //         clientId="1psM85IFXmJsYgUpmoLs"
+  //         callbackUrl="http://localhost:3000/user/naver/callback"
+  //         render={({ onClick }) => (
+  //           <div id="naver-login-button" onClick={onClick}></div>
+  //         )}
+  //       />
+  //       <img
+  //         src={naverImage}
+  //         alt="Naver"
+  //         style={{ width: "90px", height: "90px", cursor: "pointer" }}
+  //         onClick={handleNaverLoginClick}
+  //       />
+  //     </>
+  //   );
+  // };
+
+  const handleKakaoLoginClick = () => {
+    const redirectUri = `${window.location.origin}/user/kakao/callback`;
+    window.location.href = `${apiUrl}/user/kakao?redirectUri=${encodeURIComponent(
+      redirectUri
+    )}`;
+  };
 
   const responseKakao = (response) => {
     axios
@@ -578,48 +574,48 @@ const handleKakaoLoginClick = () => {
           <StyledText>─────────────────</StyledText>
         </StyledFooter>
         <StyledLoginButtonContainer>
-        <div onClick={handleGoogleLoginClick}>
-          <GoogleLogin
-            clientId="259951048619-egde61ikrbnm93stvus1rblp43l2v1nc.apps.googleusercontent.com"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={'single_host_origin'}
-            render={renderProps => (
-              <img
-                src={googleImage}
-                alt="Google"
-                style={{ width: "90px", height: "90px", cursor: "pointer" }}
-               onClick={renderProps.onClick}
-              />
-             )}
-          />
-        </div> 
-        {/* <div>
+          <div onClick={handleGoogleLoginClick}>
+            <GoogleLogin
+              clientId="259951048619-egde61ikrbnm93stvus1rblp43l2v1nc.apps.googleusercontent.com"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+              render={(renderProps) => (
+                <img
+                  src={googleImage}
+                  alt="Google"
+                  style={{ width: "90px", height: "90px", cursor: "pointer" }}
+                  onClick={renderProps.onClick}
+                />
+              )}
+            />
+          </div>
+          {/* <div>
           <KakaoButton />  
         </div> */}
-        {/* <KakaoLogin
+          {/* <KakaoLogin
         token="aceaf7ca176ee32a2d617f4efacf4849"
         onSuccess={responseKakao}
         onFail={(error) => console.error('Kakao Login Error:', error)}
         > */}
-        <KakaoLogin
-        token="aceaf7ca176ee32a2d617f4efacf4849"
-        onSuccess={responseKakao}
-        onFail={(error) => console.error('Kakao Login Error:', error)}
-        >
-        <img
-          src={kakaoImage}
-          alt="Kakao"
-          style={{ width: "90px", height: "90px", cursor: "pointer" }}
-        />
-        </KakaoLogin>
-        {/* <img
+          <KakaoLogin
+            token="aceaf7ca176ee32a2d617f4efacf4849"
+            onSuccess={responseKakao}
+            onFail={(error) => console.error("Kakao Login Error:", error)}
+          >
+            <img
+              src={kakaoImage}
+              alt="Kakao"
+              style={{ width: "90px", height: "90px", cursor: "pointer" }}
+            />
+          </KakaoLogin>
+          {/* <img
           src={kakaoImage}
           alt="Kakao"
           style={{ width: "90px", height: "90px", cursor: "pointer" }}
         /> */}
-        {/* </KakaoLogin> */}
-        {/* <div onClick={handleNaverLoginClick}>
+          {/* </KakaoLogin> */}
+          {/* <div onClick={handleNaverLoginClick}>
       <NaverLogin
       clientId="1psM85IFXmJsYgUpmoLs"
       callbackUrl="http://localhost:3000/user/naver/callback"
@@ -629,12 +625,12 @@ const handleKakaoLoginClick = () => {
         </div>
       )}
     /> */}
-    <img
-      src={naverImage}
-      alt="Naver"
-      style={{ width: "90px", height: "90px", cursor: "pointer" }}
-    />
-  {/* </div> */}
+          <img
+            src={naverImage}
+            alt="Naver"
+            style={{ width: "90px", height: "90px", cursor: "pointer" }}
+          />
+          {/* </div> */}
         </StyledLoginButtonContainer>
       </StyledContent>
     </>
