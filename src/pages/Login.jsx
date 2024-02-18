@@ -9,8 +9,8 @@ import pointImage from "../images/point.png";
 import googleImage from "../images/google.png";
 import kakaoImage from "../images/kakao.png";
 import naverImage from "../images/naver.png";
-import { GoogleLogin } from 'react-google-login';
-import KakaoLogin from 'react-kakao-login';
+import { GoogleLogin } from "react-google-login";
+import KakaoLogin from "react-kakao-login";
 import axios from "axios";
 
 const StyledContainer = styled.div`
@@ -209,6 +209,17 @@ export default function Login() {
   const apiUrl = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("savedEmail");
+    const isEmailSaved = storedEmail ? true : false;
+
+    setIsClicked(isEmailSaved);
+
+    if (isEmailSaved) {
+      setUsermail(storedEmail);
+    }
+  }, []);
+
   const onClickLogin = async (event) => {
     try {
       const response = await axios.post(`${apiUrl}/user/login`, {
@@ -221,12 +232,12 @@ export default function Login() {
 
       // 로그인 토큰 저장
       localStorage.setItem("token", response.data.result.token);
+      setIsLoggedIn(true);
 
       // 로그인 성공 후 페이지 이동
       navigate("/home");
       // 강제로 페이지 새로고침
       window.location.reload();
-      
     } catch (error) {
       console.error("Error during API call:", error);
       alert("존재하지 않는 이메일입니다.");
@@ -265,10 +276,8 @@ export default function Login() {
       passwordInput.classList.remove("placeholder-red");
     }
 
-    setIsLoggedIn(true);
-
     if (isClicked) {
-      setPassword("");
+      //setPassword("");
       const storedEmail = localStorage.getItem("savedEmail");
       if (storedEmail) {
         setUsermail(storedEmail);
@@ -287,7 +296,7 @@ export default function Login() {
 
   const handleSwitchClick = () => {
     setIsClicked(!isClicked);
-  
+
     if (!isClicked && usermail.trim() !== "") {
       localStorage.setItem("savedEmail", usermail);
     } else {
@@ -295,42 +304,19 @@ export default function Login() {
     }
   };
 
-  useEffect(() => {
-    const storedEmail = localStorage.getItem("savedEmail");
-    const isEmailSaved = storedEmail ? true : false;
-    
-    setIsClicked(isEmailSaved);
-    
-    if (isEmailSaved) {
-      setUsermail(storedEmail);
-    }
-  }, []);
-
-  const handleInputChange = (event) => {
-    setUsermail(event.target.value);
-  };
-
-  const handleClearButtonClick = () => {
-    setUsermail("");
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
   const handlePasswordVisibility = () => {
     setIsImageChanging(true);
-  
+
     setTimeout(() => {
       setIsPasswordVisible(!isPasswordVisible);
-      setIsImageChanging(false); 
+      setIsImageChanging(false);
     }, 300);
   };
 
   const handlePasswordButtonClick = () => {
-    const currentPassword = userpw;
-    setPassword("");
-    setTimeout(() => setPassword(currentPassword), 0);
+    // const currentPassword = userpw;
+    // setPassword("");
+    // setTimeout(() => setPassword(currentPassword), 0);
   };
 
   const responseGoogle = async (response) => {
@@ -341,57 +327,59 @@ export default function Login() {
 
       if (googleResponse.status === 200 && googleResponse.data.isSuccess) {
         console.log("Google Login Success");
-
-    } else {
-      console.error("Google Login Error:", googleResponse.data);
-      if (googleResponse.status === 400) {
-        alert(googleResponse.data.message);
-      } else if (googleResponse.status === 500) {
-        alert("서버 에러, 관리자에게 문의 바랍니다.");
+      } else {
+        console.error("Google Login Error:", googleResponse.data);
+        if (googleResponse.status === 400) {
+          alert(googleResponse.data.message);
+        } else if (googleResponse.status === 500) {
+          alert("서버 에러, 관리자에게 문의 바랍니다.");
+        }
       }
-    }
-  } catch (error) {
-    console.error("Error during Google Sign-In API call:", error);
+    } catch (error) {
+      console.error("Error during Google Sign-In API call:", error);
     }
   };
 
-const handleGoogleLoginClick = () => {
-  return (
-    <GoogleLogin
-      clientId="28057228880-lk5chrh5rfqphkhfb5ckvocvt1vkcooh.apps.googleusercontent.com"
-      onSuccess={responseGoogle}
-      onFailure={responseGoogle}
-      cookiePolicy={'single_host_origin'}
-    />
-  );
-};
+  const handleGoogleLoginClick = () => {
+    return (
+      <GoogleLogin
+        clientId="28057228880-lk5chrh5rfqphkhfb5ckvocvt1vkcooh.apps.googleusercontent.com"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={"single_host_origin"}
+      />
+    );
+  };
 
-const handleKakaoLoginClick = () => {
-  const redirectUri = `${window.location.origin}/user/kakao/callback`;
-  window.location.href = `${apiUrl}/user/kakao?redirectUri=${encodeURIComponent(redirectUri)}`;
-};
+  const handleKakaoLoginClick = () => {
+    const redirectUri = `${window.location.origin}/user/kakao/callback`;
+    window.location.href = `${apiUrl}/user/kakao?redirectUri=${encodeURIComponent(
+      redirectUri
+    )}`;
+  };
 
-const responseKakao = (response) => {
-  axios.post(`${apiUrl}/user/kakao/callback`, {
-    code: response.code,
-  })
-  .then((kakaoResponse) => {
-    if (kakaoResponse.status === 200 && kakaoResponse.data.isSuccess) {
-      console.log("Kakao Login Success");
-    } else {
-      console.error("Kakao Login Error:", kakaoResponse.data);
-      if (kakaoResponse.status === 400) {
-        alert(kakaoResponse.data.message);
-      } else if (kakaoResponse.status === 500) {
-        alert("서버 에러, 관리자에게 문의 바랍니다.");
-      }
-    }
-  })
-  .catch((error) => {
-    console.error("Error during Kakao Sign-In API call:", error);
-    // 에러 처리 로직을 추가
-  });
-};
+  const responseKakao = (response) => {
+    axios
+      .post(`${apiUrl}/user/kakao/callback`, {
+        code: response.code,
+      })
+      .then((kakaoResponse) => {
+        if (kakaoResponse.status === 200 && kakaoResponse.data.isSuccess) {
+          console.log("Kakao Login Success");
+        } else {
+          console.error("Kakao Login Error:", kakaoResponse.data);
+          if (kakaoResponse.status === 400) {
+            alert(kakaoResponse.data.message);
+          } else if (kakaoResponse.status === 500) {
+            alert("서버 에러, 관리자에게 문의 바랍니다.");
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("Error during Kakao Sign-In API call:", error);
+        // 에러 처리 로직을 추가
+      });
+  };
 
   return (
     <>
@@ -417,6 +405,7 @@ const responseKakao = (response) => {
             transform: "translate(440%, 960%)",
             zIndex: 2,
             visibility: isImageChanging ? "hidden" : "visible",
+            marginTop: "10px",
           }}
         >
           {isLoggedIn && !usermail && (
@@ -429,6 +418,7 @@ const responseKakao = (response) => {
             transform: "translate(440%, 1329%)",
             zIndex: 2,
             visibility: isImageChanging ? "hidden" : "visible",
+            marginTop: "10px",
           }}
         >
           {isLoggedIn && userpw.trim() === "" && (
@@ -444,11 +434,15 @@ const responseKakao = (response) => {
             type="text"
             placeholder="이메일을 입력하세요."
             value={usermail}
-            onChange={handleInputChange}
+            onChange={(event) => {
+              setUsermail(event.target.value);
+            }}
           />
           <StyledClearButton
             visible={usermail !== ""}
-            onClick={handleClearButtonClick}
+            onClick={() => {
+              setUsermail("");
+            }}
           >
             {" "}
             <img
@@ -466,7 +460,9 @@ const responseKakao = (response) => {
           type={isPasswordVisible ? "password" : "text"}
           placeholder="비밀번호를 입력하세요."
           defaultValue={userpw}
-          onChange={handlePasswordChange}
+          onChange={(event) => {
+            setPassword(event.target.value);
+          }}
         />
         <StyledpwButton
           visible={userpw !== ""}
@@ -498,38 +494,38 @@ const responseKakao = (response) => {
           <StyledText>─────────────────</StyledText>
         </StyledFooter>
         <StyledLoginButtonContainer>
-        <div onClick={handleGoogleLoginClick}>
-          <GoogleLogin
-            clientId="275366161123-it85kl8s9rsulusbbtsk7icfc09n0hba.apps.googleusercontent.com"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={'single_host_origin'}
-            render={renderProps => (
-              <img
-                src={googleImage}
-                alt="Google"
-                style={{ width: "90px", height: "90px", cursor: "pointer" }}
-                onClick={renderProps.onClick}
-              />
-            )}
+          <div onClick={handleGoogleLoginClick}>
+            <GoogleLogin
+              clientId="275366161123-it85kl8s9rsulusbbtsk7icfc09n0hba.apps.googleusercontent.com"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+              render={(renderProps) => (
+                <img
+                  src={googleImage}
+                  alt="Google"
+                  style={{ width: "90px", height: "90px", cursor: "pointer" }}
+                  onClick={renderProps.onClick}
+                />
+              )}
+            />
+          </div>
+          <KakaoLogin
+            token="aceaf7ca176ee32a2d617f4efacf4849"
+            onSuccess={responseKakao}
+            onFail={(error) => console.error("Kakao Login Error:", error)}
+          >
+            <img
+              src={kakaoImage}
+              alt="Kakao"
+              style={{ width: "90px", height: "90px", cursor: "pointer" }}
+            />
+          </KakaoLogin>
+          <img
+            src={naverImage}
+            alt="naver"
+            style={{ width: "90px", height: "90px", cursor: "pointer" }}
           />
-        </div>
-        <KakaoLogin
-        token="aceaf7ca176ee32a2d617f4efacf4849"
-        onSuccess={responseKakao}
-        onFail={(error) => console.error('Kakao Login Error:', error)}
-        >
-        <img
-          src={kakaoImage}
-          alt="Kakao"
-          style={{ width: "90px", height: "90px", cursor: "pointer" }}
-        />
-        </KakaoLogin>
-        <img
-          src={naverImage}
-          alt="naver"
-          style={{ width: "90px", height: "90px", cursor: "pointer" }}
-        />
         </StyledLoginButtonContainer>
       </StyledContent>
     </>
