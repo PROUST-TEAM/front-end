@@ -54,7 +54,8 @@ const StyledImage = styled.img`
 const StyledWord = styled.div`
   font-size: 23px;
   font-family: Pretendard_Bold;
-  margin-right: 450px;
+  margin-left: 30px;
+  text-align: left;
   margin-bottom: 7px;
 `;
 
@@ -83,7 +84,8 @@ const StyledNextButton = styled.button`
   width: 572px;
   height: 50px;
   padding: 6px;
-  margin-top: 50px;
+  margin-top: 30px;
+  margin-left: 15px;
   background-color: black;
   color: white;
   border: none;
@@ -149,7 +151,8 @@ const StyledErrorMessage = styled.div`
   color: #b3261e;
   font-size: 16px;
   margin-top: -20px;
-  margin-left: 250px;
+  margin-left: 350px;
+  margin-bottom: 20px;
   font-family: Pretendard;
 `;
 
@@ -157,9 +160,9 @@ const StyledSendButton = styled.button`
   width: 120px;
   height: 32px;
   padding: 7px;
-  margin-top: 7px;
+  margin-top: -5px;
   margin-left: 445px;
-  margin-bottom: 4px;
+  margin-bottom: 10px;
   background-color: black;
   color: white;
   border: none;
@@ -199,7 +202,7 @@ const Join = () => {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
   const apiUrl = process.env.REACT_APP_API_URL;
-  const [response, setResponse] = useState([]);
+  const [response, setResponse] = useState();
 
   const handleBackToLogin = () => {
     navigate("/login");
@@ -222,13 +225,11 @@ const Join = () => {
     setIsEmailValid(isValid);
   };
 
-  const handleAuthenticationCodeChange = (event) => {
-    setAuthenticationcode(event.target.value);
-  };
+  // const handleAuthenticationCodeChange = (event) => {
 
-  const authenticationcodeInput = document.getElementById(
-    "authenticationcode-input"
-  );
+  // const authenticationcodeInput = document.getElementById(
+  //   "authenticationcode-input"
+  // );
 
   const handleClearButtonClick = () => {
     setUsername("");
@@ -288,8 +289,8 @@ const Join = () => {
           id: usermail,
         });
 
-        console.log("인증번호", response);
-        //setResponse(response.data.result);
+        console.log("인증번호", response.data.result);
+        setResponse(response.data.result);
       } catch (error) {
         console.error("Error signup request:", error);
       }
@@ -299,11 +300,11 @@ const Join = () => {
   };
 
   const nextClick = () => {
-    const usernameInput = document.getElementById("name-input");
-    const usermailInput = document.getElementById("mail-input");
-    const authenticationcodeInput = document.getElementById(
-      "authenticationcode-input"
-    );
+    // const usernameInput = document.getElementById("name-input");
+    // const usermailInput = document.getElementById("mail-input");
+    // const authenticationcodeInput = document.getElementById(
+    //   "authenticationcode-input"
+    // );
 
     if (!username) {
       handleInputValidation("name-input", username);
@@ -324,32 +325,32 @@ const Join = () => {
       const isValid = emailRegex.test(usermail) && usermail.length <= 320;
 
       if (isValid) {
-        console.log(authenticationcode);
-        const confirmCode = async () => {
-          try {
-            const response = await axios.post(`${apiUrl}/user/signup/valid`, {
-              userInputCode: authenticationcode,
-            });
-            console.log(authenticationcode);
-            console.log(response);
-            //setResponse(response.data.result);
-          } catch (error) {
-            console.error("Error signup request:", error);
-          }
-        };
+        console.log("내가 입력한 코드", authenticationcode);
+        console.log("입력해야 할 코드", response);
+        // const confirmCode = async () => {
+        //   try {
+        //     const response = await axios.post(`${apiUrl}/user/signup/valid`, {
+        //       userInputCode: authenticationcode,
+        //     });
+        //     console.log(authenticationcode);
+        //     console.log(response);
+        //     //setResponse(response.data.result);
+        //   } catch (error) {
+        //     console.error("Error signup request:", error);
+        //   }
+        // };
 
-        confirmCode();
-        // if (response == authenticationcode) {
-        //   navigate("/join-second", {
-        //     state: {
-        //       userEmail: usermail,
-        //       userName: username,
-        //       authenticationCode: response,
-        //     },
-        //   });
-        // } else {
-        //   alert("인증 번호가 일치하지 않습니다.");
-        // }
+        //confirmCode();
+        if (response == authenticationcode) {
+          navigate("/join-second", {
+            state: {
+              userEmail: usermail,
+              userName: username,
+            },
+          });
+        } else {
+          alert("인증 번호가 일치하지 않습니다.");
+        }
       }
     }
   };
@@ -490,9 +491,12 @@ const Join = () => {
             id="authenticationcode-input"
             text="type"
             placeholder="인증번호를 입력하세요."
-            data-placeholder="인증번호가 맞지 않습니다."
+            data-placeholder="인증번호를 입력하세요."
             value={authenticationcode}
-            onChange={handleAuthenticationCodeChange}
+            onChange={(event) => {
+              setAuthenticationcode(event.target.value);
+              //console.log(event.target.value);
+            }}
           />
         </StyledPasswordContainer>
         <StyledNextButton onClick={nextClick}>다음</StyledNextButton>

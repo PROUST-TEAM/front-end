@@ -3,7 +3,7 @@ import styled from "styled-components";
 import topImage from "../../images/top_charac.png";
 import searchImage from "../../images/search_img.png";
 import miniTopImg from "../../images/mini_top_img.png";
-import perfume from "../../images/perfume.png";
+// import perfume from "../../images/perfume.png";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import video1 from "../../images/main_ani.webm";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -310,7 +310,7 @@ export default function Search() {
     fetchData();
     setSearchText('');
     console.log('num 여부', num);
-  }, [location.pathname, num]);
+  }, [location, num]);
 
 
   const checkPerfumeLiked = async (perfumeName) => {
@@ -492,4 +492,4 @@ export default function Search() {
     )}
     </RootWrap>
   );
-}
+                    }
