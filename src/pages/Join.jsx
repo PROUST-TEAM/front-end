@@ -26,7 +26,7 @@ const StyledParagraph = styled.p`
   color: black;
   margin-top: -20px;
   font-size: 29px;
-  font-family: Pretendard_ExtraBold;
+  font-family: Pretendard_Bold;
 `;
 
 const StyledExplain = styled.p`
@@ -67,7 +67,7 @@ const StyledInputContainer = styled.div`
 `;
 
 const StyledInput = styled.input`
-  width: 560px;
+width: 560px;
   height: 48px;
   padding: 6px;
   margin-top: 5px;
@@ -78,6 +78,8 @@ const StyledInput = styled.input`
   font-family: Pretendard_Light;
   font-size: 16px;
   text-indent: 20px;
+  position: relative;
+  z-index: 1;
 `;
 
 const StyledNextButton = styled.button`
@@ -115,6 +117,7 @@ const StyledClearButton = styled.div`
   cursor: pointer;
   opacity: ${({ visible }) => (visible ? "1" : "0")};
   transition: opacity 0.3s ease-in-out;
+  z-index: 2;
 `;
 
 const StyledPasswordContainer = styled.div`
@@ -181,6 +184,30 @@ const StyledTimer = styled.div`
   font-family: Pretendard_Bold;
   font-size: 18px;
   color: #7c0000;
+`;
+
+const StyledClauseContainer = styled.div`
+  margin-top: -10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const StyledClauseMessage = styled.p`
+  font-size: 18px;
+  font-family: Pretendard_Bold;
+  color: black;
+`;
+
+const StyledClauseLink = styled(Link)`
+  color: #4aa2f3;;
+  text-decoration: underline;
+`;
+
+const StyledCheckbox = styled.input`
+  margin-left: 10px;
+  width: 20px;
+  Height:20px;
 `;
 
 const Join = () => {
@@ -492,6 +519,12 @@ const Join = () => {
             }}
           />
         </StyledPasswordContainer>
+        <StyledClauseContainer>
+          <StyledClauseMessage><StyledClauseLink to="/clause">이용약관</StyledClauseLink>에 전체 동의합니다.</StyledClauseMessage>
+          <StyledCheckbox
+          type="checkbox"
+        />
+        </StyledClauseContainer>
         <StyledNextButton onClick={nextClick}>다음</StyledNextButton>
       </StyledContent>
     </StyledContainer>
@@ -499,3 +532,4 @@ const Join = () => {
 };
 
 export default Join;
+
