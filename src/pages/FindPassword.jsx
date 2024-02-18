@@ -12,14 +12,20 @@ const StyledContainer = styled.div`
   justify-content: center;
   height: 100vh;
   background-color: white;
-  margin-top: 90px;
 `;
 
 const StyledContent = styled.div`
+<<<<<<< HEAD
+position: relative;
+text-align: center;
+color: black;
+margin-top: 75px;
+=======
   position: relative;
   text-align: center;
   color: black;
   margin-bottom: 1000px;
+>>>>>>> ade3bead313a0f71a241bd5fce8f96d5aed26859
 `;
 
 const StyledParagraph = styled.p`
@@ -59,6 +65,7 @@ const StyledWord = styled.div`
 const StyledInputContainer = styled.div`
   position: relative;
   align-items: center;
+  margin-bottom: 10px;
 `;
 
 const StyledInput = styled.input`

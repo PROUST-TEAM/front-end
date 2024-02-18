@@ -361,66 +361,31 @@ export default function Login() {
     }, 300);
   };
 
-  const responseGoogle = async (response) => {
+  const ClickgoogleLogin = async () => {
     try {
-      const googleResponse = await axios.post(`${apiUrl}/user/google-login`, {
-        googleToken: response.tokenId,
-      });
-
-      if (googleResponse.status === 200 && googleResponse.data.isSuccess) {
-        console.log("Google Login Success");
-      } else {
-        console.error("Google Login Error:", googleResponse.data);
-        if (googleResponse.status === 400) {
-          alert(googleResponse.data.message);
-        } else if (googleResponse.status === 500) {
-          alert("서버 에러, 관리자에게 문의 바랍니다.");
-        }
-      }
+      const response = await axios.get(`${apiUrl}/user/google`);
+      console.log(response);
     } catch (error) {
-      console.error("Error during Google Sign-In API call:", error);
+      console.error("Error google login:", error);
     }
   };
 
-  const handleGoogleLoginClick = () => {
-    return (
-      <GoogleLogin
-        clientId="28057228880-lk5chrh5rfqphkhfb5ckvocvt1vkcooh.apps.googleusercontent.com"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        cookiePolicy={"single_host_origin"}
-      />
-    );
+  const ClickkakaoLogin = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/user/kakao`);
+      console.log(response);
+    } catch (error) {
+      console.error("Error kakao login:", error);
+    }
   };
 
-  const handleKakaoLoginClick = () => {
-    const redirectUri = `${window.location.origin}/user/kakao/callback`;
-    window.location.href = `${apiUrl}/user/kakao?redirectUri=${encodeURIComponent(
-      redirectUri
-    )}`;
-  };
-
-  const responseKakao = (response) => {
-    axios
-      .post(`${apiUrl}/user/kakao/callback`, {
-        code: response.code,
-      })
-      .then((kakaoResponse) => {
-        if (kakaoResponse.status === 200 && kakaoResponse.data.isSuccess) {
-          console.log("Kakao Login Success");
-        } else {
-          console.error("Kakao Login Error:", kakaoResponse.data);
-          if (kakaoResponse.status === 400) {
-            alert(kakaoResponse.data.message);
-          } else if (kakaoResponse.status === 500) {
-            alert("서버 에러, 관리자에게 문의 바랍니다.");
-          }
-        }
-      })
-      .catch((error) => {
-        console.error("Error during Kakao Sign-In API call:", error);
-        // 에러 처리 로직을 추가
-      });
+  const ClicknaverLogin = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/user/naver`);
+      console.log(response);
+    } catch (error) {
+      console.error("Error naver login:", error);
+    }
   };
 
   return (
@@ -544,38 +509,27 @@ export default function Login() {
           <StyledText>─────────────────</StyledText>
         </StyledFooter>
         <StyledLoginButtonContainer>
-          <div onClick={handleGoogleLoginClick}>
-            <GoogleLogin
-              clientId="275366161123-it85kl8s9rsulusbbtsk7icfc09n0hba.apps.googleusercontent.com"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy={"single_host_origin"}
-              render={(renderProps) => (
-                <img
-                  src={googleImage}
-                  alt="Google"
-                  style={{ width: "90px", height: "90px", cursor: "pointer" }}
-                  onClick={renderProps.onClick}
-                />
-              )}
+          <div onClick={ClickgoogleLogin}>
+            <img
+              src={googleImage}
+              alt="Google"
+              style={{ width: "90px", height: "90px", cursor: "pointer" }}
             />
           </div>
-          <KakaoLogin
-            token="aceaf7ca176ee32a2d617f4efacf4849"
-            onSuccess={responseKakao}
-            onFail={(error) => console.error("Kakao Login Error:", error)}
-          >
+          <div onClick={ClickkakaoLogin}>
             <img
               src={kakaoImage}
               alt="Kakao"
               style={{ width: "90px", height: "90px", cursor: "pointer" }}
             />
-          </KakaoLogin>
-          <img
-            src={naverImage}
-            alt="naver"
-            style={{ width: "90px", height: "90px", cursor: "pointer" }}
-          />
+          </div>
+          <div onClick={ClicknaverLogin}>
+            <img
+              src={naverImage}
+              alt="Naver"
+              style={{ width: "90px", height: "90px", cursor: "pointer" }}
+            />
+          </div>
         </StyledLoginButtonContainer>
       </StyledContent>
     </>
