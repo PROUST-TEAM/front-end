@@ -94,46 +94,44 @@ export default function Comment(props) {
   const [response, setResponse] = useState([]);
   const [perfumeName, setPerfumeName] = useState(props.perfumeName);
   const commentListRef = useRef();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (perfumeName) {
-          // 로그인이 되어있는 경우
-          if (localStorage.getItem("token")) {
-            const response = await axios.get(
-              `${apiUrl}/${perfumeName}/readUser`,
-              {
-                params: {
-                  Name: perfumeName,
-                },
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-            console.log("댓글 전체 조회:", response);
-            setResponse(response.data.result);
-          } else {
-            const response = await axios.get(`${apiUrl}/${perfumeName}/read`, {
+  const fetchData = async () => {
+    try {
+      if (perfumeName) {
+        // 로그인이 되어있는 경우
+        if (localStorage.getItem("token")) {
+          const response = await axios.get(
+            `${apiUrl}/${perfumeName}/readUser`,
+            {
               params: {
                 Name: perfumeName,
               },
               headers: {
                 Authorization: `Bearer ${token}`,
               },
-            });
-            console.log("댓글 일부 조회:", response.data.result);
-            setResponse(response.data.result);
-          }
+            }
+          );
+          console.log("댓글 전체 조회:", response);
+          setResponse(response.data.result);
         } else {
-          console.log("향수 이름 없음");
+          const response = await axios.get(`${apiUrl}/${perfumeName}/read`, {
+            params: {
+              Name: perfumeName,
+            },
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log("댓글 일부 조회:", response.data.result);
+          setResponse(response.data.result);
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      } else {
+        console.log("향수 이름 없음");
       }
-    };
-
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, [perfumeName]);
 
@@ -210,14 +208,15 @@ export default function Comment(props) {
           }
         );
 
-        // 서버 응답에 따라 댓글 업데이트
-        setResponse((prevResponse) => ({
-          ...prevResponse,
-          perfume_comment_contentsData:
-            prevResponse.perfume_comment_contentsData.filter(
-              (comment) => comment.Content !== contentToDelete
-            ),
-        }));
+        // // 서버 응답에 따라 댓글 업데이트
+        // setResponse((prevResponse) => ({
+        //   ...prevResponse,
+        //   perfume_comment_contentsData:
+        //     prevResponse.perfume_comment_contentsData.filter(
+        //       (comment) => comment.Content !== contentToDelete
+        //     ),
+        // }));
+        fetchData();
 
         console.log("댓글 삭제 성공");
       } else {
@@ -225,6 +224,11 @@ export default function Comment(props) {
       }
     } catch (error) {
       console.error("Error deleting comment:", error);
+      const errorMessage = error.response.data.message;
+
+      if (errorMessage === "다른 유저가 작성한 코멘트입니다.") {
+        alert("내가 작성한 댓글만 삭제할 수 있습니다.");
+      }
     }
   };
 
