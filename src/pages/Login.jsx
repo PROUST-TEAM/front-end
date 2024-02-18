@@ -9,9 +9,14 @@ import pointImage from "../images/point.png";
 import googleImage from "../images/google.png";
 import kakaoImage from "../images/kakao.png";
 import naverImage from "../images/naver.png";
+<<<<<<< HEAD
 import { GoogleLogin } from 'react-google-login';
 import KakaoLogin from 'react-kakao-login';
 //import NaverLogin from 'react-naver-login';
+=======
+import { GoogleLogin } from "react-google-login";
+import KakaoLogin from "react-kakao-login";
+>>>>>>> ade3bead313a0f71a241bd5fce8f96d5aed26859
 import axios from "axios";
 
 const StyledContainer = styled.div`
@@ -57,7 +62,7 @@ const StyledInputContainer = styled.div`
   align-items: center;
 `;
 
-const StyledInput = styled.input`
+const StyledInputEmail = styled.input`
   width: 560px;
   height: 48px;
   padding: 6px;
@@ -69,6 +74,21 @@ const StyledInput = styled.input`
   font-family: Pretendard_Light;
   font-size: 16px;
   text-indent: 20px;
+  border: 2px solid ${({ isValid }) => (isValid ? "none" : "#b3261e;")};
+`;
+const StyledInputPw = styled.input`
+  width: 560px;
+  height: 48px;
+  padding: 6px;
+  margin-top: 5px;
+  margin-bottom: 30px;
+  border: 3px solid #f0f0f0;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  font-family: Pretendard_Light;
+  font-size: 16px;
+  text-indent: 20px;
+  //border: 2px solid ${({ isValid }) => (isValid ? "#ccc" : "#b3261e;")};
 `;
 
 const StyledClearButton = styled.div`
@@ -187,7 +207,7 @@ const StyledPwIcon = styled.img`
   position: absolute;
   width: 28px;
   height: 28px;
-  right: -269px;
+  right: -273px;
   top: -74px;
   cursor: pointer;
 `;
@@ -200,6 +220,25 @@ const StyledLoginButtonContainer = styled.div`
   cursor: pointer;
 `;
 
+const StyledErrorMessage = styled.div`
+  color: #b3261e;
+  font-size: 16px;
+  margin-top: -20px;
+  margin-left: 350px;
+  margin-bottom: 20px;
+  font-family: Pretendard;
+`;
+
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePW = (pw) => {
+  const isLengthValid = pw.length >= 8;
+  return isLengthValid;
+};
+
 export default function Login() {
   const [isImageChanging, setIsImageChanging] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -210,27 +249,72 @@ export default function Login() {
   const apiUrl = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
-  const onClickLogin = async (event) => {
-    try {
-      const response = await axios.post(`${apiUrl}/user/login`, {
-        id: usermail,
-        password: userpw,
-      });
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [isValidPW, setIsValidPW] = useState(true);
 
-      // 서버 응답 확인
-      console.log("Server response:", response.data);
+  const handleEmailChange = (event) => {
+    const emailValue = event.target.value;
+    console.log(emailValue);
+    setUsermail(emailValue);
+    setIsValidEmail(validateEmail(emailValue));
+  };
 
-      // 로그인 토큰 저장
-      localStorage.setItem("token", response.data.result.token);
+  const handlePWChange = (event) => {
+    const PWValue = event.target.value;
+    console.log(PWValue);
+    setPassword(PWValue);
+    setIsValidPW(validatePW(PWValue));
+  };
 
-      // 로그인 성공 후 페이지 이동
-      navigate("/home");
-      // 강제로 페이지 새로고침
-      window.location.reload();
-      
-    } catch (error) {
-      console.error("Error during API call:", error);
-      alert("존재하지 않는 이메일입니다.");
+  useEffect(() => {
+    console.log(isClicked);
+    const storedEmail = localStorage.getItem("savedEmail");
+    if (storedEmail) {
+      setIsClicked(true);
+      setUsermail(storedEmail);
+    }
+  }, []);
+
+  const onClickLogin = async () => {
+    if (userpw !== "" && usermail !== "") {
+      try {
+        const response = await axios.post(`${apiUrl}/user/login`, {
+          id: usermail,
+          password: userpw,
+        });
+
+        // 서버 응답 확인
+        console.log("Server response:", response.data);
+
+        // 로그인 토큰 저장
+        localStorage.setItem("token", response.data.result.token);
+
+        setIsLoggedIn(true);
+        setUsermail(usermail);
+
+        if (isClicked) {
+          localStorage.setItem("savedEmail", usermail);
+        } else {
+          localStorage.removeItem("savedEmail");
+        }
+
+        // 로그인 성공 후 페이지 이동
+        navigate("/home");
+
+        // 강제로 페이지 새로고침
+        window.location.reload();
+      } catch (error) {
+        console.error("Error during API call:", error);
+        const errorMessage = error.response.data.message;
+
+        if (errorMessage === "비밀번호가 일치하지 않습니다.") {
+          alert(errorMessage);
+        } else if (errorMessage === "아이디를 찾을 수 없습니다.") {
+          alert("존재하지 않는 이메일입니다.");
+        } else if (errorMessage === "아이디를 찾을 수 없습니다.") {
+          alert("존재하지 않는 이메일입니다.");
+        }
+      }
     }
   };
 
@@ -265,19 +349,6 @@ export default function Login() {
       passwordInput.style.border = "3px solid #f0f0f0";
       passwordInput.classList.remove("placeholder-red");
     }
-
-    setIsLoggedIn(true);
-
-    if (isClicked) {
-      setPassword("");
-      const storedEmail = localStorage.getItem("savedEmail");
-      if (storedEmail) {
-        setUsermail(storedEmail);
-      }
-      if (usermail !== storedEmail) {
-        localStorage.setItem("savedEmail", usermail);
-      }
-    }
   };
 
   // 두 함수를 호출하는 함수
@@ -286,52 +357,13 @@ export default function Login() {
     onClickLogin();
   };
 
-  const handleSwitchClick = () => {
-    setIsClicked(!isClicked);
-  
-    if (!isClicked && usermail.trim() !== "") {
-      localStorage.setItem("savedEmail", usermail);
-    } else {
-      localStorage.removeItem("savedEmail");
-    }
-  };
-
-  useEffect(() => {
-    const storedEmail = localStorage.getItem("savedEmail");
-    const isEmailSaved = storedEmail ? true : false;
-    
-    setIsClicked(isEmailSaved);
-    
-    if (isEmailSaved) {
-      setUsermail(storedEmail);
-    }
-  }, []);
-
-  const handleInputChange = (event) => {
-    setUsermail(event.target.value);
-  };
-
-  const handleClearButtonClick = () => {
-    setUsermail("");
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
   const handlePasswordVisibility = () => {
     setIsImageChanging(true);
-  
+
     setTimeout(() => {
       setIsPasswordVisible(!isPasswordVisible);
-      setIsImageChanging(false); 
+      setIsImageChanging(false);
     }, 300);
-  };
-
-  const handlePasswordButtonClick = () => {
-    const currentPassword = userpw;
-    setPassword("");
-    setTimeout(() => setPassword(currentPassword), 0);
   };
 
   const responseGoogle = async (response) => {
@@ -342,17 +374,16 @@ export default function Login() {
 
       if (googleResponse.status === 200 && googleResponse.data.isSuccess) {
         console.log("Google Login Success");
-
-    } else {
-      console.error("Google Login Error:", googleResponse.data);
-      if (googleResponse.status === 400) {
-        alert(googleResponse.data.message);
-      } else if (googleResponse.status === 500) {
-        alert("서버 에러, 관리자에게 문의 바랍니다.");
+      } else {
+        console.error("Google Login Error:", googleResponse.data);
+        if (googleResponse.status === 400) {
+          alert(googleResponse.data.message);
+        } else if (googleResponse.status === 500) {
+          alert("서버 에러, 관리자에게 문의 바랍니다.");
+        }
       }
-    }
-  } catch (error) {
-    console.error("Error during Google Sign-In API call:", error);
+    } catch (error) {
+      console.error("Error during Google Sign-In API call:", error);
     }
   };
 
@@ -402,27 +433,28 @@ const handleKakaoLoginClick = () => {
   window.location.href = `${apiUrl}/user/kakao?redirectUri=${encodeURIComponent(redirectUri)}`;
 };
 
-const responseKakao = (response) => {
-  axios.post(`${apiUrl}/user/kakao/callback`, {
-    code: response.code,
-  })
-  .then((kakaoResponse) => {
-    if (kakaoResponse.status === 200 && kakaoResponse.data.isSuccess) {
-      console.log("Kakao Login Success");
-    } else {
-      console.error("Kakao Login Error:", kakaoResponse.data);
-      if (kakaoResponse.status === 400) {
-        alert(kakaoResponse.data.message);
-      } else if (kakaoResponse.status === 500) {
-        alert("서버 에러, 관리자에게 문의 바랍니다.");
-      }
-    }
-  })
-  .catch((error) => {
-    console.error("Error during Kakao Sign-In API call:", error);
-    // 에러 처리 로직을 추가
-  });
-};
+  const responseKakao = (response) => {
+    axios
+      .post(`${apiUrl}/user/kakao/callback`, {
+        code: response.code,
+      })
+      .then((kakaoResponse) => {
+        if (kakaoResponse.status === 200 && kakaoResponse.data.isSuccess) {
+          console.log("Kakao Login Success");
+        } else {
+          console.error("Kakao Login Error:", kakaoResponse.data);
+          if (kakaoResponse.status === 400) {
+            alert(kakaoResponse.data.message);
+          } else if (kakaoResponse.status === 500) {
+            alert("서버 에러, 관리자에게 문의 바랍니다.");
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("Error during Kakao Sign-In API call:", error);
+        // 에러 처리 로직을 추가
+      });
+  };
 
   return (
     <>
@@ -448,6 +480,7 @@ const responseKakao = (response) => {
             transform: "translate(440%, 960%)",
             zIndex: 2,
             visibility: isImageChanging ? "hidden" : "visible",
+            marginTop: "10px",
           }}
         >
           {isLoggedIn && !usermail && (
@@ -460,6 +493,7 @@ const responseKakao = (response) => {
             transform: "translate(440%, 1329%)",
             zIndex: 2,
             visibility: isImageChanging ? "hidden" : "visible",
+            marginTop: "10px",
           }}
         >
           {isLoggedIn && userpw.trim() === "" && (
@@ -470,18 +504,21 @@ const responseKakao = (response) => {
           <p>이메일&nbsp;&nbsp;&nbsp;&nbsp;</p>
         </StyledWord>
         <StyledInputContainer>
-          <StyledInput
+          <StyledInputEmail
             id="usermail-input"
             type="text"
             placeholder="이메일을 입력하세요."
             value={usermail}
-            onChange={handleInputChange}
+            onChange={handleEmailChange}
+            isValid={isValidEmail}
           />
+
           <StyledClearButton
             visible={usermail !== ""}
-            onClick={handleClearButtonClick}
+            onClick={() => {
+              setUsermail("");
+            }}
           >
-            {" "}
             <img
               src={clearImage}
               alt="Clear"
@@ -489,29 +526,40 @@ const responseKakao = (response) => {
             />
           </StyledClearButton>
         </StyledInputContainer>
+        {!isValidEmail && (
+          <StyledErrorMessage>
+            * 이메일 형식이 잘못되었습니다.
+          </StyledErrorMessage>
+        )}
         <StyledWord>
           <p>비밀번호</p>
         </StyledWord>
-        <StyledInput
+        <StyledInputPw
           id="password-input"
           type={isPasswordVisible ? "password" : "text"}
           placeholder="비밀번호를 입력하세요."
           defaultValue={userpw}
-          onChange={handlePasswordChange}
+          onChange={handlePWChange}
+          isValid={isValidPW}
         />
-        <StyledpwButton
-          visible={userpw !== ""}
-          onClick={handlePasswordButtonClick}
-        >
+        <StyledpwButton visible={userpw !== ""}>
           <StyledPwIcon
             src={isPasswordVisible ? closeImage : openImage}
             alt={isPasswordVisible ? "Show Password" : "Hide Password"}
             onClick={handlePasswordVisibility}
           />
         </StyledpwButton>
+        {!isValidPW && (
+          <StyledErrorMessage>* 비밀번호는 8자 이상입니다.</StyledErrorMessage>
+        )}
         <StyledSwitchContainer>
           <StyledSwitchLabel>
-            <StyledSwitch isClicked={isClicked} onClick={handleSwitchClick}>
+            <StyledSwitch
+              isClicked={isClicked}
+              onClick={() => {
+                setIsClicked(!isClicked);
+              }}
+            >
               <StyledSlider isClicked={isClicked} />
             </StyledSwitch>
             <StyledSwitchSpan>이메일 기억하기</StyledSwitchSpan>

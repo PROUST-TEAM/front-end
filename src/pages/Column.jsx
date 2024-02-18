@@ -73,7 +73,7 @@ const items = [
 const motionDivStyle = { 
   height: "150px",
   borderRadius: "30px",
-  background: "#B3B3B3",           
+  background: "white",           
   padding: "25px",
 };
 
@@ -81,13 +81,13 @@ const motionTextStyle = {
   marginTop: "40px",
   marginLeft: "10px",
   fontFamily: "Pretendard_ExtraBold",
-  fontSize: "30px",
+  fontSize: "37px",
   color: "black",
 };
 
 const motionTextStyle2 = {
   fontFamily: "Pretendard_SemiBold",
-  fontSize: "25px",
+  fontSize: "21px",
   color: "#424141",
   marginTop: "15px",
   marginLeft: "10px",
@@ -95,7 +95,7 @@ const motionTextStyle2 = {
 };
 
 const animateDivStyle = { 
-  height: "710px",
+  height: "710px", 
   width: "800px",
   borderRadius: "30px",
   background: "white",           
@@ -156,7 +156,9 @@ export default function Column() {
                 ...motionDivStyle,
                 ...getItemStyle(item.id),
                 backgroundColor: selectedId === item.id ? "#FFFFFF" : motionDivStyle.background,
+                cursor: "pointer", 
               }}
+              whileHover={{ backgroundColor: "#6BFF94" }}
             >
               <motion.h2 style={motionTextStyle}>{item.title}</motion.h2>
               <motion.h5 style={motionTextStyle2}>

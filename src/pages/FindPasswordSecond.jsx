@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import Image from '../images/sec_charac.png';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import styled from "styled-components";
+import Image from "../images/sec_charac.png";
+import axios from "axios";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -24,7 +26,7 @@ const StyledParagraph = styled.p`
 `;
 
 const StyledExplain = styled.p`
-  color: #7D7D7D;
+  color: #7d7d7d;
   margin-top: 20px;
   font-size: 24px;
   font-family: Pretendard_Bold;
@@ -50,13 +52,14 @@ const StyledWord = styled.div`
   font-family: Pretendard_Bold;
   margin-right: 350px;
   margin-top: 135px;
+  padding-left: 350px;
 `;
 
 const StyledButton = styled.button`
   width: 572px;
   height: 50px;
   padding: 6px;
-  margin-top: 230px; 
+  margin-top: 230px;
   background-color: black;
   color: white;
   border: none;
@@ -67,12 +70,33 @@ const StyledButton = styled.button`
 `;
 
 const FindPassword = () => {
+  const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [response, setResponse] = useState();
+  const { state } = useLocation();
+  const usermail = state?.userEmail || "";
+  const [password, setPassword] = useState();
 
-    const navigate = useNavigate();
+  const handleButtonClick = () => {
+    navigate("/login");
+  };
 
-    const handleButtonClick = () => {
-      navigate('/login');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(`${apiUrl}/user/findPW/confirm`, {
+          id: usermail,
+        });
+
+        console.log("향수 리스트:", response.data.result.password);
+        setResponse(response.data.result);
+        setPassword(response.data.result.password);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     };
+    fetchData();
+  }, [usermail]);
 
   return (
     <StyledContainer>
@@ -81,8 +105,8 @@ const FindPassword = () => {
         <StyledParagraph>비밀번호 찾기</StyledParagraph>
         <StyledExplain>이메일 정보와 일치하는 비밀번호입니다.</StyledExplain>
         <StyledBorder />
-        <StyledWord>비밀번호&nbsp;&nbsp;:</StyledWord>
-        <StyledButton onClick={handleButtonClick}> 
+        <StyledWord>비밀번호: {password}</StyledWord>
+        <StyledButton onClick={handleButtonClick}>
           로그인 화면으로 돌아가기
         </StyledButton>
       </StyledContent>

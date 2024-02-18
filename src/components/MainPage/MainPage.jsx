@@ -212,6 +212,12 @@ export default function MainPage() {
     }
   };
 
+  const handleInputKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchButtonClick();
+    }
+  };
+
   return (
       <MainContainer>
         {loading && (
@@ -250,6 +256,7 @@ export default function MainPage() {
             placeholder="향수? 나에게 다 물어봐"
             value={searchText}
             onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
           />
           <SearchButton to="#" onClick={handleSearchButtonClick}>
             <img src={searchImage} alt="SearchImg" />

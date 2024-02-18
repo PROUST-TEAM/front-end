@@ -15,9 +15,17 @@ const CommentItem = styled.div`
   color: #282727;
   display: flex;
   justify-content: space-between;
+`;
+const Content = styled.div`
+  white-space: normal;
+  max-width: 1060px;
+`;
 
-  svg:hover {
-    color: red; // 호버 시 색상 변경
+const Trash = styled.div`
+  display: flex;
+  align-items: center;
+  :hover {
+    color: red;
   }
 `;
 
@@ -176,6 +184,12 @@ export default function Comment(props) {
       }
     } catch (error) {
       console.error("Error posting comment:", error);
+      const errorMessage = error.response.data.message;
+
+      // 같은 내용의 코멘트가 존재하는 경우
+      if (errorMessage === "같은 내용의 코멘트가 존재합니다.") {
+        alert(errorMessage);
+      }
     }
   };
 
@@ -221,8 +235,10 @@ export default function Comment(props) {
           response.perfume_comment_contentsData &&
           response.perfume_comment_contentsData.map((comment, index) => (
             <CommentItem key={index}>
-              {comment.Content}
-              <FaRegTrashAlt onClick={() => deleteComment(comment.Content)} />
+              <Content>{comment.Content}</Content>
+              <Trash>
+                <FaRegTrashAlt onClick={() => deleteComment(comment.Content)} />
+              </Trash>
             </CommentItem>
           ))}
       </CommentList>

@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import Image from '../images/sec_charac.png';
-import clearImage from '../images/clear_Icon.png';
-import arrowImage from '../images/arrow-left.png';
-import pointImage from '../images/point.png';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import Image from "../images/sec_charac.png";
+import clearImage from "../images/clear_Icon.png";
+import arrowImage from "../images/arrow-left.png";
+import pointImage from "../images/point.png";
+import axios from "axios";
 
 const StyledContainer = styled.div`
 display: flex;
@@ -14,10 +15,17 @@ background-color: white;
 `;
 
 const StyledContent = styled.div`
+<<<<<<< HEAD
 position: relative;
 text-align: center;
 color: black;
 margin-top: 75px;
+=======
+  position: relative;
+  text-align: center;
+  color: black;
+  margin-bottom: 1000px;
+>>>>>>> ade3bead313a0f71a241bd5fce8f96d5aed26859
 `;
 
 const StyledParagraph = styled.p`
@@ -28,7 +36,7 @@ const StyledParagraph = styled.p`
 `;
 
 const StyledExplain = styled.p`
-  color: #7D7D7D;
+  color: #7d7d7d;
   margin-top: 20px;
   font-size: 24px;
   font-family: Pretendard_Bold;
@@ -49,7 +57,8 @@ const StyledImage = styled.img`
 const StyledWord = styled.div`
   font-size: 23px;
   font-family: Pretendard_Bold;
-  margin-right: 450px;
+  margin-left: 20px;
+  text-align: left;
   margin-bottom: 7px;
 `;
 
@@ -79,7 +88,7 @@ const StyledClearButton = styled.div`
   top: 37.5%;
   transform: translateY(-50%);
   cursor: pointer;
-  opacity: ${({ visible }) => (visible ? '1' : '0')};
+  opacity: ${({ visible }) => (visible ? "1" : "0")};
   transition: opacity 0.3s ease-in-out;
 `;
 
@@ -87,9 +96,9 @@ const StyledSendButton = styled.button`
   width: 120px;
   height: 32px;
   padding: 7px;
-  margin-top: 7px;
+  margin-top: -10px;
   margin-left: 445px;
-  margin-bottom: 4px;
+  margin-bottom: 10px;
   background-color: black;
   color: white;
   border: none;
@@ -107,14 +116,14 @@ const StyledTimer = styled.div`
   transform: translateY(-50%);
   font-family: Pretendard_Bold;
   font-size: 18px;
-  color: #7C0000;
+  color: #7c0000;
 `;
 
 const StyledNextButton = styled.button`
   width: 572px;
   height: 50px;
   padding: 6px;
-  margin-top: 50px; 
+  margin-top: 40px;
   background-color: black;
   color: white;
   border: none;
@@ -126,14 +135,18 @@ const StyledNextButton = styled.button`
 
 const FindPassword = () => {
   const navigate = useNavigate();
-  const [userid, setUserid] = useState('');
-  const [usermail, setUsermail] = useState('');
+  const [userid, setUserid] = useState("");
+  const [usermail, setUsermail] = useState("");
   const [isNexted, setIsNexted] = useState(false);
-  const [authenticationcode, setAuthenticationode] = useState('');
-  const [isAuthenticationEmailSent, setIsAuthenticationEmailSent] = useState(false);
+  const [authenticationcode, setAuthenticationode] = useState("");
+  const [isAuthenticationEmailSent, setIsAuthenticationEmailSent] =
+    useState(false);
   const [timer, setTimer] = useState(300);
   const [timerInterval, setTimerInterval] = useState(null);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
+
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [response, setResponse] = useState();
 
   useEffect(() => {
     if (isAuthenticationEmailSent) {
@@ -148,7 +161,7 @@ const FindPassword = () => {
   }, [isAuthenticationEmailSent]);
 
   const handleBackToLogin = () => {
-    navigate('/login');
+    navigate("/login");
   };
 
   const handleInputChange = (event) => {
@@ -162,28 +175,38 @@ const FindPassword = () => {
   };
 
   const handleClearButtonClick = () => {
-    setUserid('');
-    handleInputValidation("userid-input", '');
+    setUserid("");
+    handleInputValidation("userid-input", "");
   };
 
   const handleSendClick = () => {
-    console.log('인증 이메일 전송 로직');
+    console.log("인증 이메일 전송 로직");
     setIsAuthenticationEmailSent(true);
   };
 
-  const sendButtonText = isAuthenticationEmailSent ? "인증메일 재발급" : "인증메일 보내기";
+  const sendButtonText = isAuthenticationEmailSent
+    ? "인증메일 재발급"
+    : "인증메일 보내기";
 
-  const handleNextClick = () => {
+  const nextClick = () => {
     handleInputValidation("userid-input", userid);
     handleInputValidation("usermail-input", usermail);
     handleInputValidation("authenticationCode-input", authenticationcode);
 
-    setIsNexted(true);
+    if (userid !== "" && usermail !== "" && authenticationcode !== "") {
+      console.log("내가 입력한 코드", authenticationcode);
+      console.log("입력해야 할 코드", response);
 
-    if (userid !== '' && usermail !== '' && authenticationcode !== '') {
-      setIsNexted(true);
-      navigate('/find-pw-second');
-    } 
+      if (response == authenticationcode) {
+        navigate("/find-pw-second", {
+          state: {
+            userEmail: usermail,
+          },
+        });
+      } else {
+        alert("인증 번호가 일치하지 않습니다.");
+      }
+    }
   };
 
   const handleAuthenticationCodeChange = (event) => {
@@ -194,23 +217,22 @@ const FindPassword = () => {
     if (inputId !== "authenticationCode-input") {
       const inputElement = document.getElementById(inputId);
       const placeholderText = inputElement.getAttribute("data-placeholder");
-  
-      if (inputValue === '') {
+
+      if (inputValue === "") {
         inputElement.placeholder = `*${placeholderText}`;
         inputElement.style.color = "black";
-        inputElement.style.fontFamily = "Pretendard_Light"; 
+        inputElement.style.fontFamily = "Pretendard_Light";
         inputElement.style.border = "3px solid #B3261E";
-        inputElement.classList.add('placeholder-red'); 
+        inputElement.classList.add("placeholder-red");
       } else {
         inputElement.placeholder = placeholderText;
         inputElement.style.color = "initial";
-        inputElement.style.fontFamily = "Pretendard_Light"; 
+        inputElement.style.fontFamily = "Pretendard_Light";
         inputElement.style.border = "3px solid #f0f0f0";
-        inputElement.classList.remove('placeholder-red');
+        inputElement.classList.remove("placeholder-red");
       }
     }
   };
-
 
   const startTimer = () => {
     setIsTimerRunning(true);
@@ -236,72 +258,125 @@ const FindPassword = () => {
     setTimer(300);
   };
 
+  const sendMail = () => {
+    //console.log("인증 이메일 전송 로직");
+    setIsAuthenticationEmailSent(true);
+
+    const joinConnect = async () => {
+      try {
+        const response = await axios.post(`${apiUrl}/user/signup/request`, {
+          id: usermail,
+        });
+
+        console.log("인증번호", response.data.result);
+        setResponse(response.data.result);
+      } catch (error) {
+        console.error("Error signup request:", error);
+      }
+    };
+
+    joinConnect();
+  };
+
   return (
     <StyledContainer>
       <StyledContent>
-        <StyledArrow src={arrowImage}  onClick={handleBackToLogin} alt="Arrow Image" width="32" height="32" />
+        <StyledArrow
+          src={arrowImage}
+          onClick={handleBackToLogin}
+          alt="Arrow Image"
+          width="32"
+          height="32"
+        />
         <StyledImage src={Image} alt="Top Character" width="330" height="189" />
         <StyledParagraph>비밀번호 찾기</StyledParagraph>
-        <StyledExplain>비밀번호는 가입 시 입력된 이메일로 찾으실 수 있습니다.</StyledExplain>
-        <div style={{ position: 'absolute', transform: 'translate(900%, 144%)', zIndex: 2 }}>
-          {(isNexted && !userid) && (
+        <StyledExplain>
+          비밀번호는 가입 시 입력된 이메일로 찾으실 수 있습니다.
+        </StyledExplain>
+        <div
+          style={{
+            position: "absolute",
+            transform: "translate(900%, 144%)",
+            zIndex: 2,
+          }}
+        >
+          {isNexted && !userid && (
             <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
           )}
         </div>
+<<<<<<< HEAD
         <div style={{ position: 'absolute', transform: 'translate(900%, 541.5%)', zIndex: 2 }}>
           {(isNexted && !usermail) && (
+=======
+        <div
+          style={{
+            position: "absolute",
+            transform: "translate(900%, 511.5%)",
+            zIndex: 2,
+          }}
+        >
+          {isNexted && !usermail && (
+>>>>>>> ade3bead313a0f71a241bd5fce8f96d5aed26859
             <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
           )}
         </div>
         <StyledWord>
-          <p>아이디</p>
+          <p>이름</p>
         </StyledWord>
         <StyledInputContainer>
           <StyledInput
             id="userid-input"
             type="text"
-            placeholder= "아이디를 입력하세요."
+            placeholder="아이디를 입력하세요."
             data-placeholder="아이디를 입력하세요."
             value={userid}
             onChange={handleInputChange}
           />
-          <StyledClearButton visible={userid !== ''} onClick={handleClearButtonClick}>
-            <img src={clearImage} alt="Clear" style={{ width: '32px', height: '32px' }} />
+          <StyledClearButton
+            visible={userid !== ""}
+            onClick={handleClearButtonClick}
+          >
+            <img
+              src={clearImage}
+              alt="Clear"
+              style={{ width: "32px", height: "32px" }}
+            />
           </StyledClearButton>
         </StyledInputContainer>
         <StyledWord>
           <p>이메일</p>
         </StyledWord>
         <StyledInputContainer>
-            <StyledInput
-                id="usermail-input"
-                type="text"
-                placeholder="이메일을 입력하세요."
-                data-placeholder="이메일을 입력하세요."
-                value={usermail}
-                onChange={handleMailChange}
-            />
-        </StyledInputContainer>
-        <StyledSendButton onClick={handleSendClick}>
-          {sendButtonText}
-          {isTimerRunning && <StyledTimer>{Math.floor(timer / 60)}:{timer % 60}</StyledTimer>}
-        </StyledSendButton>
-        <StyledInputContainer>
-          <StyledInput 
-          id="authenticationCode-input"
-          type="text" 
-          placeholder="인증번호를 입력하세요." 
-          value={authenticationcode}
-          onChange={handleAuthenticationCodeChange}
+          <StyledInput
+            id="usermail-input"
+            type="text"
+            placeholder="이메일을 입력하세요."
+            data-placeholder="이메일을 입력하세요."
+            value={usermail}
+            onChange={handleMailChange}
           />
         </StyledInputContainer>
-        <StyledNextButton onClick={handleNextClick}>
-          다음
-        </StyledNextButton>
+        <StyledSendButton onClick={sendMail}>
+          {sendButtonText}
+          {isTimerRunning && (
+            <StyledTimer>
+              {Math.floor(timer / 60)}:{timer % 60}
+            </StyledTimer>
+          )}
+        </StyledSendButton>
+        <StyledInputContainer>
+          <StyledInput
+            id="authenticationCode-input"
+            type="text"
+            placeholder="인증번호를 입력하세요."
+            value={authenticationcode}
+            onChange={handleAuthenticationCodeChange}
+          />
+        </StyledInputContainer>
+        <StyledNextButton onClick={nextClick}>다음</StyledNextButton>
       </StyledContent>
     </StyledContainer>
   );
 };
 
 export default FindPassword;
-

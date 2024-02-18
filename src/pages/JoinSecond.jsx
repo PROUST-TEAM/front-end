@@ -56,7 +56,8 @@ const StyledImage = styled.img`
 const StyledWord = styled.div`
   font-size: 23px;
   font-family: Pretendard_Bold;
-  margin-right: 450px;
+  margin-left: 30px;
+  text-align: left;
   margin-bottom: 7px;
 `;
 
@@ -85,7 +86,8 @@ const StyledNextButton = styled.button`
   width: 572px;
   height: 50px;
   padding: 6px;
-  margin-top: 50px;
+  margin-top: 30px;
+  margin-left: 15px;
   background-color: black;
   color: white;
   border: none;
@@ -199,20 +201,22 @@ const JoinSecond = () => {
     setPassword(enteredPassword);
 
     let isLengthValid = false;
-    let containsNumber = false;
+    //let containsNumber = false;
 
     if (enteredPassword.trim() === "") {
       setAdditionalPasswordMessage("");
     } else {
-      isLengthValid = enteredPassword.length >= 8;
-      containsNumber = /\d/.test(enteredPassword);
+      isLengthValid = enteredPassword.length > 7;
+      //containsNumber = /\d/.test(enteredPassword);
 
       if (!isLengthValid) {
         setAdditionalPasswordMessage("비밀번호는 최소 8자 이상이어야 합니다.");
-      } else if (!containsNumber) {
-        setAdditionalPasswordMessage("비밀번호에 숫자가 포함되어야 합니다.");
-      } else {
+      } //else if (!containsNumber) {
+      //   setAdditionalPasswordMessage("비밀번호에 숫자가 포함되어야 합니다.");
+      // }
+      else {
         setAdditionalPasswordMessage("");
+        setIsLengthValid(true);
       }
     }
 
@@ -273,6 +277,7 @@ const JoinSecond = () => {
 
         console.log(response);
         setResponse(response.data.result);
+        navigate("/login");
       } catch (error) {
         console.error("Error signup request:", error);
       }
@@ -287,24 +292,27 @@ const JoinSecond = () => {
     if (inputElement) {
       const placeholderText = inputElement.getAttribute("data-placeholder");
 
-      if (inputValue === "" || !isLengthValid || !containsNumber) {
+      if (!isLengthValid) {
         inputElement.placeholder = `*${placeholderText}`;
         inputElement.style.color = "black";
         inputElement.style.fontFamily = "Pretendard_Light";
-        inputElement.style.border = "3px solid #B3261E";
+        //inputElement.style.border = "3px solid #B3261E";
+        inputElement.style.outline = "none";
         inputElement.classList.add("placeholder-red");
       } else if (inputId === "confirmPassword-input") {
         if (isPasswordMatch) {
           inputElement.placeholder = `*${placeholderText}`;
           inputElement.style.color = "black";
           inputElement.style.fontFamily = "Pretendard_Light";
-          inputElement.style.border = "3px solid #22851A";
+          //inputElement.style.border = "3px solid #22851A";
+          inputElement.style.outline = "none";
           inputElement.classList.remove("placeholder-red");
         } else {
           inputElement.placeholder = `*${placeholderText}`;
           inputElement.style.color = "black";
           inputElement.style.fontFamily = "Pretendard_Light";
-          inputElement.style.border = "3px solid #B3261E";
+          //inputElement.style.border = "3px solid #B3261E";
+          inputElement.style.outline = "none";
           inputElement.classList.add("placeholder-red");
         }
       } else {
@@ -312,6 +320,7 @@ const JoinSecond = () => {
         inputElement.style.color = "initial";
         inputElement.style.fontFamily = "Pretendard_Light";
         inputElement.style.border = "none";
+        inputElement.style.outline = "none";
         inputElement.classList.remove("placeholder-red");
       }
     }
@@ -353,8 +362,8 @@ const JoinSecond = () => {
           <StyledPasswordInput
             id="password-input"
             type={isPasswordVisible ? "text" : "password"}
-            placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요."
-            data-placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해 주세요."
+            placeholder="8자 이상의 비밀번호를 입력해 주세요."
+            data-placeholder="8자 이상의 비밀번호를 입력해 주세요."
             value={password}
             onChange={handlePasswordChange}
           />
@@ -368,14 +377,14 @@ const JoinSecond = () => {
           <StyledErrorMessage>{additionalPasswordMessage}</StyledErrorMessage>
         )}
         <StyledWord>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;비밀번호 확인</p>
+          <p>비밀번호 확인</p>
         </StyledWord>
         <StyledPasswordContainer>
           <StyledPasswordInput
             id="confirmPassword-input"
             type={isConfirmPasswordVisible ? "text" : "password"}
-            placeholder="비밀번호를 입력해 주세요."
-            data-placeholder="비밀번호를 입력해 주세요."
+            placeholder="비밀번호를 입력해주세요."
+            data-placeholder="비밀번호를 입력해주세요."
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
           />

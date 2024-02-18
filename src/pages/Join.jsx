@@ -54,7 +54,8 @@ const StyledImage = styled.img`
 const StyledWord = styled.div`
   font-size: 23px;
   font-family: Pretendard_Bold;
-  margin-right: 450px;
+  margin-left: 30px;
+  text-align: left;
   margin-bottom: 7px;
 `;
 
@@ -84,7 +85,11 @@ const StyledNextButton = styled.button`
   height: 50px;
   padding: 6px;
   margin-top: 30px;
+<<<<<<< HEAD
   margin-left: 14px;
+=======
+  margin-left: 15px;
+>>>>>>> ade3bead313a0f71a241bd5fce8f96d5aed26859
   background-color: black;
   color: white;
   border: none;
