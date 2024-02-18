@@ -564,10 +564,10 @@ export default function Header() {
                       <img src={smileImage} alt="Smile" />
                       캐릭터 설명
                     </DropdownItem>
-                    <DropdownItem>
+                    {/* <DropdownItem>
                       <img src={GearImage} alt="Gear" />
                       설정
-                    </DropdownItem>
+                    </DropdownItem> */}
                     <DropdownItem onClick={handleLogout}>
                       <img
                         style={{
