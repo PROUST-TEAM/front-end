@@ -56,7 +56,7 @@ const StyledInputContainer = styled.div`
   align-items: center;
 `;
 
-const StyledInput = styled.input`
+const StyledInputEmail = styled.input`
   width: 560px;
   height: 48px;
   padding: 6px;
@@ -68,6 +68,21 @@ const StyledInput = styled.input`
   font-family: Pretendard_Light;
   font-size: 16px;
   text-indent: 20px;
+  border: 2px solid ${({ isValid }) => (isValid ? "none" : "#b3261e;")};
+`;
+const StyledInputPw = styled.input`
+  width: 560px;
+  height: 48px;
+  padding: 6px;
+  margin-top: 5px;
+  margin-bottom: 30px;
+  border: 3px solid #f0f0f0;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  font-family: Pretendard_Light;
+  font-size: 16px;
+  text-indent: 20px;
+  //border: 2px solid ${({ isValid }) => (isValid ? "#ccc" : "#b3261e;")};
 `;
 
 const StyledClearButton = styled.div`
@@ -186,7 +201,7 @@ const StyledPwIcon = styled.img`
   position: absolute;
   width: 28px;
   height: 28px;
-  right: -269px;
+  right: -273px;
   top: -74px;
   cursor: pointer;
 `;
@@ -199,6 +214,25 @@ const StyledLoginButtonContainer = styled.div`
   cursor: pointer;
 `;
 
+const StyledErrorMessage = styled.div`
+  color: #b3261e;
+  font-size: 16px;
+  margin-top: -20px;
+  margin-left: 350px;
+  margin-bottom: 20px;
+  font-family: Pretendard;
+`;
+
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePW = (pw) => {
+  const isLengthValid = pw.length >= 8;
+  return isLengthValid;
+};
+
 export default function Login() {
   const [isImageChanging, setIsImageChanging] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -209,38 +243,72 @@ export default function Login() {
   const apiUrl = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [isValidPW, setIsValidPW] = useState(true);
+
+  const handleEmailChange = (event) => {
+    const emailValue = event.target.value;
+    console.log(emailValue);
+    setUsermail(emailValue);
+    setIsValidEmail(validateEmail(emailValue));
+  };
+
+  const handlePWChange = (event) => {
+    const PWValue = event.target.value;
+    console.log(PWValue);
+    setPassword(PWValue);
+    setIsValidPW(validatePW(PWValue));
+  };
+
   useEffect(() => {
+    console.log(isClicked);
     const storedEmail = localStorage.getItem("savedEmail");
-    const isEmailSaved = storedEmail ? true : false;
-
-    setIsClicked(isEmailSaved);
-
-    if (isEmailSaved) {
+    if (storedEmail) {
+      setIsClicked(true);
       setUsermail(storedEmail);
     }
   }, []);
 
-  const onClickLogin = async (event) => {
-    try {
-      const response = await axios.post(`${apiUrl}/user/login`, {
-        id: usermail,
-        password: userpw,
-      });
+  const onClickLogin = async () => {
+    if (userpw !== "" && usermail !== "") {
+      try {
+        const response = await axios.post(`${apiUrl}/user/login`, {
+          id: usermail,
+          password: userpw,
+        });
 
-      // 서버 응답 확인
-      console.log("Server response:", response.data);
+        // 서버 응답 확인
+        console.log("Server response:", response.data);
 
-      // 로그인 토큰 저장
-      localStorage.setItem("token", response.data.result.token);
-      setIsLoggedIn(true);
+        // 로그인 토큰 저장
+        localStorage.setItem("token", response.data.result.token);
 
-      // 로그인 성공 후 페이지 이동
-      navigate("/home");
-      // 강제로 페이지 새로고침
-      window.location.reload();
-    } catch (error) {
-      console.error("Error during API call:", error);
-      alert("존재하지 않는 이메일입니다.");
+        setIsLoggedIn(true);
+        setUsermail(usermail);
+
+        if (isClicked) {
+          localStorage.setItem("savedEmail", usermail);
+        } else {
+          localStorage.removeItem("savedEmail");
+        }
+
+        // 로그인 성공 후 페이지 이동
+        navigate("/home");
+
+        // 강제로 페이지 새로고침
+        window.location.reload();
+      } catch (error) {
+        console.error("Error during API call:", error);
+        const errorMessage = error.response.data.message;
+
+        if (errorMessage === "비밀번호가 일치하지 않습니다.") {
+          alert(errorMessage);
+        } else if (errorMessage === "아이디를 찾을 수 없습니다.") {
+          alert("존재하지 않는 이메일입니다.");
+        } else if (errorMessage === "아이디를 찾을 수 없습니다.") {
+          alert("존재하지 않는 이메일입니다.");
+        }
+      }
     }
   };
 
@@ -275,33 +343,12 @@ export default function Login() {
       passwordInput.style.border = "3px solid #f0f0f0";
       passwordInput.classList.remove("placeholder-red");
     }
-
-    if (isClicked) {
-      //setPassword("");
-      const storedEmail = localStorage.getItem("savedEmail");
-      if (storedEmail) {
-        setUsermail(storedEmail);
-      }
-      if (usermail !== storedEmail) {
-        localStorage.setItem("savedEmail", usermail);
-      }
-    }
   };
 
   // 두 함수를 호출하는 함수
   const handleClick = () => {
     handleLogin();
     onClickLogin();
-  };
-
-  const handleSwitchClick = () => {
-    setIsClicked(!isClicked);
-
-    if (!isClicked && usermail.trim() !== "") {
-      localStorage.setItem("savedEmail", usermail);
-    } else {
-      localStorage.removeItem("savedEmail");
-    }
   };
 
   const handlePasswordVisibility = () => {
@@ -311,12 +358,6 @@ export default function Login() {
       setIsPasswordVisible(!isPasswordVisible);
       setIsImageChanging(false);
     }, 300);
-  };
-
-  const handlePasswordButtonClick = () => {
-    // const currentPassword = userpw;
-    // setPassword("");
-    // setTimeout(() => setPassword(currentPassword), 0);
   };
 
   const responseGoogle = async (response) => {
@@ -429,22 +470,21 @@ export default function Login() {
           <p>이메일&nbsp;&nbsp;&nbsp;&nbsp;</p>
         </StyledWord>
         <StyledInputContainer>
-          <StyledInput
+          <StyledInputEmail
             id="usermail-input"
             type="text"
             placeholder="이메일을 입력하세요."
             value={usermail}
-            onChange={(event) => {
-              setUsermail(event.target.value);
-            }}
+            onChange={handleEmailChange}
+            isValid={isValidEmail}
           />
+
           <StyledClearButton
             visible={usermail !== ""}
             onClick={() => {
               setUsermail("");
             }}
           >
-            {" "}
             <img
               src={clearImage}
               alt="Clear"
@@ -452,31 +492,40 @@ export default function Login() {
             />
           </StyledClearButton>
         </StyledInputContainer>
+        {!isValidEmail && (
+          <StyledErrorMessage>
+            * 이메일 형식이 잘못되었습니다.
+          </StyledErrorMessage>
+        )}
         <StyledWord>
           <p>비밀번호</p>
         </StyledWord>
-        <StyledInput
+        <StyledInputPw
           id="password-input"
           type={isPasswordVisible ? "password" : "text"}
           placeholder="비밀번호를 입력하세요."
           defaultValue={userpw}
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
+          onChange={handlePWChange}
+          isValid={isValidPW}
         />
-        <StyledpwButton
-          visible={userpw !== ""}
-          onClick={handlePasswordButtonClick}
-        >
+        <StyledpwButton visible={userpw !== ""}>
           <StyledPwIcon
             src={isPasswordVisible ? closeImage : openImage}
             alt={isPasswordVisible ? "Show Password" : "Hide Password"}
             onClick={handlePasswordVisibility}
           />
         </StyledpwButton>
+        {!isValidPW && (
+          <StyledErrorMessage>* 비밀번호는 8자 이상입니다.</StyledErrorMessage>
+        )}
         <StyledSwitchContainer>
           <StyledSwitchLabel>
-            <StyledSwitch isClicked={isClicked} onClick={handleSwitchClick}>
+            <StyledSwitch
+              isClicked={isClicked}
+              onClick={() => {
+                setIsClicked(!isClicked);
+              }}
+            >
               <StyledSlider isClicked={isClicked} />
             </StyledSwitch>
             <StyledSwitchSpan>이메일 기억하기</StyledSwitchSpan>

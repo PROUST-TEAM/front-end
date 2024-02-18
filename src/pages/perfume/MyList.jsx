@@ -138,6 +138,7 @@ export default function MyList() {
   const [response, setResponse] = useState([]);
 
   const navigate = useNavigate();
+  
   const fetchData = async () => {
     try {
       const response = await axios.get(`${apiUrl}/perfumeList`, {
