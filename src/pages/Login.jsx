@@ -11,7 +11,7 @@ import kakaoImage from "../images/kakao.png";
 import naverImage from "../images/naver.png";
 import { GoogleLogin } from 'react-google-login';
 import KakaoLogin from 'react-kakao-login';
-import NaverLogin from 'react-naver-login';
+//import NaverLogin from 'react-naver-login';
 import axios from "axios";
 
 const StyledContainer = styled.div`
@@ -196,7 +196,7 @@ const StyledLoginButtonContainer = styled.div`
   display: flex;
   gap: 15px;
   margin-top: 15px;
-  margin-bottom: 68px;
+  margin-bottom: 70px;
   cursor: pointer;
 `;
 
@@ -336,7 +336,7 @@ export default function Login() {
 
   const responseGoogle = async (response) => {
     try {
-      const googleResponse = await axios.post(`${apiUrl}/user/google-login`, {
+      const googleResponse = await axios.get(`${apiUrl}/user/google`, {
         googleToken: response.tokenId,
       });
 
@@ -367,6 +367,36 @@ const handleGoogleLoginClick = () => {
   );
 };
 
+// const handleNaverLoginClick = () => {
+//   const naverLoginButton = document.getElementById('naver-login-button');
+  
+//   if (naverLoginButton) {
+//     naverLoginButton.click();
+//   } else {
+//     console.error("네이버 로그인 버튼이 존재하지 않습니다.");
+//   }
+// };
+
+// const handleNaverLoginButtonClick = () => {
+//   return (
+//     <>
+//       <NaverLogin
+//         clientId="1psM85IFXmJsYgUpmoLs"
+//         callbackUrl="http://localhost:3000/user/naver/callback"
+//         render={({ onClick }) => (
+//           <div id="naver-login-button" onClick={onClick}></div>
+//         )}
+//       />
+//       <img
+//         src={naverImage}
+//         alt="Naver"
+//         style={{ width: "90px", height: "90px", cursor: "pointer" }}
+//         onClick={handleNaverLoginClick}
+//       />
+//     </>
+//   );
+// };
+
 const handleKakaoLoginClick = () => {
   const redirectUri = `${window.location.origin}/user/kakao/callback`;
   window.location.href = `${apiUrl}/user/kakao?redirectUri=${encodeURIComponent(redirectUri)}`;
@@ -392,36 +422,6 @@ const responseKakao = (response) => {
     console.error("Error during Kakao Sign-In API call:", error);
     // 에러 처리 로직을 추가
   });
-};
-
-const handleNaverLoginClick = () => {
-  const naverLoginButton = document.getElementById('naver-login-button');
-  
-  if (naverLoginButton) {
-    naverLoginButton.click();
-  } else {
-    console.error("네이버 로그인 버튼이 존재하지 않습니다.");
-  }
-};
-
-const handleNaverLoginButtonClick = () => {
-  return (
-    <>
-      <NaverLogin
-        clientId="1psM85IFXmJsYgUpmoLs"
-        callbackUrl="http://localhost:3000/user/naver/callback"
-        render={({ onClick }) => (
-          <div id="naver-login-button" onClick={onClick}></div>
-        )}
-      />
-      <img
-        src={naverImage}
-        alt="Naver"
-        style={{ width: "90px", height: "90px", cursor: "pointer" }}
-        onClick={handleNaverLoginClick}
-      />
-    </>
-  );
 };
 
   return (
@@ -540,11 +540,19 @@ const handleNaverLoginButtonClick = () => {
                 src={googleImage}
                 alt="Google"
                 style={{ width: "90px", height: "90px", cursor: "pointer" }}
-                onClick={renderProps.onClick}
+               onClick={renderProps.onClick}
               />
-            )}
+             )}
           />
-        </div>
+        </div> 
+        {/* <div>
+          <KakaoButton />  
+        </div> */}
+        {/* <KakaoLogin
+        token="aceaf7ca176ee32a2d617f4efacf4849"
+        onSuccess={responseKakao}
+        onFail={(error) => console.error('Kakao Login Error:', error)}
+        > */}
         <KakaoLogin
         token="aceaf7ca176ee32a2d617f4efacf4849"
         onSuccess={responseKakao}
@@ -556,8 +564,14 @@ const handleNaverLoginButtonClick = () => {
           style={{ width: "90px", height: "90px", cursor: "pointer" }}
         />
         </KakaoLogin>
-        <div onClick={handleNaverLoginClick}>
-    <NaverLogin
+        {/* <img
+          src={kakaoImage}
+          alt="Kakao"
+          style={{ width: "90px", height: "90px", cursor: "pointer" }}
+        /> */}
+        {/* </KakaoLogin> */}
+        {/* <div onClick={handleNaverLoginClick}>
+      <NaverLogin
       clientId="1psM85IFXmJsYgUpmoLs"
       callbackUrl="http://localhost:3000/user/naver/callback"
       render={({ onClick }) => (
@@ -565,13 +579,13 @@ const handleNaverLoginButtonClick = () => {
           <div onClick={onClick}></div>
         </div>
       )}
-    />
+    /> */}
     <img
       src={naverImage}
       alt="Naver"
       style={{ width: "90px", height: "90px", cursor: "pointer" }}
     />
-  </div>
+  {/* </div> */}
         </StyledLoginButtonContainer>
       </StyledContent>
     </>

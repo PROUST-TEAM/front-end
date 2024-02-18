@@ -7,17 +7,17 @@ import arrowImage from '../images/arrow-left.png';
 import pointImage from '../images/point.png';
 
 const StyledContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  height: 100vh;
-  background-color: white;
-  margin-top: 90px;
+display: flex;
+justify-content: center;
+height: 100vh;
+background-color: white;
 `;
 
 const StyledContent = styled.div`
-  position: relative;
-  text-align: center;
-  color: black;  margin-bottom: 1000px;
+position: relative;
+text-align: center;
+color: black;
+margin-top: 75px;
 `;
 
 const StyledParagraph = styled.p`
@@ -56,6 +56,7 @@ const StyledWord = styled.div`
 const StyledInputContainer = styled.div`
   position: relative;
   align-items: center;
+  margin-bottom: 10px;
 `;
 
 const StyledInput = styled.input`
@@ -247,7 +248,7 @@ const FindPassword = () => {
             <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
           )}
         </div>
-        <div style={{ position: 'absolute', transform: 'translate(900%, 511.5%)', zIndex: 2 }}>
+        <div style={{ position: 'absolute', transform: 'translate(900%, 541.5%)', zIndex: 2 }}>
           {(isNexted && !usermail) && (
             <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
           )}
