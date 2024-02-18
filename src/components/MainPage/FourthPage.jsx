@@ -150,7 +150,7 @@ export default function FourthPage() {
   const [response, setResponse] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL; //////
 
-  /* useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const storedToken = localStorage.getItem("token");
@@ -173,7 +173,7 @@ export default function FourthPage() {
     };
 
     fetchData();
-  }, []); */
+  }, []);
 
   return (
     <FourthContainer>
@@ -182,7 +182,7 @@ export default function FourthPage() {
           <Title style={{ fontSize: "60px" }}>PROUST PICK</Title>
           <BestContainer>
             {/* AI API 수정중이라 아직 확인 못함 */}
-            {/*<ReceiptContainer
+            <ReceiptContainer
              style={{ width: "100%", display: "flex", flexDirection:"row"}}>
               {console.log('Response:', response.result)}
               {response &&
@@ -230,7 +230,7 @@ export default function FourthPage() {
                 ))}
                 
             </ReceiptContainer>
-            */}
+           
           </BestContainer>
         </>
       ) : (
