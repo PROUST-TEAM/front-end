@@ -248,20 +248,20 @@ export default function Login() {
 
   const handleEmailChange = (event) => {
     const emailValue = event.target.value;
-    console.log(emailValue);
+    //console.log(emailValue);
     setUsermail(emailValue);
     setIsValidEmail(validateEmail(emailValue));
   };
 
   const handlePWChange = (event) => {
     const PWValue = event.target.value;
-    console.log(PWValue);
+    //console.log(PWValue);
     setPassword(PWValue);
     setIsValidPW(validatePW(PWValue));
   };
 
   useEffect(() => {
-    console.log(isClicked);
+    //console.log(isClicked);
     const storedEmail = localStorage.getItem("savedEmail");
     if (storedEmail) {
       setIsClicked(true);
@@ -270,6 +270,7 @@ export default function Login() {
   }, []);
 
   const onClickLogin = async () => {
+    //console.log("fhrmdls");
     if (userpw !== "" && usermail !== "") {
       try {
         const response = await axios.post(`${apiUrl}/user/login`, {
