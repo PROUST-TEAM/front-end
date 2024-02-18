@@ -9,14 +9,10 @@ import pointImage from "../images/point.png";
 import googleImage from "../images/google.png";
 import kakaoImage from "../images/kakao.png";
 import naverImage from "../images/naver.png";
-<<<<<<< HEAD
 import { GoogleLogin } from 'react-google-login';
 import KakaoLogin from 'react-kakao-login';
 //import NaverLogin from 'react-naver-login';
-=======
-import { GoogleLogin } from "react-google-login";
-import KakaoLogin from "react-kakao-login";
->>>>>>> ade3bead313a0f71a241bd5fce8f96d5aed26859
+
 import axios from "axios";
 
 const StyledContainer = styled.div`
