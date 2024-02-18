@@ -87,7 +87,7 @@ const StyledNextButton = styled.button`
   height: 50px;
   padding: 6px;
   margin-top: 30px;
-  margin-left: 14px;
+  margin-left: 15px;
   background-color: black;
   color: white;
   border: none;
@@ -214,7 +214,8 @@ const Join = () => {
   const navigate = useNavigate();
   const [isEmailClearButtonVisible, setIsEmailClearButtonVisible] =
     useState(false);
-  const [isNameClearButtonVisible, setIsNameClearButtonVisible] = useState(false)
+  const [isNameClearButtonVisible, setIsNameClearButtonVisible] =
+    useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
@@ -262,11 +263,11 @@ const Join = () => {
   // );
 
   const handleClearButtonClick = (field) => {
-    if (field === 'name') {
+    if (field === "name") {
       setUsername("");
       setIsNameClearButtonVisible(false);
       handleInputValidation("name-input", "");
-    } else if (field === 'email') {
+    } else if (field === "email") {
       setUsermail("");
       setIsEmailClearButtonVisible(false);
       handleInputValidation("mail-input", "");
@@ -360,21 +361,6 @@ const Join = () => {
 
       if (isValid) {
         console.log("내가 입력한 코드", authenticationcode);
-        console.log("입력해야 할 코드", response);
-        // const confirmCode = async () => {
-        //   try {
-        //     const response = await axios.post(`${apiUrl}/user/signup/valid`, {
-        //       userInputCode: authenticationcode,
-        //     });
-        //     console.log(authenticationcode);
-        //     console.log(response);
-        //     //setResponse(response.data.result);
-        //   } catch (error) {
-        //     console.error("Error signup request:", error);
-        //   }
-        // };
-
-        //confirmCode();
         if (response == authenticationcode) {
           navigate("/join-second", {
             state: {
@@ -383,7 +369,7 @@ const Join = () => {
             },
           });
         } else {
-          alert("인증 번호가 일치하지 않습니다.");
+          alert("인증번호가 일치하지 않습니다.");
         }
       }
     }
@@ -474,7 +460,7 @@ const Join = () => {
           />
           <StyledClearButton
             visible={isNameClearButtonVisible}
-            onClick={() => handleClearButtonClick('name')}
+            onClick={() => handleClearButtonClick("name")}
           >
             <img
               src={clearImage}
@@ -497,7 +483,7 @@ const Join = () => {
           />
           <StyledClearButton
             visible={isEmailClearButtonVisible}
-            onClick={() => handleClearButtonClick('email')}
+            onClick={() => handleClearButtonClick("email")}
           >
             <img
               src={clearImage}

@@ -9,9 +9,6 @@ import pointImage from "../images/point.png";
 import googleImage from "../images/google.png";
 import kakaoImage from "../images/kakao.png";
 import naverImage from "../images/naver.png";
-//import { GoogleLogin } from 'react-google-login';
-//import KakaoLogin from 'react-kakao-login';
-//import NaverLogin from 'react-naver-login';
 import axios from "axios";
 
 const StyledContainer = styled.div`
@@ -83,7 +80,7 @@ const StyledInputPw = styled.input`
   font-family: Pretendard_Light;
   font-size: 16px;
   text-indent: 20px;
-  //border: 2px solid ${({ isValid }) => (isValid ? "#ccc" : "#b3261e;")};
+  border: 2px solid ${({ isValid }) => (isValid ? "#ccc" : "#b3261e;")};
 `;
 
 const StyledClearButton = styled.div`
@@ -249,20 +246,17 @@ export default function Login() {
 
   const handleEmailChange = (event) => {
     const emailValue = event.target.value;
-    //console.log(emailValue);
     setUsermail(emailValue);
     setIsValidEmail(validateEmail(emailValue));
   };
 
   const handlePWChange = (event) => {
     const PWValue = event.target.value;
-    //console.log(PWValue);
     setPassword(PWValue);
     setIsValidPW(validatePW(PWValue));
   };
 
   useEffect(() => {
-    //console.log(isClicked);
     const storedEmail = localStorage.getItem("savedEmail");
     if (storedEmail) {
       setIsClicked(true);
@@ -362,95 +356,42 @@ export default function Login() {
     }, 300);
   };
 
-//   const responseGoogle = async (response) => {
-//     try {
-//       const googleResponse = await axios.get(`${apiUrl}/user/google`, {
-//         googleToken: response.tokenId,
-//       });
+  const ClickgoogleLogin = async () => {
+    console.log("구글");
+    try {
+      const response = await axios.get(`${apiUrl}/user/google`);
+      console.log(response);
+    } catch (error) {
+      console.error("Error google login:", error);
+      console.log(error.config.url);
+      window.location.href = error.config.url;
+    }
+  };
 
-//       if (googleResponse.status === 200 && googleResponse.data.isSuccess) {
-//         console.log("Google Login Success");
-//       } else {
-//         console.error("Google Login Error:", googleResponse.data);
-//         if (googleResponse.status === 400) {
-//           alert(googleResponse.data.message);
-//         } else if (googleResponse.status === 500) {
-//           alert("서버 에러, 관리자에게 문의 바랍니다.");
-//         }
-//       }
-//     } catch (error) {
-//       console.error("Error during Google Sign-In API call:", error);
-//     }
-//   };
+  const ClickkakaoLogin = async () => {
+    console.log("카카오");
+    try {
+      const response = await await axios.get(`${apiUrl}/user/kakao`);
+      console.log(response);
+      window.location.href = response.data;
+    } catch (error) {
+      console.error("Error kakao login:", error);
+      console.log(error.config.url);
+      window.location.href = error.config.url;
+    }
+  };
 
-// const handleGoogleLoginClick = () => {
-//   return (
-//     <GoogleLogin
-//       clientId="259951048619-egde61ikrbnm93stvus1rblp43l2v1nc.apps.googleusercontent.com"
-//       onSuccess={responseGoogle}
-//       onFailure={responseGoogle}
-//       cookiePolicy={'single_host_origin'}
-//     />
-//   );
-// };
-
-// const handleNaverLoginClick = () => {
-//   const naverLoginButton = document.getElementById('naver-login-button');
-  
-//   if (naverLoginButton) {
-//     naverLoginButton.click();
-//   } else {
-//     console.error("네이버 로그인 버튼이 존재하지 않습니다.");
-//   }
-// };
-
-// const handleNaverLoginButtonClick = () => {
-//   return (
-//     <>
-//       <NaverLogin
-//         clientId="1psM85IFXmJsYgUpmoLs"
-//         callbackUrl="http://localhost:3000/user/naver/callback"
-//         render={({ onClick }) => (
-//           <div id="naver-login-button" onClick={onClick}></div>
-//         )}
-//       />
-//       <img
-//         src={naverImage}
-//         alt="Naver"
-//         style={{ width: "90px", height: "90px", cursor: "pointer" }}
-//         onClick={handleNaverLoginClick}
-//       />
-//     </>
-//   );
-// };
-
-// const handleKakaoLoginClick = () => {
-//   const redirectUri = `${window.location.origin}/user/kakao/callback`;
-//   window.location.href = `${apiUrl}/user/kakao?redirectUri=${encodeURIComponent(redirectUri)}`;
-// };
-
-  // const responseKakao = (response) => {
-  //   axios
-  //     .post(`${apiUrl}/user/kakao/callback`, {
-  //       code: response.code,
-  //     })
-  //     .then((kakaoResponse) => {
-  //       if (kakaoResponse.status === 200 && kakaoResponse.data.isSuccess) {
-  //         console.log("Kakao Login Success");
-  //       } else {
-  //         console.error("Kakao Login Error:", kakaoResponse.data);
-  //         if (kakaoResponse.status === 400) {
-  //           alert(kakaoResponse.data.message);
-  //         } else if (kakaoResponse.status === 500) {
-  //           alert("서버 에러, 관리자에게 문의 바랍니다.");
-  //         }
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error during Kakao Sign-In API call:", error);
-  //       // 에러 처리 로직을 추가
-  //     });
-  // };
+  const ClicknaverLogin = async () => {
+    console.log("네이버");
+    try {
+      const response = await axios.get(`${apiUrl}/user/naver`);
+      console.log(response);
+    } catch (error) {
+      console.error("Error naver login:", error);
+      console.log(error.config.url);
+      window.location.href = error.config.url;
+    }
+  };
 
   return (
     <>
