@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import topImage from "../../images/top_charac.png";
 import searchImage from "../../images/search_img.png";
@@ -7,7 +7,7 @@ import axios from "axios";
 import video1 from "../../images/main_ani.webm";
 
 const SearchWrap = styled.div`
-  margin-top:50px;
+  margin-top: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,15 +118,12 @@ export const SearchButton = styled(Link)`
 const SearchContainer2 = styled.div`
   display: flex;
   align-items: center;
-
   font-family: "Pretendard_Bold", sans-serif;
   font-size: 35px;
-
   position: absolute;
   top: 150%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   > p {
     width: 100%;
     color: #6bff94;
@@ -144,10 +141,9 @@ const LoaderContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
   > video {
     //width: 803px;
-    height: 500px;  
+    height: 500px;
     background-color: trnasparent;
   }
 `;
@@ -156,10 +152,10 @@ const LoaderMessage = styled.div`
   font-family: Pretendard_ExtraBold;
   font-size: 40px;
   z-index: 1; //text가 이미지 위로 가게
-  color: #6BFF94;
+  color: #6bff94;
   margin-top: -70px;
 
-  >p{
+  > p {
     margin-top: 10px;
     font-family: Pretendard_ExtraBold;
     font-size: 30px;
@@ -167,7 +163,6 @@ const LoaderMessage = styled.div`
     color: white;
   }
 `;
-
 
 export default function NonSearch() {
   const [searchText, setSearchText] = useState("");
@@ -185,31 +180,31 @@ export default function NonSearch() {
     const searchData = location.state && location.state.searchData;
     console.log("Search Data:", searchData);
 
-    setSearchText('');
+    setSearchText("");
   }, [location]);
 
   const handleSearchButtonClick = async (event) => {
     try {
       setLoading(true); // 검색 버튼 클릭 시 로딩 상태를 true로 설정
-  
-      if (searchText.trim() !== '') {
+
+      if (searchText.trim() !== "") {
         const response = await axios.post(`${apiUrl}/ai/search`, {
           search: searchText,
         });
-  
+
         console.log("서버 응답:", response.data);
-  
+
         if (response.data.isSuccess && response.data.result !== null) {
-          navigate('/search', { state: { searchData: response.data }});
+          navigate("/search", { state: { searchData: response.data } });
         } else {
-          window.location.href = '/nonSearch';
+          window.location.href = "/nonSearch";
         }
       } else {
-        window.location.href = '/nonSearch';
+        window.location.href = "/nonSearch";
       }
     } catch (error) {
       if ([429, 504].includes(error.response?.status)) {
-        window.location.href = '/nonSearch';
+        window.location.href = "/nonSearch";
       }
     } finally {
       setLoading(false); // 검색 작업이 완료되면 로딩 상태를 false로 설정
@@ -221,42 +216,40 @@ export default function NonSearch() {
       {loading && (
         <LoaderContainer>
           <video autoPlay loop muted>
-            <source src={video1} type='video/webm' />
+            <source src={video1} type="video/webm" />
           </video>
           <LoaderMessage>
             Loading 중...
-            <p>
-              조금만 기다려줘!
-            </p>
+            <p>조금만 기다려줘!</p>
           </LoaderMessage>
         </LoaderContainer>
       )}
 
-    {!loading && (
-      <>
-      <Title>PROUST</Title>
-      <Image>
-        <img src={topImage} alt="Top Character" />
-      </Image>
-      <SearchContainer>
-        <Input
-          type="text"
-          placeholder="향수? 나에게 다 물어봐"
-          value={searchText}
-          onChange={handleInputChange}
-        />
-        <SearchButton to="#" onClick={handleSearchButtonClick}>
-          <img src={searchImage} alt="SearchImg" />
-        </SearchButton>
-      </SearchContainer>
-      <Circle />
-      <VerticalLine />
-      <Circle2 />
-      <SearchContainer2>
-        <p>" 흠......잘 모르겠는데, 다시 검색해줄래? "</p>
-      </SearchContainer2>
-      </>
-    )}
+      {!loading && (
+        <>
+          <Title>PROUST</Title>
+          <Image>
+            <img src={topImage} alt="Top Character" />
+          </Image>
+          <SearchContainer>
+            <Input
+              type="text"
+              placeholder="향수? 나에게 다 물어봐"
+              value={searchText}
+              onChange={handleInputChange}
+            />
+            <SearchButton to="#" onClick={handleSearchButtonClick}>
+              <img src={searchImage} alt="SearchImg" />
+            </SearchButton>
+          </SearchContainer>
+          <Circle />
+          <VerticalLine />
+          <Circle2 />
+          <SearchContainer2>
+            <p>" 흠......잘 모르겠는데, 다시 검색해줄래? "</p>
+          </SearchContainer2>
+        </>
+      )}
     </SearchWrap>
   );
 }
