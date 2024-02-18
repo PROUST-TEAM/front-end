@@ -15,17 +15,10 @@ background-color: white;
 `;
 
 const StyledContent = styled.div`
-<<<<<<< HEAD
 position: relative;
 text-align: center;
 color: black;
 margin-top: 75px;
-=======
-  position: relative;
-  text-align: center;
-  color: black;
-  margin-bottom: 1000px;
->>>>>>> ade3bead313a0f71a241bd5fce8f96d5aed26859
 `;
 
 const StyledParagraph = styled.p`
@@ -304,19 +297,9 @@ const FindPassword = () => {
             <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
           )}
         </div>
-<<<<<<< HEAD
         <div style={{ position: 'absolute', transform: 'translate(900%, 541.5%)', zIndex: 2 }}>
           {(isNexted && !usermail) && (
-=======
-        <div
-          style={{
-            position: "absolute",
-            transform: "translate(900%, 511.5%)",
-            zIndex: 2,
-          }}
-        >
-          {isNexted && !usermail && (
->>>>>>> ade3bead313a0f71a241bd5fce8f96d5aed26859
+
             <img src={pointImage} alt="포인트 이미지" width="56" height="33" />
           )}
         </div>

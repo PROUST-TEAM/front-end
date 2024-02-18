@@ -362,37 +362,37 @@ export default function Login() {
     }, 300);
   };
 
-  const responseGoogle = async (response) => {
-    try {
-      const googleResponse = await axios.get(`${apiUrl}/user/google`, {
-        googleToken: response.tokenId,
-      });
+//   const responseGoogle = async (response) => {
+//     try {
+//       const googleResponse = await axios.get(`${apiUrl}/user/google`, {
+//         googleToken: response.tokenId,
+//       });
 
-      if (googleResponse.status === 200 && googleResponse.data.isSuccess) {
-        console.log("Google Login Success");
-      } else {
-        console.error("Google Login Error:", googleResponse.data);
-        if (googleResponse.status === 400) {
-          alert(googleResponse.data.message);
-        } else if (googleResponse.status === 500) {
-          alert("서버 에러, 관리자에게 문의 바랍니다.");
-        }
-      }
-    } catch (error) {
-      console.error("Error during Google Sign-In API call:", error);
-    }
-  };
+//       if (googleResponse.status === 200 && googleResponse.data.isSuccess) {
+//         console.log("Google Login Success");
+//       } else {
+//         console.error("Google Login Error:", googleResponse.data);
+//         if (googleResponse.status === 400) {
+//           alert(googleResponse.data.message);
+//         } else if (googleResponse.status === 500) {
+//           alert("서버 에러, 관리자에게 문의 바랍니다.");
+//         }
+//       }
+//     } catch (error) {
+//       console.error("Error during Google Sign-In API call:", error);
+//     }
+//   };
 
-const handleGoogleLoginClick = () => {
-  return (
-    <GoogleLogin
-      clientId="259951048619-egde61ikrbnm93stvus1rblp43l2v1nc.apps.googleusercontent.com"
-      onSuccess={responseGoogle}
-      onFailure={responseGoogle}
-      cookiePolicy={'single_host_origin'}
-    />
-  );
-};
+// const handleGoogleLoginClick = () => {
+//   return (
+//     <GoogleLogin
+//       clientId="259951048619-egde61ikrbnm93stvus1rblp43l2v1nc.apps.googleusercontent.com"
+//       onSuccess={responseGoogle}
+//       onFailure={responseGoogle}
+//       cookiePolicy={'single_host_origin'}
+//     />
+//   );
+// };
 
 // const handleNaverLoginClick = () => {
 //   const naverLoginButton = document.getElementById('naver-login-button');
@@ -424,33 +424,33 @@ const handleGoogleLoginClick = () => {
 //   );
 // };
 
-const handleKakaoLoginClick = () => {
-  const redirectUri = `${window.location.origin}/user/kakao/callback`;
-  window.location.href = `${apiUrl}/user/kakao?redirectUri=${encodeURIComponent(redirectUri)}`;
-};
+// const handleKakaoLoginClick = () => {
+//   const redirectUri = `${window.location.origin}/user/kakao/callback`;
+//   window.location.href = `${apiUrl}/user/kakao?redirectUri=${encodeURIComponent(redirectUri)}`;
+// };
 
-  const responseKakao = (response) => {
-    axios
-      .post(`${apiUrl}/user/kakao/callback`, {
-        code: response.code,
-      })
-      .then((kakaoResponse) => {
-        if (kakaoResponse.status === 200 && kakaoResponse.data.isSuccess) {
-          console.log("Kakao Login Success");
-        } else {
-          console.error("Kakao Login Error:", kakaoResponse.data);
-          if (kakaoResponse.status === 400) {
-            alert(kakaoResponse.data.message);
-          } else if (kakaoResponse.status === 500) {
-            alert("서버 에러, 관리자에게 문의 바랍니다.");
-          }
-        }
-      })
-      .catch((error) => {
-        console.error("Error during Kakao Sign-In API call:", error);
-        // 에러 처리 로직을 추가
-      });
-  };
+  // const responseKakao = (response) => {
+  //   axios
+  //     .post(`${apiUrl}/user/kakao/callback`, {
+  //       code: response.code,
+  //     })
+  //     .then((kakaoResponse) => {
+  //       if (kakaoResponse.status === 200 && kakaoResponse.data.isSuccess) {
+  //         console.log("Kakao Login Success");
+  //       } else {
+  //         console.error("Kakao Login Error:", kakaoResponse.data);
+  //         if (kakaoResponse.status === 400) {
+  //           alert(kakaoResponse.data.message);
+  //         } else if (kakaoResponse.status === 500) {
+  //           alert("서버 에러, 관리자에게 문의 바랍니다.");
+  //         }
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error during Kakao Sign-In API call:", error);
+  //       // 에러 처리 로직을 추가
+  //     });
+  // };
 
   return (
     <>
@@ -573,63 +573,21 @@ const handleKakaoLoginClick = () => {
           <StyledText>─────────────────</StyledText>
         </StyledFooter>
         <StyledLoginButtonContainer>
-        <div onClick={handleGoogleLoginClick}>
-          <GoogleLogin
-            clientId="259951048619-egde61ikrbnm93stvus1rblp43l2v1nc.apps.googleusercontent.com"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={'single_host_origin'}
-            render={renderProps => (
               <img
                 src={googleImage}
                 alt="Google"
                 style={{ width: "90px", height: "90px", cursor: "pointer" }}
-               onClick={renderProps.onClick}
               />
-             )}
-          />
-        </div> 
-        {/* <div>
-          <KakaoButton />  
-        </div> */}
-        {/* <KakaoLogin
-        token="aceaf7ca176ee32a2d617f4efacf4849"
-        onSuccess={responseKakao}
-        onFail={(error) => console.error('Kakao Login Error:', error)}
-        > */}
-        <KakaoLogin
-        token="aceaf7ca176ee32a2d617f4efacf4849"
-        onSuccess={responseKakao}
-        onFail={(error) => console.error('Kakao Login Error:', error)}
-        >
         <img
           src={kakaoImage}
           alt="Kakao"
           style={{ width: "90px", height: "90px", cursor: "pointer" }}
         />
-        </KakaoLogin>
-        {/* <img
-          src={kakaoImage}
-          alt="Kakao"
-          style={{ width: "90px", height: "90px", cursor: "pointer" }}
-        /> */}
-        {/* </KakaoLogin> */}
-        {/* <div onClick={handleNaverLoginClick}>
-      <NaverLogin
-      clientId="1psM85IFXmJsYgUpmoLs"
-      callbackUrl="http://localhost:3000/user/naver/callback"
-      render={({ onClick }) => (
-        <div>
-          <div onClick={onClick}></div>
-        </div>
-      )}
-    /> */}
     <img
       src={naverImage}
       alt="Naver"
       style={{ width: "90px", height: "90px", cursor: "pointer" }}
     />
-  {/* </div> */}
         </StyledLoginButtonContainer>
       </StyledContent>
     </>

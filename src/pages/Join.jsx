@@ -187,6 +187,30 @@ const StyledTimer = styled.div`
   color: #7c0000;
 `;
 
+const StyledClauseContainer = styled.div`
+  margin-top: -10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const StyledClauseMessage = styled.p`
+  font-size: 18px;
+  font-family: Pretendard_Bold;
+  color: black;
+`;
+
+const StyledClauseLink = styled(Link)`
+  color: #4aa2f3;;
+  text-decoration: underline;
+`;
+
+const StyledCheckbox = styled.input`
+  margin-left: 10px;
+  width: 20px;
+  Height:20px;
+`;
+
 const Join = () => {
   const navigate = useNavigate();
   const [isEmailClearButtonVisible, setIsEmailClearButtonVisible] =
@@ -510,6 +534,12 @@ const Join = () => {
             }}
           />
         </StyledPasswordContainer>
+        <StyledClauseContainer>
+          <StyledClauseMessage><StyledClauseLink to="/clause">이용약관</StyledClauseLink>에 전체 동의합니다.</StyledClauseMessage>
+          <StyledCheckbox
+          type="checkbox"
+        />
+        </StyledClauseContainer>
         <StyledNextButton onClick={nextClick}>다음</StyledNextButton>
       </StyledContent>
     </StyledContainer>
