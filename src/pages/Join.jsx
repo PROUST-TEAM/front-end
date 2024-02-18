@@ -26,7 +26,7 @@ const StyledParagraph = styled.p`
   color: black;
   margin-top: -20px;
   font-size: 29px;
-  font-family: Pretendard_ExtraBold;
+  font-family: Pretendard_Bold;
 `;
 
 const StyledExplain = styled.p`
@@ -67,7 +67,7 @@ const StyledInputContainer = styled.div`
 `;
 
 const StyledInput = styled.input`
-  width: 560px;
+width: 560px;
   height: 48px;
   padding: 6px;
   margin-top: 5px;
@@ -78,6 +78,8 @@ const StyledInput = styled.input`
   font-family: Pretendard_Light;
   font-size: 16px;
   text-indent: 20px;
+  position: relative;
+  z-index: 1;
 `;
 
 const StyledNextButton = styled.button`
@@ -85,11 +87,7 @@ const StyledNextButton = styled.button`
   height: 50px;
   padding: 6px;
   margin-top: 30px;
-<<<<<<< HEAD
   margin-left: 14px;
-=======
-  margin-left: 15px;
->>>>>>> ade3bead313a0f71a241bd5fce8f96d5aed26859
   background-color: black;
   color: white;
   border: none;
@@ -119,6 +117,7 @@ const StyledClearButton = styled.div`
   cursor: pointer;
   opacity: ${({ visible }) => (visible ? "1" : "0")};
   transition: opacity 0.3s ease-in-out;
+  z-index: 2;
 `;
 
 const StyledPasswordContainer = styled.div`
@@ -547,3 +546,4 @@ const Join = () => {
 };
 
 export default Join;
+

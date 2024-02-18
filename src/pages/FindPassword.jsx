@@ -8,10 +8,10 @@ import pointImage from "../images/point.png";
 import axios from "axios";
 
 const StyledContainer = styled.div`
-display: flex;
-justify-content: center;
-height: 100vh;
-background-color: white;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  background-color: white;
 `;
 
 const StyledContent = styled.div`
