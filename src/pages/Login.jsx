@@ -514,22 +514,21 @@ export default function Login() {
           <StyledText>─────────────────</StyledText>
         </StyledFooter>
         <StyledLoginButtonContainer>
-              <img
-                src={googleImage}
-                alt="Google"
-                style={{ width: "90px", height: "90px", cursor: "pointer" }}
-              />
-        <img
-          src={kakaoImage}
-          alt="Kakao"
-          style={{ width: "90px", height: "90px", cursor: "pointer" }}
-        />
-    <img
-      src={naverImage}
-      alt="Naver"
-      style={{ width: "90px", height: "90px", cursor: "pointer" }}
-    />
-
+          <img
+            src={googleImage}
+            alt="Google"
+            style={{ width: "90px", height: "90px", cursor: "pointer" }}
+          />
+          <img
+            src={kakaoImage}
+            alt="Kakao"
+            style={{ width: "90px", height: "90px", cursor: "pointer" }}
+          />
+          <img
+            src={naverImage}
+            alt="Naver"
+            style={{ width: "90px", height: "90px", cursor: "pointer" }}
+          />
         </StyledLoginButtonContainer>
       </StyledContent>
     </>
