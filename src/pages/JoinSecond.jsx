@@ -56,7 +56,8 @@ const StyledImage = styled.img`
 const StyledWord = styled.div`
   font-size: 23px;
   font-family: Pretendard_Bold;
-  margin-right: 450px;
+  margin-left: 30px;
+  text-align: left;
   margin-bottom: 7px;
 `;
 
@@ -85,7 +86,8 @@ const StyledNextButton = styled.button`
   width: 572px;
   height: 50px;
   padding: 6px;
-  margin-top: 50px;
+  margin-top: 30px;
+  margin-left: 15px;
   background-color: black;
   color: white;
   border: none;
@@ -273,6 +275,7 @@ const JoinSecond = () => {
 
         console.log(response);
         setResponse(response.data.result);
+        navigate("/login");
       } catch (error) {
         console.error("Error signup request:", error);
       }
@@ -368,7 +371,7 @@ const JoinSecond = () => {
           <StyledErrorMessage>{additionalPasswordMessage}</StyledErrorMessage>
         )}
         <StyledWord>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;비밀번호 확인</p>
+          <p>비밀번호 확인</p>
         </StyledWord>
         <StyledPasswordContainer>
           <StyledPasswordInput

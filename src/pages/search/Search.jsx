@@ -222,7 +222,7 @@ const LoaderContainer = styled.div`
 
   > video {
     //width: 803px;
-    height: 500px;  
+    height: 500px;
     background-color: trnasparent;
   }
 `;
@@ -231,10 +231,9 @@ const LoaderMessage = styled.div`
   font-family: Pretendard_ExtraBold;
   font-size: 40px;
   z-index: 1; //text가 이미지 위로 가게
-  color: #6BFF94;
+  color: #6bff94;
   margin-top: -70px;
-
-  >p{
+  > p {
     margin-top: 10px;
     font-family: Pretendard_ExtraBold;
     font-size: 30px;
@@ -262,13 +261,15 @@ export default function Search() {
 
   // 특정 기호를 16진수로 변환하는 함수
   const convertToHex = (str) => {
-    return Array.from(str).map(char => char.charCodeAt(0).toString(16)).join('');
+    return Array.from(str)
+      .map((char) => char.charCodeAt(0).toString(16))
+      .join("");
   };
 
   useEffect(() => {
     const searchData = location.state && location.state.searchData;
     console.log("Search Data:", searchData);
-  
+
     const fetchData = async () => {
       try {
         if (searchData && searchData.result) {
@@ -276,53 +277,55 @@ export default function Search() {
             console.log("Current item name:", item.name);
 
             // 기호가 포함되어 있다면 16진수로 변환
-          const sanitizedName = item.name.includes('/') ? convertToHex(item.name) : item.name;
+            const sanitizedName = item.name.includes("/")
+              ? convertToHex(item.name)
+              : item.name;
 
-          const response = await axios.get(`${apiUrl}/${sanitizedName}/getPerfumes`);
+            const response = await axios.get(
+              `${apiUrl}/${sanitizedName}/getPerfumes`
+            );
 
             return response.data.result;
           });
-    
+
           const results = await Promise.all(requests);
           console.log("향수 리스트:", results);
           setResponse(results);
           console.log(response);
-        }
-        else{
-          window.location.href = '/nonSearch';
+        } else {
+          window.location.href = "/nonSearch";
         }
       } catch (error) {
         console.error("Error:", error);
       }
     };
-  
+
     fetchData(); // 초기 마운트 시에도 데이터를 가져오도록 호출
-    setSearchText('');
+    setSearchText("");
   }, [location]);
-  
-  
+
   const handleSearchButtonClick = async (event) => {
     try {
       setLoading(true); // 검색 버튼 클릭 시 로딩 상태를 true로 설정
-  
-      if (searchText.trim() !== '') {
+
+      if (searchText.trim() !== "") {
         const response = await axios.post(`${apiUrl}/ai/search`, {
           search: searchText,
         });
-  
+
         console.log("서버 응답:", response.data);
-  
+
         if (response.data.isSuccess && response.data.result !== null) {
-          navigate('/search', { state: { searchData: response.data }});
+          navigate("/search", { state: { searchData: response.data } });
         } else {
-          window.location.href = '/nonSearch';
+          window.location.href = "/nonSearch";
         }
       } else {
-        window.location.href = '/nonSearch';
+        window.location.href = "/nonSearch";
       }
     } catch (error) {
       if ([429, 504].includes(error.response?.status)) {
-        window.location.href = '/nonSearch';
+        window.location.href = "/nonSearch";
       }
     } finally {
       setLoading(false); // 검색 작업이 완료되면 로딩 상태를 false로 설정
@@ -346,7 +349,7 @@ export default function Search() {
             },
           }
         );
-  
+
         // 서버 응답 확인
         console.log("향수 찜: ", response.data.result);
       } catch (error) {
@@ -354,7 +357,7 @@ export default function Search() {
       }
     } else {
       // 토큰이 없는 경우에는 로그인 페이지로 이동
-      navigate('/login');
+      navigate("/login");
     }
   };
 
@@ -363,85 +366,85 @@ export default function Search() {
       {loading && (
         <LoaderContainer>
           <video autoPlay loop muted>
-            <source src={video1} type='video/webm' />
+            <source src={video1} type="video/webm" />
           </video>
           <LoaderMessage>
             Loading 중...
-            <p>
-              조금만 기다려줘!
-            </p>
+            <p>조금만 기다려줘!</p>
           </LoaderMessage>
         </LoaderContainer>
       )}
 
-    {!loading && (
-      <>
-      <SearchWrap>
-        <Title>PROUST</Title>
-        <Image>
-          <img src={topImage} alt="Top Character" />
-        </Image>
-        <SearchContainer>
-          <Input
-            type="text"
-            placeholder="향수? 나에게 다 물어봐"
-            value={searchText}
-            onChange={handleInputChange}
-          />
-          <SearchButton to="#" onClick={handleSearchButtonClick}>
-            <img src={searchImage} alt="SearchImg" />
-          </SearchButton>
-        </SearchContainer>
-        <Circle />
-        <VerticalLine />
-        <Circle2 />
-        <SearchContainer2>
-          <img src={miniTopImg} alt="miniTop Character" />
-          <p>"내가 너의 취향에 맞는 향수를 찾아왔어"</p>
-        </SearchContainer2>
-      </SearchWrap>
-      <ListWrap>
-      <Perfumes>
-        {response &&
-          response.map((perfumeGroup, index) => (
-            <React.Fragment key={index}>
-              {perfumeGroup.perfume_contentsData.map((perfume, perfumeIndex) => (
-                <Link
-                  to="/detail"
-                  state={{ name: perfume.name }}
-                  style={{ textDecoration: "none" }}
-                  key={perfumeIndex}
-                >
-                  <Perfume>
-                    <Heart
-                      onClick={(event) => {
-                        console.log(response);
-                        onClickHeart(perfume); // 하트 클릭 시 동작할 함수
-                        console.log(perfume.name);
-                        event.preventDefault();
-                      }}
-                    >
-                      {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
-                    </Heart>
-                    <div>
-                      <img
-                        src={`https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/${perfume.imageUrl}`}
-                        alt={perfume.name}
-                        style={{ width: "200px", height: "250px" }}
-                      />
-                    </div>
-                    <div>
-                      <p>{perfume.name}</p>
-                    </div>
-                  </Perfume>
-                </Link>
-              ))}
-            </React.Fragment>
-          ))}
-      </Perfumes>
-      </ListWrap>
-      </>
-    )}
+      {!loading && (
+        <>
+          <SearchWrap>
+            <Title>PROUST</Title>
+            <Image>
+              <img src={topImage} alt="Top Character" />
+            </Image>
+            <SearchContainer>
+              <Input
+                type="text"
+                placeholder="향수? 나에게 다 물어봐"
+                value={searchText}
+                onChange={handleInputChange}
+              />
+              <SearchButton to="#" onClick={handleSearchButtonClick}>
+                <img src={searchImage} alt="SearchImg" />
+              </SearchButton>
+            </SearchContainer>
+            <Circle />
+            <VerticalLine />
+            <Circle2 />
+            <SearchContainer2>
+              <img src={miniTopImg} alt="miniTop Character" />
+              <p>"내가 너의 취향에 맞는 향수를 찾아왔어"</p>
+            </SearchContainer2>
+          </SearchWrap>
+          <ListWrap>
+            <Perfumes>
+              {response &&
+                response.map((perfumeGroup, index) => (
+                  <React.Fragment key={index}>
+                    {perfumeGroup.perfume_contentsData.map(
+                      (perfume, perfumeIndex) => (
+                        <Link
+                          to="/detail"
+                          state={{ name: perfume.name }}
+                          style={{ textDecoration: "none" }}
+                          key={perfumeIndex}
+                        >
+                          <Perfume>
+                            <Heart
+                              onClick={(event) => {
+                                console.log(response);
+                                onClickHeart(perfume); // 하트 클릭 시 동작할 함수
+                                console.log(perfume.name);
+                                event.preventDefault();
+                              }}
+                            >
+                              {isHeartFilled ? <FaHeart /> : <FaRegHeart />}
+                            </Heart>
+                            <div>
+                              <img
+                                src={`https://proust-img-s3.s3.ap-northeast-2.amazonaws.com/${perfume.imageUrl}`}
+                                alt={perfume.name}
+                                style={{ width: "200px", height: "250px" }}
+                              />
+                            </div>
+                            <div>
+                              <p>{perfume.name}</p>
+                            </div>
+                          </Perfume>
+                        </Link>
+                      )
+                    )}
+                  </React.Fragment>
+                ))}
+            </Perfumes>
+          </ListWrap>
+        </>
+      )}
     </RootWrap>
   );
 }
